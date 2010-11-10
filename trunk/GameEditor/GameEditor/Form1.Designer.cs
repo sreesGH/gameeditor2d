@@ -66,8 +66,23 @@
             this.Height = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Desc = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabFrame = new System.Windows.Forms.TabPage();
+            this.dgViewFrame = new System.Windows.Forms.DataGridView();
             this.tabAnimation = new System.Windows.Forms.TabPage();
             this.tabMap = new System.Windows.Forms.TabPage();
+            this.frameID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FrameDesc = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgViewFrameModule = new System.Windows.Forms.DataGridView();
+            this.FrameModuleID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FrameModuleX = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FrameModuleY = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FrameModuleFlag = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.dgViewAnimation = new System.Windows.Forms.DataGridView();
+            this.AnimationID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AnimationDesc = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.AnimationFrameID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AnimationFrameX = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AnimationFrameY = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.mnsp.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbViewer)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -75,6 +90,12 @@
             this.tabControl1.SuspendLayout();
             this.tabModule.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgViewModule)).BeginInit();
+            this.tabFrame.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgViewFrame)).BeginInit();
+            this.tabAnimation.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgViewFrameModule)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgViewAnimation)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // mnsp
@@ -352,6 +373,9 @@
             // 
             // dgViewModule
             // 
+            this.dgViewModule.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
             this.dgViewModule.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgViewModule.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ID,
@@ -403,6 +427,8 @@
             // 
             // tabFrame
             // 
+            this.tabFrame.Controls.Add(this.dgViewFrameModule);
+            this.tabFrame.Controls.Add(this.dgViewFrame);
             this.tabFrame.Location = new System.Drawing.Point(4, 22);
             this.tabFrame.Name = "tabFrame";
             this.tabFrame.Padding = new System.Windows.Forms.Padding(3);
@@ -410,9 +436,26 @@
             this.tabFrame.TabIndex = 1;
             this.tabFrame.Text = "Frame";
             this.tabFrame.UseVisualStyleBackColor = true;
+            this.tabFrame.Click += new System.EventHandler(this.tabFrame_Click);
+            // 
+            // dgViewFrame
+            // 
+            this.dgViewFrame.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgViewFrame.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgViewFrame.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.frameID,
+            this.FrameDesc});
+            this.dgViewFrame.Location = new System.Drawing.Point(6, 19);
+            this.dgViewFrame.Name = "dgViewFrame";
+            this.dgViewFrame.Size = new System.Drawing.Size(490, 209);
+            this.dgViewFrame.TabIndex = 0;
             // 
             // tabAnimation
             // 
+            this.tabAnimation.Controls.Add(this.dataGridView1);
+            this.tabAnimation.Controls.Add(this.dgViewAnimation);
             this.tabAnimation.Location = new System.Drawing.Point(4, 22);
             this.tabAnimation.Name = "tabAnimation";
             this.tabAnimation.Size = new System.Drawing.Size(502, 619);
@@ -429,6 +472,112 @@
             this.tabMap.Text = "Map";
             this.tabMap.UseVisualStyleBackColor = true;
             // 
+            // frameID
+            // 
+            this.frameID.HeaderText = "ID";
+            this.frameID.Name = "frameID";
+            // 
+            // FrameDesc
+            // 
+            this.FrameDesc.HeaderText = "Desc.";
+            this.FrameDesc.Name = "FrameDesc";
+            this.FrameDesc.Width = 340;
+            // 
+            // dgViewFrameModule
+            // 
+            this.dgViewFrameModule.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgViewFrameModule.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgViewFrameModule.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.FrameModuleID,
+            this.FrameModuleX,
+            this.FrameModuleY,
+            this.FrameModuleFlag});
+            this.dgViewFrameModule.Location = new System.Drawing.Point(11, 346);
+            this.dgViewFrameModule.Name = "dgViewFrameModule";
+            this.dgViewFrameModule.Size = new System.Drawing.Size(485, 204);
+            this.dgViewFrameModule.TabIndex = 1;
+            // 
+            // FrameModuleID
+            // 
+            this.FrameModuleID.HeaderText = "ID";
+            this.FrameModuleID.Name = "FrameModuleID";
+            // 
+            // FrameModuleX
+            // 
+            this.FrameModuleX.HeaderText = "X";
+            this.FrameModuleX.Name = "FrameModuleX";
+            this.FrameModuleX.Width = 110;
+            // 
+            // FrameModuleY
+            // 
+            this.FrameModuleY.HeaderText = "Y";
+            this.FrameModuleY.Name = "FrameModuleY";
+            this.FrameModuleY.Width = 110;
+            // 
+            // FrameModuleFlag
+            // 
+            this.FrameModuleFlag.HeaderText = "Flag";
+            this.FrameModuleFlag.Items.AddRange(new object[] {
+            "FLIP_X",
+            "FLIP_Y",
+            "ROTATE_90",
+            "ROTATE_180",
+            "ROTATE_270"});
+            this.FrameModuleFlag.Name = "FrameModuleFlag";
+            this.FrameModuleFlag.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.FrameModuleFlag.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.FrameModuleFlag.Width = 110;
+            // 
+            // dgViewAnimation
+            // 
+            this.dgViewAnimation.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgViewAnimation.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.AnimationID,
+            this.AnimationDesc});
+            this.dgViewAnimation.Location = new System.Drawing.Point(15, 15);
+            this.dgViewAnimation.Name = "dgViewAnimation";
+            this.dgViewAnimation.Size = new System.Drawing.Size(472, 287);
+            this.dgViewAnimation.TabIndex = 0;
+            // 
+            // AnimationID
+            // 
+            this.AnimationID.HeaderText = "ID";
+            this.AnimationID.Name = "AnimationID";
+            // 
+            // AnimationDesc
+            // 
+            this.AnimationDesc.HeaderText = "Desc.";
+            this.AnimationDesc.Name = "AnimationDesc";
+            this.AnimationDesc.Width = 300;
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.AnimationFrameID,
+            this.AnimationFrameX,
+            this.AnimationFrameY});
+            this.dataGridView1.Location = new System.Drawing.Point(18, 338);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(468, 255);
+            this.dataGridView1.TabIndex = 1;
+            // 
+            // AnimationFrameID
+            // 
+            this.AnimationFrameID.HeaderText = "ID";
+            this.AnimationFrameID.Name = "AnimationFrameID";
+            // 
+            // AnimationFrameX
+            // 
+            this.AnimationFrameX.HeaderText = "X";
+            this.AnimationFrameX.Name = "AnimationFrameX";
+            // 
+            // AnimationFrameY
+            // 
+            this.AnimationFrameY.HeaderText = "Y";
+            this.AnimationFrameY.Name = "AnimationFrameY";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -442,7 +591,7 @@
             this.Controls.Add(this.mnsp);
             this.MainMenuStrip = this.mnsp;
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Game Editor";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Resize += new System.EventHandler(this.Form1_Resize);
             this.mnsp.ResumeLayout(false);
@@ -455,6 +604,12 @@
             this.tabControl1.ResumeLayout(false);
             this.tabModule.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgViewModule)).EndInit();
+            this.tabFrame.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgViewFrame)).EndInit();
+            this.tabAnimation.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgViewFrameModule)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgViewAnimation)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -501,6 +656,21 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Width;
         private System.Windows.Forms.DataGridViewTextBoxColumn Height;
         private System.Windows.Forms.DataGridViewTextBoxColumn Desc;
+        private System.Windows.Forms.DataGridView dgViewFrame;
+        private System.Windows.Forms.DataGridViewTextBoxColumn frameID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn FrameDesc;
+        private System.Windows.Forms.DataGridView dgViewFrameModule;
+        private System.Windows.Forms.DataGridViewTextBoxColumn FrameModuleID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn FrameModuleX;
+        private System.Windows.Forms.DataGridViewTextBoxColumn FrameModuleY;
+        private System.Windows.Forms.DataGridViewComboBoxColumn FrameModuleFlag;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dgViewAnimation;
+        private System.Windows.Forms.DataGridViewTextBoxColumn AnimationID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn AnimationDesc;
+        private System.Windows.Forms.DataGridViewTextBoxColumn AnimationFrameID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn AnimationFrameX;
+        private System.Windows.Forms.DataGridViewTextBoxColumn AnimationFrameY;
     }
 }
 

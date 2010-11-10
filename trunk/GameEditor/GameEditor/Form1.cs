@@ -355,6 +355,11 @@ namespace GameEditor
                 }
             }
         }
+
+        private void tabFrame_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 
     static class EDITOR_CONSTANTS
