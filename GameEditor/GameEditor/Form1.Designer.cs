@@ -35,7 +35,7 @@
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripGameEditor = new System.Windows.Forms.ToolStrip();
             this.pbViewer = new System.Windows.Forms.PictureBox();
             this.timerUpdate = new System.Windows.Forms.Timer(this.components);
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -66,23 +66,25 @@
             this.Height = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Desc = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabFrame = new System.Windows.Forms.TabPage();
-            this.dgViewFrame = new System.Windows.Forms.DataGridView();
-            this.tabAnimation = new System.Windows.Forms.TabPage();
-            this.tabMap = new System.Windows.Forms.TabPage();
-            this.frameID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FrameDesc = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgViewFrameModule = new System.Windows.Forms.DataGridView();
             this.FrameModuleID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FrameModuleX = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FrameModuleY = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FrameModuleFlag = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.dgViewAnimation = new System.Windows.Forms.DataGridView();
-            this.AnimationID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AnimationDesc = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgViewFrame = new System.Windows.Forms.DataGridView();
+            this.frameID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FrameDesc = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tabAnimation = new System.Windows.Forms.TabPage();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.AnimationFrameID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AnimationFrameX = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AnimationFrameY = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgViewAnimation = new System.Windows.Forms.DataGridView();
+            this.AnimationID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AnimationDesc = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.tabMap = new System.Windows.Forms.TabPage();
+            this.listViewModuleList = new System.Windows.Forms.ListView();
+            this.ImageListmodule = new System.Windows.Forms.ImageList(this.components);
             this.mnsp.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbViewer)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -91,11 +93,11 @@
             this.tabModule.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgViewModule)).BeginInit();
             this.tabFrame.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgViewFrameModule)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgViewFrame)).BeginInit();
             this.tabAnimation.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgViewFrameModule)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgViewAnimation)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgViewAnimation)).BeginInit();
             this.SuspendLayout();
             // 
             // mnsp
@@ -143,13 +145,13 @@
             this.closeToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
             this.closeToolStripMenuItem.Text = "Exit";
             // 
-            // toolStrip1
+            // toolStripGameEditor
             // 
-            this.toolStrip1.Location = new System.Drawing.Point(0, 24);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1144, 25);
-            this.toolStrip1.TabIndex = 1;
-            this.toolStrip1.Text = "toolStrip1";
+            this.toolStripGameEditor.Location = new System.Drawing.Point(0, 24);
+            this.toolStripGameEditor.Name = "toolStripGameEditor";
+            this.toolStripGameEditor.Size = new System.Drawing.Size(1144, 25);
+            this.toolStripGameEditor.TabIndex = 1;
+            this.toolStripGameEditor.Text = "toolStrip1";
             // 
             // pbViewer
             // 
@@ -243,6 +245,7 @@
             this.pnlViewerBgColor.Name = "pnlViewerBgColor";
             this.pnlViewerBgColor.Size = new System.Drawing.Size(16, 17);
             this.pnlViewerBgColor.TabIndex = 2;
+            this.pnlViewerBgColor.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlViewerBgColor_Paint);
             this.pnlViewerBgColor.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pnlViewerBgColor_MouseClick);
             // 
             // chkboxShowModule
@@ -438,51 +441,6 @@
             this.tabFrame.UseVisualStyleBackColor = true;
             this.tabFrame.Click += new System.EventHandler(this.tabFrame_Click);
             // 
-            // dgViewFrame
-            // 
-            this.dgViewFrame.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.dgViewFrame.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgViewFrame.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.frameID,
-            this.FrameDesc});
-            this.dgViewFrame.Location = new System.Drawing.Point(6, 19);
-            this.dgViewFrame.Name = "dgViewFrame";
-            this.dgViewFrame.Size = new System.Drawing.Size(490, 209);
-            this.dgViewFrame.TabIndex = 0;
-            // 
-            // tabAnimation
-            // 
-            this.tabAnimation.Controls.Add(this.dataGridView1);
-            this.tabAnimation.Controls.Add(this.dgViewAnimation);
-            this.tabAnimation.Location = new System.Drawing.Point(4, 22);
-            this.tabAnimation.Name = "tabAnimation";
-            this.tabAnimation.Size = new System.Drawing.Size(502, 619);
-            this.tabAnimation.TabIndex = 2;
-            this.tabAnimation.Text = "Animation";
-            this.tabAnimation.UseVisualStyleBackColor = true;
-            // 
-            // tabMap
-            // 
-            this.tabMap.Location = new System.Drawing.Point(4, 22);
-            this.tabMap.Name = "tabMap";
-            this.tabMap.Size = new System.Drawing.Size(502, 619);
-            this.tabMap.TabIndex = 3;
-            this.tabMap.Text = "Map";
-            this.tabMap.UseVisualStyleBackColor = true;
-            // 
-            // frameID
-            // 
-            this.frameID.HeaderText = "ID";
-            this.frameID.Name = "frameID";
-            // 
-            // FrameDesc
-            // 
-            this.FrameDesc.HeaderText = "Desc.";
-            this.FrameDesc.Name = "FrameDesc";
-            this.FrameDesc.Width = 340;
-            // 
             // dgViewFrameModule
             // 
             this.dgViewFrameModule.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
@@ -529,27 +487,41 @@
             this.FrameModuleFlag.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.FrameModuleFlag.Width = 110;
             // 
-            // dgViewAnimation
+            // dgViewFrame
             // 
-            this.dgViewAnimation.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgViewAnimation.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.AnimationID,
-            this.AnimationDesc});
-            this.dgViewAnimation.Location = new System.Drawing.Point(15, 15);
-            this.dgViewAnimation.Name = "dgViewAnimation";
-            this.dgViewAnimation.Size = new System.Drawing.Size(472, 287);
-            this.dgViewAnimation.TabIndex = 0;
+            this.dgViewFrame.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgViewFrame.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgViewFrame.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.frameID,
+            this.FrameDesc});
+            this.dgViewFrame.Location = new System.Drawing.Point(6, 19);
+            this.dgViewFrame.Name = "dgViewFrame";
+            this.dgViewFrame.Size = new System.Drawing.Size(490, 209);
+            this.dgViewFrame.TabIndex = 0;
             // 
-            // AnimationID
+            // frameID
             // 
-            this.AnimationID.HeaderText = "ID";
-            this.AnimationID.Name = "AnimationID";
+            this.frameID.HeaderText = "ID";
+            this.frameID.Name = "frameID";
             // 
-            // AnimationDesc
+            // FrameDesc
             // 
-            this.AnimationDesc.HeaderText = "Desc.";
-            this.AnimationDesc.Name = "AnimationDesc";
-            this.AnimationDesc.Width = 300;
+            this.FrameDesc.HeaderText = "Desc.";
+            this.FrameDesc.Name = "FrameDesc";
+            this.FrameDesc.Width = 340;
+            // 
+            // tabAnimation
+            // 
+            this.tabAnimation.Controls.Add(this.dataGridView1);
+            this.tabAnimation.Controls.Add(this.dgViewAnimation);
+            this.tabAnimation.Location = new System.Drawing.Point(4, 22);
+            this.tabAnimation.Name = "tabAnimation";
+            this.tabAnimation.Size = new System.Drawing.Size(502, 619);
+            this.tabAnimation.TabIndex = 2;
+            this.tabAnimation.Text = "Animation";
+            this.tabAnimation.UseVisualStyleBackColor = true;
             // 
             // dataGridView1
             // 
@@ -578,16 +550,67 @@
             this.AnimationFrameY.HeaderText = "Y";
             this.AnimationFrameY.Name = "AnimationFrameY";
             // 
+            // dgViewAnimation
+            // 
+            this.dgViewAnimation.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgViewAnimation.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.AnimationID,
+            this.AnimationDesc});
+            this.dgViewAnimation.Location = new System.Drawing.Point(15, 15);
+            this.dgViewAnimation.Name = "dgViewAnimation";
+            this.dgViewAnimation.Size = new System.Drawing.Size(472, 287);
+            this.dgViewAnimation.TabIndex = 0;
+            // 
+            // AnimationID
+            // 
+            this.AnimationID.HeaderText = "ID";
+            this.AnimationID.Name = "AnimationID";
+            // 
+            // AnimationDesc
+            // 
+            this.AnimationDesc.HeaderText = "Desc.";
+            this.AnimationDesc.Name = "AnimationDesc";
+            this.AnimationDesc.Width = 300;
+            // 
+            // tabMap
+            // 
+            this.tabMap.Location = new System.Drawing.Point(4, 22);
+            this.tabMap.Name = "tabMap";
+            this.tabMap.Size = new System.Drawing.Size(502, 619);
+            this.tabMap.TabIndex = 3;
+            this.tabMap.Text = "Map";
+            this.tabMap.UseVisualStyleBackColor = true;
+            // 
+            // listViewModuleList
+            // 
+            this.listViewModuleList.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.listViewModuleList.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(255)))));
+            this.listViewModuleList.LargeImageList = this.ImageListmodule;
+            this.listViewModuleList.Location = new System.Drawing.Point(15, 715);
+            this.listViewModuleList.Name = "listViewModuleList";
+            this.listViewModuleList.Size = new System.Drawing.Size(1113, 102);
+            this.listViewModuleList.SmallImageList = this.ImageListmodule;
+            this.listViewModuleList.TabIndex = 7;
+            this.listViewModuleList.UseCompatibleStateImageBehavior = false;
+            // 
+            // ImageListmodule
+            // 
+            this.ImageListmodule.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+            this.ImageListmodule.ImageSize = new System.Drawing.Size(64, 64);
+            this.ImageListmodule.TransparentColor = System.Drawing.Color.Transparent;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1144, 830);
+            this.Controls.Add(this.listViewModuleList);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.pbViewer);
-            this.Controls.Add(this.toolStrip1);
+            this.Controls.Add(this.toolStripGameEditor);
             this.Controls.Add(this.mnsp);
             this.MainMenuStrip = this.mnsp;
             this.Name = "Form1";
@@ -605,11 +628,11 @@
             this.tabModule.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgViewModule)).EndInit();
             this.tabFrame.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgViewFrameModule)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgViewFrame)).EndInit();
             this.tabAnimation.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dgViewFrameModule)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dgViewAnimation)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgViewAnimation)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -623,7 +646,7 @@
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem exportToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
-        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStrip toolStripGameEditor;
         private System.Windows.Forms.PictureBox pbViewer;
         private System.Windows.Forms.Timer timerUpdate;
         private System.Windows.Forms.GroupBox groupBox1;
@@ -671,6 +694,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn AnimationFrameID;
         private System.Windows.Forms.DataGridViewTextBoxColumn AnimationFrameX;
         private System.Windows.Forms.DataGridViewTextBoxColumn AnimationFrameY;
+        private System.Windows.Forms.ListView listViewModuleList;
+        private System.Windows.Forms.ImageList ImageListmodule;
     }
 }
 

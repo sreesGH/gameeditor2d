@@ -44,7 +44,7 @@ namespace GameEditor
         short m_moduleID = 0;
         Rectangle m_moduleRect;
         Image m_ModuleImage;
-        List<Image> m_moduleImageList = new List<Image>();
+        //List<Image> m_moduleImageList = new List<Image>();
 
         //Actions
         bool m_blmbDown = false;
@@ -335,7 +335,9 @@ namespace GameEditor
                         int n = dgViewModule.Rows.Add();
                         //add to image list
                         m_ModuleImage = m_Image.Clone(m_moduleRect, PixelFormat.Format32bppArgb);
-                        m_moduleImageList.Insert(n, m_ModuleImage);
+                        ImageListmodule.Images.Add(m_ModuleImage, Color.Magenta);
+                        listViewModuleList.Items.Add(n.ToString(), n);
+                        //ImageListmodule.Insert(n, m_ModuleImage);
                         dgViewModule.Rows[n].Cells[0].Value = "" + m_moduleID;
                         dgViewModule.Rows[n].Cells[1].Value = "" + m_moduleRect.X;
                         dgViewModule.Rows[n].Cells[2].Value = "" + m_moduleRect.Y;
@@ -357,6 +359,11 @@ namespace GameEditor
         }
 
         private void tabFrame_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pnlViewerBgColor_Paint(object sender, PaintEventArgs e)
         {
 
         }
