@@ -500,6 +500,8 @@
             this.dgViewFrame.Name = "dgViewFrame";
             this.dgViewFrame.Size = new System.Drawing.Size(490, 209);
             this.dgViewFrame.TabIndex = 0;
+            this.dgViewFrame.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgViewFrame_RowHeaderMouseDoubleClick);
+            this.dgViewFrame.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgViewFrame_RowHeaderMouseClick);
             // 
             // frameID
             // 
@@ -593,6 +595,7 @@
             this.listViewModuleList.SmallImageList = this.ImageListmodule;
             this.listViewModuleList.TabIndex = 7;
             this.listViewModuleList.UseCompatibleStateImageBehavior = false;
+            this.listViewModuleList.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.listViewModuleList_MouseDoubleClick);
             // 
             // ImageListmodule
             // 

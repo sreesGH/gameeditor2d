@@ -1,4 +1,7 @@
 1. when data grid value is change the image list need to be upadated
 2. Move the entire module rect
 3. Rethink whether we need a all module list?
-4. 
+4. Rethink data members of cmodule cframe canimation
+5. optimisation for selected row, no need for for loop i think
+6. Error checking
+7. 
