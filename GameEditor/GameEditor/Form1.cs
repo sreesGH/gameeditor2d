@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace GameEditor
@@ -45,6 +42,11 @@ namespace GameEditor
         Rectangle m_moduleRect;
         Image m_ModuleImage;
         //List<Image> m_moduleImageList = new List<Image>();
+
+        //Frame
+        short m_nFrames = 0;
+        short m_frameID = 0;
+        List<CFrame> mListAllFrames = new List<CFrame>();
 
         //Actions
         bool m_blmbDown = false;
@@ -367,6 +369,67 @@ namespace GameEditor
         {
 
         }
+
+        private void listViewModuleList_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            ListView.SelectedListViewItemCollection b = this.listViewModuleList.SelectedItems;
+            short id = -1;
+            foreach (ListViewItem item in b)
+            {
+                id = (short)item.Index;
+            }
+
+            switch ((ViewerState)m_state)
+            {
+                case ViewerState.FRAME_EDITOR:
+                    {
+                        CModule module = new CModule();
+                        module.mX = 0;
+                        module.mY = 0;
+                        module.mFlag = 0;
+                        module.mId = id;
+                        int selectedFrame = dgViewFrame.CurrentRow.Index;
+                        mListAllFrames[selectedFrame].mListFrameModules.Add(module);
+                        break;
+                    }
+            }
+        }
+
+        private void dgViewFrame_RowHeaderMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            //create row and fill it:      
+            int n = dgViewFrame.Rows.Add();
+            dgViewFrame.Rows[n].Cells[0].Value = "" + m_frameID;
+            dgViewFrame.Rows[n].Cells[1].Value = "" + "FRAME_ID_" + m_frameID;
+            CFrame frame = new CFrame();
+            frame.mId = m_frameID;
+            mListAllFrames.Insert(n, frame);
+            m_nFrames++;
+            m_frameID++;
+        }
+
+        private void dgViewFrame_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            //Clear rows
+            for (int j = 0; j < dgViewFrameModule.RowCount; j++)
+            {
+                if (!dgViewFrameModule.Rows[j].IsNewRow)
+                {
+                    dgViewFrameModule.Rows.RemoveAt(j);
+                }
+            }
+            
+            int selectedFrame = dgViewFrame.CurrentRow.Index;
+            if (m_nFrames <= selectedFrame) return;
+            
+            //Now refresh with new
+            for (int i = 0; i < mListAllFrames[selectedFrame].mListFrameModules.Count; i++)
+            {
+                int n = dgViewFrameModule.Rows.Add();
+                dgViewFrameModule.Rows[n].Cells[0].Value = "" + mListAllFrames[selectedFrame].mListFrameModules[i].mId;
+
+            }
+        }
     }
 
     static class EDITOR_CONSTANTS
@@ -401,6 +464,10 @@ namespace GameEditor
         public string mDescription;
         public byte mFlag;
         public List<CModule> mListFrameModules;
+        public CFrame()
+        {
+            mListFrameModules = new List<CModule>();
+        }
     }
 
     public class CAnimation
