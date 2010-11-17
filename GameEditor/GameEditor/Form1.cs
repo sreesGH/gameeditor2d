@@ -48,6 +48,8 @@ namespace GameEditor
         short m_frameID = 0;
         List<CFrame> mListAllFrames = new List<CFrame>();
 
+        int snappedFrameModuleID = -1;
+
         //Actions
         bool m_blmbDown = false;
 
@@ -116,6 +118,19 @@ namespace GameEditor
                             gViewerGraphics.DrawRectangle(gPen, m_moduleRect);
                         }
 
+                        break;
+                    }
+
+                case ViewerState.FRAME_EDITOR:
+                    {
+                        //if (dgViewFrameModule.Rows[j].IsNewRow)
+                        if (m_nFrames <= 0) return;
+                        int selectedFrame = dgViewFrame.CurrentRow.Index;
+                        if (m_nFrames <= selectedFrame) return;
+                        for (int i = 0; i < mListAllFrames[selectedFrame].mListFrameModules.Count; i++)
+                        {
+                            gViewerGraphics.DrawImage(ImageListmodule.Images[mListAllFrames[selectedFrame].mListFrameModules[i].mId], mListAllFrames[selectedFrame].mListFrameModules[i].mX, mListAllFrames[selectedFrame].mListFrameModules[i].mY);
+                        }
                         break;
                     }
             }
@@ -198,7 +213,7 @@ namespace GameEditor
             m_mouseY = e.Y;
             lblMouseX.Text = "Mouse X: " + m_mouseX;
             lblMouseY.Text = "Mouse Y: " + m_mouseY;
-
+            lbldebug.Text = "DBG: " + snappedFrameModuleID;
             switch ((ViewerState)m_state)
             {
                 case ViewerState.MODULE_EDITOR:
@@ -294,6 +309,26 @@ namespace GameEditor
                         }
                         break;
                     }
+                case ViewerState.FRAME_EDITOR:
+                    {
+                        if (m_blmbDown)
+                        {
+                            if (m_nFrames <= 0) return;
+                            if (snappedFrameModuleID == -1) return;
+                            int selectedFrame = dgViewFrame.CurrentRow.Index;
+                            if (m_nFrames <= selectedFrame) return;
+
+                            int diffX = e.X - mListAllFrames[selectedFrame].mListFrameModules[snappedFrameModuleID].mX;
+                            int diffY = e.Y - mListAllFrames[selectedFrame].mListFrameModules[snappedFrameModuleID].mY;
+
+                            mListAllFrames[selectedFrame].mListFrameModules[snappedFrameModuleID].mX += (short)diffX;
+                            mListAllFrames[selectedFrame].mListFrameModules[snappedFrameModuleID].mY += (short)diffY;
+                            //Now update corresponding data grid too
+
+
+                        }
+                        break;
+                    }
             }
         }
 
@@ -309,54 +344,95 @@ namespace GameEditor
 
         private void pbViewer_MouseDown(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left)
+            m_blmbDown = true;
+            switch ((ViewerState)m_state)
             {
-                m_blmbDown = true;
-                m_moduleRect.X = e.X;
-                m_moduleRect.Y = e.Y;
+                case ViewerState.MODULE_EDITOR:
+                    {
+                        if (e.Button == MouseButtons.Left)
+                        {
+                            m_moduleRect.X = e.X;
+                            m_moduleRect.Y = e.Y;
+                        }
+                        break;
+                    }
+                case ViewerState.FRAME_EDITOR:
+                    {
+                        if (m_nFrames <= 0) return;
+                        int selectedFrame = dgViewFrame.CurrentRow.Index;
+                        if (m_nFrames <= selectedFrame) return;
+
+                        //Do it reverse order to get the top one selected first
+                        for (int i = mListAllFrames[selectedFrame].mListFrameModules.Count - 1; i >= 0; i--)
+                        {
+                            if (e.X >= mListAllFrames[selectedFrame].mListFrameModules[i].mX
+                                && e.X <= (mListAllFrames[selectedFrame].mListFrameModules[i].mX + mListAllFrames[selectedFrame].mListFrameModules[i].mClipWidth)
+                                && e.Y >= mListAllFrames[selectedFrame].mListFrameModules[i].mY
+                                && e.Y <= (mListAllFrames[selectedFrame].mListFrameModules[i].mY + mListAllFrames[selectedFrame].mListFrameModules[i].mClipHeight)
+                                )
+                            {
+                                snappedFrameModuleID = i;
+                                this.Cursor = Cursors.Hand;
+                                break;
+                            }
+                        }
+                        break;
+                    }
             }
         }
 
         private void pbViewer_MouseUp(object sender, MouseEventArgs e)
         {
-            if (m_blmbDown && m_bImageLoaded)
+            switch ((ViewerState)m_state)
             {
-                if (e.Button == MouseButtons.Left)
-                {
-                    m_blmbDown = false;
-                    m_moduleRect.Width = e.X - m_moduleRect.X;
-                    m_moduleRect.Height = e.Y - m_moduleRect.Y;
-
-                     //ERROR CHECK:
-                    if ((m_moduleRect.X + m_moduleRect.Width) < m_Image.Width
-                        && (m_moduleRect.Y + m_moduleRect.Height) < m_Image.Height
-                        && m_moduleRect.Width > 0
-                        && m_moduleRect.Height > 0)
+                case ViewerState.MODULE_EDITOR:
                     {
-                        //create row and fill it:      
-                        int n = dgViewModule.Rows.Add();
-                        //add to image list
-                        m_ModuleImage = m_Image.Clone(m_moduleRect, PixelFormat.Format32bppArgb);
-                        ImageListmodule.Images.Add(m_ModuleImage, Color.Magenta);
-                        listViewModuleList.Items.Add(n.ToString(), n);
-                        //ImageListmodule.Insert(n, m_ModuleImage);
-                        dgViewModule.Rows[n].Cells[0].Value = "" + m_moduleID;
-                        dgViewModule.Rows[n].Cells[1].Value = "" + m_moduleRect.X;
-                        dgViewModule.Rows[n].Cells[2].Value = "" + m_moduleRect.Y;
-                        dgViewModule.Rows[n].Cells[3].Value = "" + m_moduleRect.Width;
-                        dgViewModule.Rows[n].Cells[4].Value = "" + m_moduleRect.Height;
-                        dgViewModule.Rows[n].Cells[5].Value = "" + "MODULE_ID_" + m_moduleID;
-                        
-                        for (int i = 0; i <= n; i++)
+                        if (m_blmbDown && m_bImageLoaded)
                         {
-                            dgViewModule.Rows[i].Selected = false;
+                            if (e.Button == MouseButtons.Left)
+                            {
+                                m_blmbDown = false;
+                                m_moduleRect.Width = e.X - m_moduleRect.X;
+                                m_moduleRect.Height = e.Y - m_moduleRect.Y;
+
+                                //ERROR CHECK:
+                                if ((m_moduleRect.X + m_moduleRect.Width) < m_Image.Width
+                                    && (m_moduleRect.Y + m_moduleRect.Height) < m_Image.Height
+                                    && m_moduleRect.Width > 0
+                                    && m_moduleRect.Height > 0)
+                                {
+                                    //create row and fill it:      
+                                    int n = dgViewModule.Rows.Add();
+                                    //add to image list
+                                    m_ModuleImage = m_Image.Clone(m_moduleRect, PixelFormat.Format32bppArgb);
+                                    ImageListmodule.Images.Add(m_ModuleImage, Color.Magenta);
+                                    listViewModuleList.Items.Add(n.ToString(), n);
+                                    //ImageListmodule.Insert(n, m_ModuleImage);
+                                    dgViewModule.Rows[n].Cells[0].Value = "" + m_moduleID;
+                                    dgViewModule.Rows[n].Cells[1].Value = "" + m_moduleRect.X;
+                                    dgViewModule.Rows[n].Cells[2].Value = "" + m_moduleRect.Y;
+                                    dgViewModule.Rows[n].Cells[3].Value = "" + m_moduleRect.Width;
+                                    dgViewModule.Rows[n].Cells[4].Value = "" + m_moduleRect.Height;
+                                    dgViewModule.Rows[n].Cells[5].Value = "" + "MODULE_ID_" + m_moduleID;
+
+                                    for (int i = 0; i <= n; i++)
+                                    {
+                                        dgViewModule.Rows[i].Selected = false;
+                                    }
+                                    dgViewModule.Rows[n].Selected = true;
+
+                                    m_moduleID++;
+                                    m_nModules++;
+                                }
+                            }
                         }
-                        dgViewModule.Rows[n].Selected = true;
-                       
-                        m_moduleID++;
-                        m_nModules++;
+                        break;
                     }
-                }
+                case ViewerState.FRAME_EDITOR:
+                    {
+                        snappedFrameModuleID = -1;
+                        break;
+                    }
             }
         }
 
@@ -386,6 +462,8 @@ namespace GameEditor
                         CModule module = new CModule();
                         module.mX = 0;
                         module.mY = 0;
+                        module.mClipWidth = (short)Convert.ToInt32(dgViewModule.Rows[id].Cells[3].Value);
+                        module.mClipHeight = (short)Convert.ToInt32(dgViewModule.Rows[id].Cells[4].Value);
                         module.mFlag = 0;
                         module.mId = id;
                         int selectedFrame = dgViewFrame.CurrentRow.Index;
@@ -427,7 +505,6 @@ namespace GameEditor
             {
                 int n = dgViewFrameModule.Rows.Add();
                 dgViewFrameModule.Rows[n].Cells[0].Value = "" + mListAllFrames[selectedFrame].mListFrameModules[i].mId;
-
             }
         }
     }

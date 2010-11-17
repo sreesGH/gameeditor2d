@@ -4,4 +4,6 @@
 4. Rethink data members of cmodule cframe canimation
 5. optimisation for selected row, no need for for loop i think
 6. Error checking
-7. 
+7. Double clicking on already created frame should not create new frame again
+8. globalise different selection variable for optimisation
+9. 

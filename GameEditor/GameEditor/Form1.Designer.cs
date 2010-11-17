@@ -85,6 +85,7 @@
             this.tabMap = new System.Windows.Forms.TabPage();
             this.listViewModuleList = new System.Windows.Forms.ListView();
             this.ImageListmodule = new System.Windows.Forms.ImageList(this.components);
+            this.lbldebug = new System.Windows.Forms.Label();
             this.mnsp.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbViewer)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -178,6 +179,7 @@
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.AutoSize = true;
+            this.groupBox1.Controls.Add(this.lbldebug);
             this.groupBox1.Controls.Add(this.lblMouseY);
             this.groupBox1.Controls.Add(this.lblMouseX);
             this.groupBox1.Controls.Add(this.label2);
@@ -603,6 +605,15 @@
             this.ImageListmodule.ImageSize = new System.Drawing.Size(64, 64);
             this.ImageListmodule.TransparentColor = System.Drawing.Color.Transparent;
             // 
+            // lbldebug
+            // 
+            this.lbldebug.AutoSize = true;
+            this.lbldebug.Location = new System.Drawing.Point(443, 26);
+            this.lbldebug.Name = "lbldebug";
+            this.lbldebug.Size = new System.Drawing.Size(36, 13);
+            this.lbldebug.TabIndex = 8;
+            this.lbldebug.Text = "DBG: ";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -699,6 +710,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn AnimationFrameY;
         private System.Windows.Forms.ListView listViewModuleList;
         private System.Windows.Forms.ImageList ImageListmodule;
+        private System.Windows.Forms.Label lbldebug;
     }
 }
 
