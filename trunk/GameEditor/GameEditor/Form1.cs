@@ -41,7 +41,6 @@ namespace GameEditor
         short m_moduleID = 0;
         Rectangle m_moduleRect;
         Image m_ModuleImage;
-        //List<Image> m_moduleImageList = new List<Image>();
 
         //Frame
         short m_nFrames = 0;
@@ -54,10 +53,6 @@ namespace GameEditor
         short m_animationID = 0;
         short m_nAnimation = 0;
         List<CAnimation> mListAllAnimations = new List<CAnimation>();
-
-        //Context menus
-        //ContextMenu cmFrameCreator = new ContextMenu();
-        //ContextMenu cmAnimationCreator = new ContextMenu();
 
         //Actions
         bool m_blmbDown = false;
@@ -172,8 +167,6 @@ namespace GameEditor
             gPen = new Pen(Color.Blue, 1);
 
             m_state = (byte)ViewerState.MODULE_EDITOR;
-
-            //cmAnimationCreator.MenuItems.Add(new MenuItem("Animate"));
 
             timerUpdate.Enabled = true;
         }
@@ -502,7 +495,6 @@ namespace GameEditor
         {
             if (e.Button == MouseButtons.Right)
             {
-                //cmAnimationCreator.Show(dgViewFrame, new Point(e.X, e.Y));
                 contextMenuStripAnimator.Show(dgViewFrame, new Point(e.X, e.Y));
                 return;
             }
@@ -554,6 +546,15 @@ namespace GameEditor
         private void animateToolStripMenuItem_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void dgViewModule_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                contextMenuStripFrame.Show(dgViewModule, new Point(e.X, e.Y));
+                return;
+            }
         }
     }
 
