@@ -77,6 +77,10 @@
             this.FrameDesc = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabAnimation = new System.Windows.Forms.TabPage();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.AnimationFrameID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Time = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AnimationFrameX = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AnimationFrameY = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgViewAnimation = new System.Windows.Forms.DataGridView();
             this.AnimationID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AnimationDesc = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -85,10 +89,8 @@
             this.ImageListmodule = new System.Windows.Forms.ImageList(this.components);
             this.contextMenuStripAnimator = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.animateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.AnimationFrameID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Time = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AnimationFrameX = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AnimationFrameY = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.contextMenuStripFrame = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.frameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnsp.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbViewer)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -103,6 +105,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgViewAnimation)).BeginInit();
             this.contextMenuStripAnimator.SuspendLayout();
+            this.contextMenuStripFrame.SuspendLayout();
             this.SuspendLayout();
             // 
             // mnsp
@@ -406,6 +409,7 @@
             this.dgViewModule.Name = "dgViewModule";
             this.dgViewModule.Size = new System.Drawing.Size(491, 537);
             this.dgViewModule.TabIndex = 0;
+            this.dgViewModule.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgViewModule_RowHeaderMouseClick);
             // 
             // ID
             // 
@@ -553,6 +557,26 @@
             this.dataGridView1.Size = new System.Drawing.Size(468, 255);
             this.dataGridView1.TabIndex = 1;
             // 
+            // AnimationFrameID
+            // 
+            this.AnimationFrameID.HeaderText = "ID";
+            this.AnimationFrameID.Name = "AnimationFrameID";
+            // 
+            // Time
+            // 
+            this.Time.HeaderText = "Time";
+            this.Time.Name = "Time";
+            // 
+            // AnimationFrameX
+            // 
+            this.AnimationFrameX.HeaderText = "X";
+            this.AnimationFrameX.Name = "AnimationFrameX";
+            // 
+            // AnimationFrameY
+            // 
+            this.AnimationFrameY.HeaderText = "Y";
+            this.AnimationFrameY.Name = "AnimationFrameY";
+            // 
             // dgViewAnimation
             // 
             this.dgViewAnimation.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
@@ -617,29 +641,22 @@
             // animateToolStripMenuItem
             // 
             this.animateToolStripMenuItem.Name = "animateToolStripMenuItem";
-            this.animateToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.animateToolStripMenuItem.Size = new System.Drawing.Size(124, 22);
             this.animateToolStripMenuItem.Text = "Animate";
             this.animateToolStripMenuItem.Click += new System.EventHandler(this.animateToolStripMenuItem_Click);
             // 
-            // AnimationFrameID
+            // contextMenuStripFrame
             // 
-            this.AnimationFrameID.HeaderText = "ID";
-            this.AnimationFrameID.Name = "AnimationFrameID";
+            this.contextMenuStripFrame.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.frameToolStripMenuItem});
+            this.contextMenuStripFrame.Name = "contextMenuStripFrame";
+            this.contextMenuStripFrame.Size = new System.Drawing.Size(116, 26);
             // 
-            // Time
+            // frameToolStripMenuItem
             // 
-            this.Time.HeaderText = "Time";
-            this.Time.Name = "Time";
-            // 
-            // AnimationFrameX
-            // 
-            this.AnimationFrameX.HeaderText = "X";
-            this.AnimationFrameX.Name = "AnimationFrameX";
-            // 
-            // AnimationFrameY
-            // 
-            this.AnimationFrameY.HeaderText = "Y";
-            this.AnimationFrameY.Name = "AnimationFrameY";
+            this.frameToolStripMenuItem.Name = "frameToolStripMenuItem";
+            this.frameToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.frameToolStripMenuItem.Text = "Frame";
             // 
             // Form1
             // 
@@ -675,6 +692,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgViewAnimation)).EndInit();
             this.contextMenuStripAnimator.ResumeLayout(false);
+            this.contextMenuStripFrame.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -742,6 +760,8 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Time;
         private System.Windows.Forms.DataGridViewTextBoxColumn AnimationFrameX;
         private System.Windows.Forms.DataGridViewTextBoxColumn AnimationFrameY;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripFrame;
+        private System.Windows.Forms.ToolStripMenuItem frameToolStripMenuItem;
     }
 }
 
