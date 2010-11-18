@@ -50,6 +50,15 @@ namespace GameEditor
 
         int snappedFrameModuleID = -1;
 
+        //Animation
+        short m_animationID = 0;
+        short m_nAnimation = 0;
+        List<CAnimation> mListAllAnimations = new List<CAnimation>();
+
+        //Context menus
+        //ContextMenu cmFrameCreator = new ContextMenu();
+        //ContextMenu cmAnimationCreator = new ContextMenu();
+
         //Actions
         bool m_blmbDown = false;
 
@@ -163,6 +172,8 @@ namespace GameEditor
             gPen = new Pen(Color.Blue, 1);
 
             m_state = (byte)ViewerState.MODULE_EDITOR;
+
+            //cmAnimationCreator.MenuItems.Add(new MenuItem("Animate"));
 
             timerUpdate.Enabled = true;
         }
@@ -383,6 +394,7 @@ namespace GameEditor
 
         private void pbViewer_MouseUp(object sender, MouseEventArgs e)
         {
+            this.Cursor = Cursors.Default;
             switch ((ViewerState)m_state)
             {
                 case ViewerState.MODULE_EDITOR:
@@ -488,6 +500,12 @@ namespace GameEditor
 
         private void dgViewFrame_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
+            if (e.Button == MouseButtons.Right)
+            {
+                //cmAnimationCreator.Show(dgViewFrame, new Point(e.X, e.Y));
+                contextMenuStripAnimator.Show(dgViewFrame, new Point(e.X, e.Y));
+                return;
+            }
             //Clear rows
             for (int j = 0; j < dgViewFrameModule.RowCount; j++)
             {
@@ -505,7 +523,37 @@ namespace GameEditor
             {
                 int n = dgViewFrameModule.Rows.Add();
                 dgViewFrameModule.Rows[n].Cells[0].Value = "" + mListAllFrames[selectedFrame].mListFrameModules[i].mId;
+                dgViewFrameModule.Rows[n].Cells[1].Value = "" + mListAllFrames[selectedFrame].mListFrameModules[i].mX;
+                dgViewFrameModule.Rows[n].Cells[2].Value = "" + mListAllFrames[selectedFrame].mListFrameModules[i].mY;
             }
+        }
+
+        private void dgViewAnimation_RowHeaderMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            //create row and fill it:      
+            int n = dgViewAnimation.Rows.Add();
+            dgViewAnimation.Rows[n].Cells[0].Value = "" + m_animationID;
+            dgViewAnimation.Rows[n].Cells[1].Value = "" + "ANIMATION_ID_" + m_animationID;
+            CAnimation animation = new CAnimation();
+            animation.mId = m_animationID;
+            mListAllAnimations.Insert(n, animation);
+            m_nAnimation++;
+            m_animationID++;
+        }
+
+        private void contextMenuStripAnimator_MouseDown(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        private void contextMenuStripAnimator_MouseClick(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        private void animateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 
@@ -540,6 +588,7 @@ namespace GameEditor
         public short mFrameRectHeight;
         public string mDescription;
         public byte mFlag;
+        public Int64 mTime;
         public List<CModule> mListFrameModules;
         public CFrame()
         {
@@ -552,5 +601,9 @@ namespace GameEditor
         public short mId;
         public string mDescription;
         public List<CFrame> mListAnimationFrames;
+        public CAnimation()
+        {
+            mListAnimationFrames = new List<CFrame>();
+        }
     }
 }
