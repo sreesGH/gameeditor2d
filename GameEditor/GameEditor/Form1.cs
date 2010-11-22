@@ -51,7 +51,7 @@ namespace GameEditor
 
         //Animation
         short m_animationID = 0;
-        short m_nAnimation = 0;
+        short m_nAnimations = 0;
         List<CAnimation> mListAllAnimations = new List<CAnimation>();
 
         //Actions
@@ -514,23 +514,25 @@ namespace GameEditor
             for (int i = 0; i < mListAllFrames[selectedFrame].mListFrameModules.Count; i++)
             {
                 int n = dgViewFrameModule.Rows.Add();
-                dgViewFrameModule.Rows[n].Cells[0].Value = "" + mListAllFrames[selectedFrame].mListFrameModules[i].mId;
-                dgViewFrameModule.Rows[n].Cells[1].Value = "" + mListAllFrames[selectedFrame].mListFrameModules[i].mX;
-                dgViewFrameModule.Rows[n].Cells[2].Value = "" + mListAllFrames[selectedFrame].mListFrameModules[i].mY;
+                dgViewFrameModule.Rows[i].Cells[0].Value = "" + mListAllFrames[selectedFrame].mListFrameModules[i].mId;
+                dgViewFrameModule.Rows[i].Cells[1].Value = "" + mListAllFrames[selectedFrame].mListFrameModules[i].mX;
+                dgViewFrameModule.Rows[i].Cells[2].Value = "" + mListAllFrames[selectedFrame].mListFrameModules[i].mY;
             }
         }
 
         private void dgViewAnimation_RowHeaderMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             //create row and fill it:      
-            int n = dgViewAnimation.Rows.Add();
-            dgViewAnimation.Rows[n].Cells[0].Value = "" + m_animationID;
-            dgViewAnimation.Rows[n].Cells[1].Value = "" + "ANIMATION_ID_" + m_animationID;
+            //int n = dgViewAnimation.Rows.Add();
+            //dgViewAnimation.Rows[m_animationID].Cells[0].Value = "" + m_animationID;
+            //dgViewAnimation.Rows[m_animationID].Cells[1].Value = "" + "ANIMATION_ID_" + m_animationID;
             CAnimation animation = new CAnimation();
             animation.mId = m_animationID;
-            mListAllAnimations.Insert(n, animation);
-            m_nAnimation++;
+            mListAllAnimations.Insert(m_animationID, animation);
+            m_nAnimations++;
             m_animationID++;
+
+            UpdateAnimationDataGrid();
         }
 
         private void contextMenuStripAnimator_MouseDown(object sender, MouseEventArgs e)
@@ -545,7 +547,28 @@ namespace GameEditor
 
         private void animateToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            CAnimation animation = new CAnimation();
+            animation.mId = m_animationID;
+            mListAllAnimations.Insert(m_animationID, animation);
 
+            for (int i = 0; i < dgViewFrame.RowCount; i++)
+            {
+                if (dgViewFrame.Rows[i].Selected)
+                {
+                    CFrame frame = new CFrame();
+                    frame.mId = mListAllFrames[i].mId;
+                    frame.mX = 0;
+                    frame.mY = 0;
+                    frame.mTime = 1000;
+                    mListAllAnimations[m_animationID].mListAnimationFrames.Add(frame);
+                    
+                }
+            }
+
+            m_nAnimations++;
+            m_animationID++;
+
+            UpdateAnimationDataGrid();
         }
 
         private void dgViewModule_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
@@ -554,6 +577,59 @@ namespace GameEditor
             {
                 contextMenuStripFrame.Show(dgViewModule, new Point(e.X, e.Y));
                 return;
+            }
+        }
+
+        private void UpdateAnimationDataGrid()
+        {
+            //Clear rows
+            for (int j = 0; j < dgViewAnimation.RowCount; j++)
+            {
+                if (!dgViewAnimation.Rows[j].IsNewRow)
+                {
+                    dgViewAnimation.Rows.RemoveAt(j);
+                }
+            }
+            for (int i = 0; i < mListAllAnimations.Count; i++)
+            {
+                //create row and fill it:      
+                int n = dgViewAnimation.Rows.Add();
+                dgViewAnimation.Rows[i].Cells[0].Value = "" + mListAllAnimations[i].mId;
+                dgViewAnimation.Rows[i].Cells[1].Value = "" + "ANIMATION_ID_" + mListAllAnimations[i].mId;
+            }
+        }
+
+        private void dgViewAnimation_RowStateChanged(object sender, DataGridViewRowStateChangedEventArgs e)
+        {
+           
+        }
+
+        private void dgViewAnimation_SelectionChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dgViewAnimation_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            //Clear rows
+            for (int j = 0; j < dgViewAnimationFrame.RowCount; j++)
+            {
+                if (!dgViewAnimationFrame.Rows[j].IsNewRow)
+                {
+                    dgViewAnimationFrame.Rows.RemoveAt(j);
+                }
+            }
+            int selectedAnimation = dgViewAnimation.CurrentRow.Index;
+            if (m_nAnimations <= selectedAnimation) return;
+
+            //Now refresh with new
+            for (int i = 0; i < mListAllAnimations[selectedAnimation].mListAnimationFrames.Count; i++)
+            {
+                int n = dgViewAnimationFrame.Rows.Add();
+                dgViewAnimationFrame.Rows[i].Cells[0].Value = "" + mListAllAnimations[selectedAnimation].mListAnimationFrames[i].mId;
+                dgViewAnimationFrame.Rows[i].Cells[1].Value = "" + mListAllAnimations[selectedAnimation].mListAnimationFrames[i].mTime;
+                dgViewAnimationFrame.Rows[i].Cells[2].Value = "" + mListAllAnimations[selectedAnimation].mListAnimationFrames[i].mX;
+                dgViewAnimationFrame.Rows[i].Cells[3].Value = "" + mListAllAnimations[selectedAnimation].mListAnimationFrames[i].mY;
             }
         }
     }
