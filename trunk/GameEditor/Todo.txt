@@ -6,4 +6,5 @@
 6. Error checking
 7. Double clicking on already created frame should not create new frame again
 8. globalise different selection variable for optimisation
-9. 
+9. insert @ id or rowindex got by creating new row
+10. 
