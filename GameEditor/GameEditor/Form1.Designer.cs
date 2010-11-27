@@ -91,6 +91,7 @@
             this.animateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStripFrame = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.frameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.chkboxLoopAnim = new System.Windows.Forms.CheckBox();
             this.mnsp.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbViewer)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -186,6 +187,7 @@
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.AutoSize = true;
+            this.groupBox1.Controls.Add(this.chkboxLoopAnim);
             this.groupBox1.Controls.Add(this.lbldebug);
             this.groupBox1.Controls.Add(this.lblMouseY);
             this.groupBox1.Controls.Add(this.lblMouseX);
@@ -206,7 +208,7 @@
             // lbldebug
             // 
             this.lbldebug.AutoSize = true;
-            this.lbldebug.Location = new System.Drawing.Point(443, 26);
+            this.lbldebug.Location = new System.Drawing.Point(538, 28);
             this.lbldebug.Name = "lbldebug";
             this.lbldebug.Size = new System.Drawing.Size(36, 13);
             this.lbldebug.TabIndex = 8;
@@ -215,7 +217,7 @@
             // lblMouseY
             // 
             this.lblMouseY.AutoSize = true;
-            this.lblMouseY.Location = new System.Drawing.Point(361, 44);
+            this.lblMouseY.Location = new System.Drawing.Point(456, 46);
             this.lblMouseY.Name = "lblMouseY";
             this.lblMouseY.Size = new System.Drawing.Size(58, 13);
             this.lblMouseY.TabIndex = 7;
@@ -224,7 +226,7 @@
             // lblMouseX
             // 
             this.lblMouseX.AutoSize = true;
-            this.lblMouseX.Location = new System.Drawing.Point(361, 24);
+            this.lblMouseX.Location = new System.Drawing.Point(456, 26);
             this.lblMouseX.Name = "lblMouseX";
             this.lblMouseX.Size = new System.Drawing.Size(58, 13);
             this.lblMouseX.TabIndex = 6;
@@ -661,6 +663,17 @@
             this.frameToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
             this.frameToolStripMenuItem.Text = "Frame";
             // 
+            // chkboxLoopAnim
+            // 
+            this.chkboxLoopAnim.AutoSize = true;
+            this.chkboxLoopAnim.Location = new System.Drawing.Point(315, 23);
+            this.chkboxLoopAnim.Name = "chkboxLoopAnim";
+            this.chkboxLoopAnim.Size = new System.Drawing.Size(79, 17);
+            this.chkboxLoopAnim.TabIndex = 9;
+            this.chkboxLoopAnim.Text = "Loop Anim.";
+            this.chkboxLoopAnim.UseVisualStyleBackColor = true;
+            this.chkboxLoopAnim.CheckedChanged += new System.EventHandler(this.chkboxLoopAnim_CheckedChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -765,6 +778,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Time;
         private System.Windows.Forms.DataGridViewTextBoxColumn AnimationFrameX;
         private System.Windows.Forms.DataGridViewTextBoxColumn AnimationFrameY;
+        private System.Windows.Forms.CheckBox chkboxLoopAnim;
     }
 }
 

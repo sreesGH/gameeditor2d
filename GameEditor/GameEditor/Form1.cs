@@ -53,7 +53,8 @@ namespace GameEditor
         short m_animationID = 0;
         short m_nAnimations = 0;
         List<CAnimation> mListAllAnimations = new List<CAnimation>();
-
+        short m_animationFrameCounter = 0;
+        Int64 m_StartTime = 0;
         //Actions
         bool m_blmbDown = false;
 
@@ -137,6 +138,35 @@ namespace GameEditor
                         }
                         break;
                     }
+                case ViewerState.ANIMATION_EDITOR:
+                    {
+                        if (m_nAnimations <= 0) return;
+                        int selectedAnimation = dgViewAnimation.CurrentRow.Index;
+                        if (m_nAnimations <= selectedAnimation) return;
+                        if (mListAllAnimations[selectedAnimation].mListAnimationFrames[m_animationFrameCounter].mTime
+                            >= (System.Environment.TickCount - m_StartTime))
+                        {
+                            m_StartTime = System.Environment.TickCount;
+                            m_animationFrameCounter++;
+                        }
+                        if (chkboxLoopAnim.Checked)
+                        {
+                            if (m_animationFrameCounter >= mListAllAnimations[selectedAnimation].mListAnimationFrames.Count)
+                            {
+                                m_animationFrameCounter = 0;
+                            }
+                        }
+                        else
+                        {
+                            if (m_animationFrameCounter >= mListAllAnimations[selectedAnimation].mListAnimationFrames.Count)
+                            {
+                                m_animationFrameCounter = (short)(mListAllAnimations[selectedAnimation].mListAnimationFrames.Count - 1);
+                            }
+                        }
+                        DrawFrame(m_animationFrameCounter);
+
+                        break;
+                    }
             }
 
             //Draw Grid
@@ -155,6 +185,14 @@ namespace GameEditor
                 }
             }
 
+        }
+
+        private void DrawFrame(int index)
+        {
+            for (int i = 0; i < mListAllFrames[index].mListFrameModules.Count; i++)
+            {
+                gViewerGraphics.DrawImage(ImageListmodule.Images[mListAllFrames[index].mListFrameModules[i].mId], mListAllFrames[index].mListFrameModules[i].mX, mListAllFrames[index].mListFrameModules[i].mY);
+            }
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -631,6 +669,15 @@ namespace GameEditor
                 dgViewAnimationFrame.Rows[i].Cells[2].Value = "" + mListAllAnimations[selectedAnimation].mListAnimationFrames[i].mX;
                 dgViewAnimationFrame.Rows[i].Cells[3].Value = "" + mListAllAnimations[selectedAnimation].mListAnimationFrames[i].mY;
             }
+
+            //Reset animtaion viewer properties
+            m_StartTime = System.Environment.TickCount;
+            m_animationFrameCounter = 0;
+        }
+
+        private void chkboxLoopAnim_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 
