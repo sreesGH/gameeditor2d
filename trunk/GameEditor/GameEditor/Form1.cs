@@ -27,20 +27,21 @@ namespace GameEditor
         SolidBrush gBrush;
         Pen gPen;
 
+        int m_mouseX = 0;
+        int m_mouseY = 0;
+
         //Image
         Bitmap m_Image;
         bool m_bImageLoaded = false;
         string m_ImagePath = null;
-
-        int m_mouseX = 0;
-        int m_mouseY = 0;
+        CImage m_ImageProperty = new CImage();
 
         //Module
-        //List<CModule> mListAllModules;
         short m_nModules = 0;
         short m_moduleID = 0;
         Rectangle m_moduleRect;
         Image m_ModuleImage;
+        List<CModule> mListAllModules;
 
         //Frame
         short m_nFrames = 0;
@@ -241,6 +242,10 @@ namespace GameEditor
             lblImageHeight.Text = "Height: " + m_Image.Height;
             lblImageBpp.Text = "Bpp: " + (Image.GetPixelFormatSize(m_Image.PixelFormat) / 8);
             lblImageDpi.Text = "Dpi: " + m_Image.HorizontalResolution;
+            m_ImageProperty.mName = m_ImagePath;
+            m_ImageProperty.mWidth = (short)m_Image.Width;
+            m_ImageProperty.mHeight = (short)m_Image.Height;
+            m_ImageProperty.mBpp = (short)(Image.GetPixelFormatSize(m_Image.PixelFormat) / 8);
             m_bImageLoaded = true;
         }
 
@@ -679,6 +684,11 @@ namespace GameEditor
         {
 
         }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ModuleSave.Save(m_ImageProperty, mListAllModules, mListAllFrames, mListAllAnimations);
+        }
     }
 
     static class EDITOR_CONSTANTS
@@ -686,6 +696,14 @@ namespace GameEditor
         //public const short MODULE_VIEWER_WIDTH = 800;
         //public const short MODULE_VIEWER_HEIGHT = 600;
         public const short VIEWER_GRID_WIDTH = 8;
+    }
+
+    public class CImage
+    {
+        public string mName;
+        public short mWidth;
+        public short mHeight;
+        public short mBpp;
     }
 
     public class CModule
