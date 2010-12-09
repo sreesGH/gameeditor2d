@@ -39,6 +39,7 @@
             this.pbViewer = new System.Windows.Forms.PictureBox();
             this.timerUpdate = new System.Windows.Forms.Timer(this.components);
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.chkboxLoopAnim = new System.Windows.Forms.CheckBox();
             this.lbldebug = new System.Windows.Forms.Label();
             this.lblMouseY = new System.Windows.Forms.Label();
             this.lblMouseX = new System.Windows.Forms.Label();
@@ -91,7 +92,6 @@
             this.animateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStripFrame = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.frameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.chkboxLoopAnim = new System.Windows.Forms.CheckBox();
             this.mnsp.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbViewer)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -133,25 +133,26 @@
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.openToolStripMenuItem.Text = "Open";
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.saveToolStripMenuItem.Text = "Save";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // exportToolStripMenuItem
             // 
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            this.exportToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exportToolStripMenuItem.Text = "Export";
             // 
             // closeToolStripMenuItem
             // 
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.closeToolStripMenuItem.Text = "Exit";
             // 
             // toolStripGameEditor
@@ -204,6 +205,17 @@
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Viewer Settings";
+            // 
+            // chkboxLoopAnim
+            // 
+            this.chkboxLoopAnim.AutoSize = true;
+            this.chkboxLoopAnim.Location = new System.Drawing.Point(315, 23);
+            this.chkboxLoopAnim.Name = "chkboxLoopAnim";
+            this.chkboxLoopAnim.Size = new System.Drawing.Size(79, 17);
+            this.chkboxLoopAnim.TabIndex = 9;
+            this.chkboxLoopAnim.Text = "Loop Anim.";
+            this.chkboxLoopAnim.UseVisualStyleBackColor = true;
+            this.chkboxLoopAnim.CheckedChanged += new System.EventHandler(this.chkboxLoopAnim_CheckedChanged);
             // 
             // lbldebug
             // 
@@ -662,17 +674,6 @@
             this.frameToolStripMenuItem.Name = "frameToolStripMenuItem";
             this.frameToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
             this.frameToolStripMenuItem.Text = "Frame";
-            // 
-            // chkboxLoopAnim
-            // 
-            this.chkboxLoopAnim.AutoSize = true;
-            this.chkboxLoopAnim.Location = new System.Drawing.Point(315, 23);
-            this.chkboxLoopAnim.Name = "chkboxLoopAnim";
-            this.chkboxLoopAnim.Size = new System.Drawing.Size(79, 17);
-            this.chkboxLoopAnim.TabIndex = 9;
-            this.chkboxLoopAnim.Text = "Loop Anim.";
-            this.chkboxLoopAnim.UseVisualStyleBackColor = true;
-            this.chkboxLoopAnim.CheckedChanged += new System.EventHandler(this.chkboxLoopAnim_CheckedChanged);
             // 
             // Form1
             // 
