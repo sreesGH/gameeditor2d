@@ -41,7 +41,8 @@ namespace GameEditor
         short m_moduleID = 0;
         Rectangle m_moduleRect;
         Image m_ModuleImage;
-        List<CModule> mListAllModules;
+        List<CModule> mListAllModules = new List<CModule>();
+        List<Image> mListAllModuleImages = new List<Image>();
 
         //Frame
         short m_nFrames = 0;
@@ -56,6 +57,9 @@ namespace GameEditor
         List<CAnimation> mListAllAnimations = new List<CAnimation>();
         short m_animationFrameCounter = 0;
         Int64 m_StartTime = 0;
+
+        int snappedAnimationFrameID = -1;
+
         //Actions
         bool m_blmbDown = false;
 
@@ -133,9 +137,24 @@ namespace GameEditor
                         if (m_nFrames <= 0) return;
                         int selectedFrame = dgViewFrame.CurrentRow.Index;
                         if (m_nFrames <= selectedFrame) return;
-                        for (int i = 0; i < mListAllFrames[selectedFrame].mListFrameModules.Count; i++)
+                        DrawFrame(selectedFrame);
+                        //for (int i = 0; i < mListAllFrames[selectedFrame].mListFrameModules.Count; i++)
+                        //{
+                        //    gViewerGraphics.DrawImage(mListAllModuleImages[mListAllFrames[selectedFrame].mListFrameModules[i].mId], mListAllFrames[selectedFrame].mListFrameModules[i].mX, mListAllFrames[selectedFrame].mListFrameModules[i].mY);
+                        //}
+
+                        //DrawFrame bounding box
+                        gPen.Width = 1;
+                        gPen.Color = Color.Purple;
+                        gPen.DashStyle = System.Drawing.Drawing2D.DashStyle.Dash;
+                        Rectangle rect = new Rectangle(0, 0, 1, 1);
+                        if (chkboxShowFrameRect.Checked)
                         {
-                            gViewerGraphics.DrawImage(ImageListmodule.Images[mListAllFrames[selectedFrame].mListFrameModules[i].mId], mListAllFrames[selectedFrame].mListFrameModules[i].mX, mListAllFrames[selectedFrame].mListFrameModules[i].mY);
+                            rect.X = (int)mListAllFrames[selectedFrame].mFrameRectX;
+                            rect.Y = (int)mListAllFrames[selectedFrame].mFrameRectY;
+                            rect.Width = (int)mListAllFrames[selectedFrame].mFrameRectWidth;
+                            rect.Height = (int)mListAllFrames[selectedFrame].mFrameRectHeight;
+                            gViewerGraphics.DrawRectangle(gPen, rect);
                         }
                         break;
                     }
@@ -192,7 +211,7 @@ namespace GameEditor
         {
             for (int i = 0; i < mListAllFrames[index].mListFrameModules.Count; i++)
             {
-                gViewerGraphics.DrawImage(ImageListmodule.Images[mListAllFrames[index].mListFrameModules[i].mId], mListAllFrames[index].mListFrameModules[i].mX, mListAllFrames[index].mListFrameModules[i].mY);
+                gViewerGraphics.DrawImage(mListAllModuleImages[mListAllFrames[index].mListFrameModules[i].mId], mListAllFrames[index].mListFrameModules[i].mX, mListAllFrames[index].mListFrameModules[i].mY);
             }
         }
 
@@ -370,6 +389,9 @@ namespace GameEditor
 
                             mListAllFrames[selectedFrame].mListFrameModules[snappedFrameModuleID].mX += (short)diffX;
                             mListAllFrames[selectedFrame].mListFrameModules[snappedFrameModuleID].mY += (short)diffY;
+
+                            UpdateFrameRect(selectedFrame);
+
                             //Now update corresponding data grid too
 
 
@@ -453,9 +475,14 @@ namespace GameEditor
                                     int n = dgViewModule.Rows.Add();
                                     //add to image list
                                     m_ModuleImage = m_Image.Clone(m_moduleRect, PixelFormat.Format32bppArgb);
+                                    //For list viewer
                                     ImageListmodule.Images.Add(m_ModuleImage, Color.Magenta);
                                     listViewModuleList.Items.Add(n.ToString(), n);
                                     //ImageListmodule.Insert(n, m_ModuleImage);
+                                    
+                                    //For drawing in the viewer
+                                    mListAllModuleImages.Add(m_ModuleImage);
+
                                     dgViewModule.Rows[n].Cells[0].Value = "" + m_moduleID;
                                     dgViewModule.Rows[n].Cells[1].Value = "" + m_moduleRect.X;
                                     dgViewModule.Rows[n].Cells[2].Value = "" + m_moduleRect.Y;
@@ -516,8 +543,20 @@ namespace GameEditor
                         module.mId = id;
                         int selectedFrame = dgViewFrame.CurrentRow.Index;
                         mListAllFrames[selectedFrame].mListFrameModules.Add(module);
+                        UpdateFrameRect(selectedFrame);
                         break;
                     }
+            }
+        }
+
+        private void UpdateFrameRect(int selectedFrame)
+        {
+            for (int i = 0; i < mListAllFrames[selectedFrame].mListFrameModules.Count; i++)
+            {
+                mListAllFrames[selectedFrame].mFrameRectX = Math.Min(mListAllFrames[selectedFrame].mFrameRectX, mListAllFrames[selectedFrame].mListFrameModules[i].mX);
+                mListAllFrames[selectedFrame].mFrameRectY = Math.Min(mListAllFrames[selectedFrame].mFrameRectY, mListAllFrames[selectedFrame].mListFrameModules[i].mY);
+                mListAllFrames[selectedFrame].mFrameRectWidth = Math.Max(mListAllFrames[selectedFrame].mFrameRectWidth, (short)(mListAllFrames[selectedFrame].mListFrameModules[i].mX + mListAllFrames[selectedFrame].mListFrameModules[i].mClipWidth));
+                mListAllFrames[selectedFrame].mFrameRectHeight = Math.Max(mListAllFrames[selectedFrame].mFrameRectHeight, (short)(mListAllFrames[selectedFrame].mListFrameModules[i].mY + mListAllFrames[selectedFrame].mListFrameModules[i].mClipHeight));
             }
         }
 
@@ -735,6 +774,10 @@ namespace GameEditor
         public CFrame()
         {
             mListFrameModules = new List<CModule>();
+            mFrameRectX = 0;
+            mFrameRectY = 0;
+            mFrameRectWidth = 1;
+            mFrameRectHeight = 1;
         }
     }
 
