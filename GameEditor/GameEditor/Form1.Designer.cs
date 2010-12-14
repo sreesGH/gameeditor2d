@@ -92,6 +92,7 @@
             this.animateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStripFrame = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.frameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.chkboxShowFrameRect = new System.Windows.Forms.CheckBox();
             this.mnsp.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbViewer)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -133,26 +134,26 @@
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
             this.openToolStripMenuItem.Text = "Open";
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // exportToolStripMenuItem
             // 
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            this.exportToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
             this.exportToolStripMenuItem.Text = "Export";
             // 
             // closeToolStripMenuItem
             // 
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
             this.closeToolStripMenuItem.Text = "Exit";
             // 
             // toolStripGameEditor
@@ -188,6 +189,7 @@
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.AutoSize = true;
+            this.groupBox1.Controls.Add(this.chkboxShowFrameRect);
             this.groupBox1.Controls.Add(this.chkboxLoopAnim);
             this.groupBox1.Controls.Add(this.lbldebug);
             this.groupBox1.Controls.Add(this.lblMouseY);
@@ -199,9 +201,9 @@
             this.groupBox1.Controls.Add(this.chkboxShowModule);
             this.groupBox1.Controls.Add(this.chkboxShowGrid);
             this.groupBox1.ForeColor = System.Drawing.Color.DarkBlue;
-            this.groupBox1.Location = new System.Drawing.Point(10, 540);
+            this.groupBox1.Location = new System.Drawing.Point(10, 539);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(596, 81);
+            this.groupBox1.Size = new System.Drawing.Size(596, 82);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Viewer Settings";
@@ -675,6 +677,16 @@
             this.frameToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
             this.frameToolStripMenuItem.Text = "Frame";
             // 
+            // chkboxShowFrameRect
+            // 
+            this.chkboxShowFrameRect.AutoSize = true;
+            this.chkboxShowFrameRect.Location = new System.Drawing.Point(315, 46);
+            this.chkboxShowFrameRect.Name = "chkboxShowFrameRect";
+            this.chkboxShowFrameRect.Size = new System.Drawing.Size(114, 17);
+            this.chkboxShowFrameRect.TabIndex = 10;
+            this.chkboxShowFrameRect.Text = "Show Frame Rect.";
+            this.chkboxShowFrameRect.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -780,6 +792,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn AnimationFrameX;
         private System.Windows.Forms.DataGridViewTextBoxColumn AnimationFrameY;
         private System.Windows.Forms.CheckBox chkboxLoopAnim;
+        private System.Windows.Forms.CheckBox chkboxShowFrameRect;
     }
 }
 
