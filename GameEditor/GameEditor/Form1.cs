@@ -183,7 +183,7 @@ namespace GameEditor
                                 m_animationFrameCounter = (short)(mListAllAnimations[selectedAnimation].mListAnimationFrames.Count - 1);
                             }
                         }
-                        DrawFrame(m_animationFrameCounter);
+                        DrawAnimationFrame(selectedAnimation, m_animationFrameCounter);
 
                         break;
                     }
@@ -212,6 +212,19 @@ namespace GameEditor
             for (int i = 0; i < mListAllFrames[index].mListFrameModules.Count; i++)
             {
                 gViewerGraphics.DrawImage(mListAllModuleImages[mListAllFrames[index].mListFrameModules[i].mId], mListAllFrames[index].mListFrameModules[i].mX, mListAllFrames[index].mListFrameModules[i].mY);
+            }
+        }
+
+        private void DrawAnimationFrame(int selectedAnimation, int index)
+        {
+            int frameX = mListAllAnimations[selectedAnimation].mListAnimationFrames[index].mX;
+            int frameY = mListAllAnimations[selectedAnimation].mListAnimationFrames[index].mY;
+
+            for (int i = 0; i < mListAllAnimations[selectedAnimation].mListAnimationFrames[index].mListFrameModules.Count; i++)
+            {
+                gViewerGraphics.DrawImage(mListAllModuleImages[mListAllAnimations[selectedAnimation].mListAnimationFrames[index].mListFrameModules[i].mId],
+                                        mListAllAnimations[selectedAnimation].mListAnimationFrames[index].mListFrameModules[i].mX + frameX,
+                                        mListAllAnimations[selectedAnimation].mListAnimationFrames[index].mListFrameModules[i].mY + frameY);
             }
         }
 
@@ -375,6 +388,7 @@ namespace GameEditor
                         }
                         break;
                     }
+
                 case ViewerState.FRAME_EDITOR:
                     {
                         if (m_blmbDown)
@@ -394,6 +408,26 @@ namespace GameEditor
 
                             //Now update corresponding data grid too
 
+                        }
+                        break;
+                    }
+
+                case ViewerState.ANIMATION_EDITOR:
+                    {
+                        if (m_blmbDown)
+                        {
+                            if (m_nAnimations <= 0) return;
+                            if (snappedAnimationFrameID == -1) return;
+                            int selectedAnimation = dgViewAnimation.CurrentRow.Index;
+                            if (m_nAnimations <= selectedAnimation) return;
+
+                            int diffX = e.X - (mListAllAnimations[selectedAnimation].mListAnimationFrames[snappedAnimationFrameID].mFrameRectX + mListAllAnimations[selectedAnimation].mListAnimationFrames[snappedAnimationFrameID].mX);
+                            int diffY = e.Y - (mListAllAnimations[selectedAnimation].mListAnimationFrames[snappedAnimationFrameID].mFrameRectY + mListAllAnimations[selectedAnimation].mListAnimationFrames[snappedAnimationFrameID].mY);
+
+                            mListAllAnimations[selectedAnimation].mListAnimationFrames[snappedAnimationFrameID].mX += (short)diffX;
+                            mListAllAnimations[selectedAnimation].mListAnimationFrames[snappedAnimationFrameID].mY += (short)diffY;
+
+                            //Now update corresponding data grid too
 
                         }
                         break;
@@ -445,6 +479,40 @@ namespace GameEditor
                                 break;
                             }
                         }
+                        break;
+                    }
+                case ViewerState.ANIMATION_EDITOR:
+                    {
+                        if (m_nAnimations <= 0) return;
+                        int selectedAnimation = dgViewAnimation.CurrentRow.Index;
+                        if (m_nAnimations <= selectedAnimation) return;
+
+                        int selectedAnimationFrame = dgViewAnimationFrame.CurrentRow.Index;
+                        if (selectedAnimationFrame >= mListAllAnimations[selectedAnimation].mListAnimationFrames.Count)
+                        {
+                            return;
+                        }
+                        else
+                        {
+                            snappedAnimationFrameID = selectedAnimationFrame;
+                            this.Cursor = Cursors.Hand;
+                        }
+
+                        //Do it reverse order to get the top one selected first
+                        //for (int i = mListAllAnimations[selectedAnimation].mListAnimationFrames.Count - 1; i >= 0; i--)
+                        //for (int i = 0; i < mListAllAnimations[selectedAnimation].mListAnimationFrames.Count; i--)
+                        //{
+                          //  if (e.X >= mListAllAnimations[selectedAnimation].mListAnimationFrames[i].mFrameRectX + mListAllAnimations[selectedAnimation].mListAnimationFrames[i].mX
+                            //    && e.X <= (mListAllAnimations[selectedAnimation].mListAnimationFrames[i].mFrameRectX + mListAllAnimations[selectedAnimation].mListAnimationFrames[i].mFrameRectWidth) + mListAllAnimations[selectedAnimation].mListAnimationFrames[i].mX
+                              //  && e.Y >= mListAllAnimations[selectedAnimation].mListAnimationFrames[i].mFrameRectY + +mListAllAnimations[selectedAnimation].mListAnimationFrames[i].mY
+                                //&& e.Y <= (mListAllAnimations[selectedAnimation].mListAnimationFrames[i].mFrameRectY + mListAllAnimations[selectedAnimation].mListAnimationFrames[i].mFrameRectHeight) + +mListAllAnimations[selectedAnimation].mListAnimationFrames[i].mY
+                                //)
+                            //{
+                              //  snappedAnimationFrameID = i;
+                               // this.Cursor = Cursors.Hand;
+                                //break;
+                            //}
+                        //}
                         break;
                     }
             }
@@ -503,9 +571,24 @@ namespace GameEditor
                         }
                         break;
                     }
+
                 case ViewerState.FRAME_EDITOR:
                     {
-                        snappedFrameModuleID = -1;
+                        if (e.Button == MouseButtons.Left)
+                        {
+                            snappedFrameModuleID = -1;
+                            m_blmbDown = false;
+                        }
+                        break;
+                    }
+
+                case ViewerState.ANIMATION_EDITOR:
+                    {
+                        if (e.Button == MouseButtons.Left)
+                        {
+                            snappedAnimationFrameID = -1;
+                            m_blmbDown = false;
+                        }
                         break;
                     }
             }
@@ -641,6 +724,11 @@ namespace GameEditor
                     frame.mId = mListAllFrames[i].mId;
                     frame.mX = 0;
                     frame.mY = 0;
+                    frame.mFrameRectX = mListAllFrames[i].mFrameRectX;
+                    frame.mFrameRectY = mListAllFrames[i].mFrameRectY;
+                    frame.mFrameRectWidth = mListAllFrames[i].mFrameRectWidth;
+                    frame.mFrameRectHeight = mListAllFrames[i].mFrameRectHeight;
+                    frame.mListFrameModules = mListAllFrames[i].mListFrameModules;
                     frame.mTime = 1000;
                     mListAllAnimations[m_animationID].mListAnimationFrames.Add(frame);
                     
@@ -727,6 +815,11 @@ namespace GameEditor
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ModuleSave.Save(m_ImageProperty, mListAllModules, mListAllFrames, mListAllAnimations);
+        }
+
+        private void dgViewAnimationFrame_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            m_animationFrameCounter = (short)dgViewAnimationFrame.CurrentRow.Index;
         }
     }
 

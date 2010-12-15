@@ -39,6 +39,7 @@
             this.pbViewer = new System.Windows.Forms.PictureBox();
             this.timerUpdate = new System.Windows.Forms.Timer(this.components);
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.chkboxShowFrameRect = new System.Windows.Forms.CheckBox();
             this.chkboxLoopAnim = new System.Windows.Forms.CheckBox();
             this.lbldebug = new System.Windows.Forms.Label();
             this.lblMouseY = new System.Windows.Forms.Label();
@@ -92,7 +93,6 @@
             this.animateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStripFrame = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.frameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.chkboxShowFrameRect = new System.Windows.Forms.CheckBox();
             this.mnsp.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbViewer)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -207,6 +207,16 @@
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Viewer Settings";
+            // 
+            // chkboxShowFrameRect
+            // 
+            this.chkboxShowFrameRect.AutoSize = true;
+            this.chkboxShowFrameRect.Location = new System.Drawing.Point(315, 46);
+            this.chkboxShowFrameRect.Name = "chkboxShowFrameRect";
+            this.chkboxShowFrameRect.Size = new System.Drawing.Size(114, 17);
+            this.chkboxShowFrameRect.TabIndex = 10;
+            this.chkboxShowFrameRect.Text = "Show Frame Rect.";
+            this.chkboxShowFrameRect.UseVisualStyleBackColor = true;
             // 
             // chkboxLoopAnim
             // 
@@ -572,6 +582,7 @@
             this.dgViewAnimationFrame.Name = "dgViewAnimationFrame";
             this.dgViewAnimationFrame.Size = new System.Drawing.Size(468, 255);
             this.dgViewAnimationFrame.TabIndex = 1;
+            this.dgViewAnimationFrame.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgViewAnimationFrame_RowHeaderMouseClick);
             // 
             // AnimationFrameID
             // 
@@ -676,16 +687,6 @@
             this.frameToolStripMenuItem.Name = "frameToolStripMenuItem";
             this.frameToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
             this.frameToolStripMenuItem.Text = "Frame";
-            // 
-            // chkboxShowFrameRect
-            // 
-            this.chkboxShowFrameRect.AutoSize = true;
-            this.chkboxShowFrameRect.Location = new System.Drawing.Point(315, 46);
-            this.chkboxShowFrameRect.Name = "chkboxShowFrameRect";
-            this.chkboxShowFrameRect.Size = new System.Drawing.Size(114, 17);
-            this.chkboxShowFrameRect.TabIndex = 10;
-            this.chkboxShowFrameRect.Text = "Show Frame Rect.";
-            this.chkboxShowFrameRect.UseVisualStyleBackColor = true;
             // 
             // Form1
             // 
