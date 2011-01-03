@@ -33,8 +33,13 @@ namespace GameEditor
         //Image
         Bitmap m_Image;
         bool m_bImageLoaded = false;
-        string m_ImagePath = null;
+        static string m_ImagePath = null;
         CImage m_ImageProperty = new CImage();
+
+        public static string GetImagePath()
+        {
+            return m_ImagePath;
+        }
 
         //Module
         short m_nModules = 0;

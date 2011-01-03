@@ -11,7 +11,11 @@ namespace GameEditor
     {
         public static bool Save(CImage image, List<CModule> moduleList, List<CFrame> frameList, List<CAnimation> animationList)
         {
-            TextWriter textWriter = new StreamWriter(@"C:\image.xml");
+            string path = Form1.GetImagePath();
+            int extStart = path.IndexOf(".");
+            path = path.Substring(0, extStart);
+            path += ".gfx";
+            TextWriter textWriter = new StreamWriter(@path);
 
             XmlSerializer serializerImage = new XmlSerializer(typeof(CImage));
             serializerImage.Serialize(textWriter, image);
