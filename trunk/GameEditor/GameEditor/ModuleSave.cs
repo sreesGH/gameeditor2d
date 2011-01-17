@@ -11,7 +11,7 @@ namespace GameEditor
     {
         public static bool Save(CImage image, List<CModule> moduleList, List<CFrame> frameList, List<CAnimation> animationList)
         {
-            string path = Form1.GetImagePath();
+            string path = GameEditor.GetImagePath();
             int extStart = path.IndexOf(".");
             path = path.Substring(0, extStart);
             path += ".gfx";

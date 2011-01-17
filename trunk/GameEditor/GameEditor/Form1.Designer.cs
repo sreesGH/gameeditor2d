@@ -1,6 +1,6 @@
 ﻿namespace GameEditor
 {
-    partial class Form1
+    partial class GameEditor
     {
         /// <summary>
         /// Required designer variable.
@@ -93,6 +93,7 @@
             this.animateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStripFrame = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.frameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openFileDialogGfxFile = new System.Windows.Forms.OpenFileDialog();
             this.mnsp.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbViewer)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -134,26 +135,28 @@
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.openToolStripMenuItem.Text = "Open";
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // exportToolStripMenuItem
             // 
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            this.exportToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exportToolStripMenuItem.Text = "Export";
+            this.exportToolStripMenuItem.Click += new System.EventHandler(this.exportToolStripMenuItem_Click);
             // 
             // closeToolStripMenuItem
             // 
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.closeToolStripMenuItem.Text = "Exit";
             // 
             // toolStripGameEditor
@@ -389,7 +392,7 @@
             // 
             // openFileDialogImage
             // 
-            this.openFileDialogImage.FileName = "openFileDialog1";
+            this.openFileDialogImage.Filter = "(*.png)|*.png|(*.bmp)|*.bmp|(*.tga)|*.tga";
             this.openFileDialogImage.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialogImage_FileOk);
             // 
             // tabControl1
@@ -688,7 +691,12 @@
             this.frameToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
             this.frameToolStripMenuItem.Text = "Frame";
             // 
-            // Form1
+            // openFileDialogGfxFile
+            // 
+            this.openFileDialogGfxFile.Filter = "(*.gfx)|*.gfx";
+            this.openFileDialogGfxFile.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialogGfxFile_FileOk);
+            // 
+            // GameEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -701,7 +709,7 @@
             this.Controls.Add(this.toolStripGameEditor);
             this.Controls.Add(this.mnsp);
             this.MainMenuStrip = this.mnsp;
-            this.Name = "Form1";
+            this.Name = "GameEditor";
             this.Text = "Game Editor";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Resize += new System.EventHandler(this.Form1_Resize);
@@ -794,6 +802,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn AnimationFrameY;
         private System.Windows.Forms.CheckBox chkboxLoopAnim;
         private System.Windows.Forms.CheckBox chkboxShowFrameRect;
+        private System.Windows.Forms.OpenFileDialog openFileDialogGfxFile;
     }
 }
 

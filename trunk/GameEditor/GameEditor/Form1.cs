@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace GameEditor
 {
-    public partial class Form1 : Form
+    public partial class GameEditor : Form
     {
         enum ViewerState
         {
@@ -35,6 +35,9 @@ namespace GameEditor
         bool m_bImageLoaded = false;
         static string m_ImagePath = null;
         CImage m_ImageProperty = new CImage();
+
+        //Gfx File
+        string m_GfxFilePath = null;
 
         public static string GetImagePath()
         {
@@ -68,7 +71,7 @@ namespace GameEditor
         //Actions
         bool m_blmbDown = false;
 
-        public Form1()
+        public GameEditor()
         {
             InitializeComponent();
         }
@@ -563,6 +566,19 @@ namespace GameEditor
                                     dgViewModule.Rows[n].Cells[4].Value = "" + m_moduleRect.Height;
                                     dgViewModule.Rows[n].Cells[5].Value = "" + "MODULE_ID_" + m_moduleID;
 
+                                    CModule module = new CModule();
+                                    module.mId = m_moduleID;
+                                    module.mX = 0;
+                                    module.mY = 0;
+                                    module.mClipX = (short)m_moduleRect.X;
+                                    module.mClipY = (short)m_moduleRect.Y;
+                                    module.mClipWidth = (short)m_moduleRect.Width;
+                                    module.mClipHeight = (short)m_moduleRect.Height;
+                                    module.mDescription = "MODULE_ID_" + m_moduleID;
+                                    module.mFlag = 0;
+
+                                    mListAllModules.Add(module);
+
                                     for (int i = 0; i <= n; i++)
                                     {
                                         dgViewModule.Rows[i].Selected = false;
@@ -825,6 +841,24 @@ namespace GameEditor
         private void dgViewAnimationFrame_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             m_animationFrameCounter = (short)dgViewAnimationFrame.CurrentRow.Index;
+        }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Open Gfx file 
+            openFileDialogGfxFile.ShowDialog();
+
+        }
+
+        private void openFileDialogGfxFile_FileOk(object sender, CancelEventArgs e)
+        {
+            // Read Gfx file
+            m_GfxFilePath = openFileDialogGfxFile.FileName;
+        }
+
+        private void exportToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ModuleExport.Export(m_ImageProperty, mListAllModules, mListAllFrames, mListAllAnimations);
         }
     }
 
