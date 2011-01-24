@@ -33,15 +33,18 @@ namespace GameEditor
         //Image
         Bitmap m_Image;
         bool m_bImageLoaded = false;
-        static string m_ImagePath = null;
         CImage m_ImageProperty = new CImage();
-
-        //Gfx File
-        string m_GfxFilePath = null;
-
+        static string m_ImagePath = null;
         public static string GetImagePath()
         {
             return m_ImagePath;
+        }
+
+        //Gfx File
+        static string m_GfxFilePath = null;
+        public static string GetGfxFilePath()
+        {
+            return m_GfxFilePath;
         }
 
         //Module
@@ -857,6 +860,7 @@ namespace GameEditor
         {
             // Read Gfx file
             m_GfxFilePath = openFileDialogGfxFile.FileName;
+            ModuleLoad.Load(m_ImageProperty, mListAllModules, mListAllFrames, mListAllAnimations);
         }
 
         private void exportToolStripMenuItem_Click(object sender, EventArgs e)

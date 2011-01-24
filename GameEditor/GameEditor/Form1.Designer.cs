@@ -94,6 +94,7 @@
             this.contextMenuStripFrame = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.frameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialogGfxFile = new System.Windows.Forms.OpenFileDialog();
+            this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mnsp.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbViewer)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -124,6 +125,7 @@
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newToolStripMenuItem,
             this.openToolStripMenuItem,
             this.saveToolStripMenuItem,
             this.exportToolStripMenuItem,
@@ -696,6 +698,12 @@
             this.openFileDialogGfxFile.Filter = "(*.gfx)|*.gfx";
             this.openFileDialogGfxFile.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialogGfxFile_FileOk);
             // 
+            // newToolStripMenuItem
+            // 
+            this.newToolStripMenuItem.Name = "newToolStripMenuItem";
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.newToolStripMenuItem.Text = "New";
+            // 
             // GameEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -803,6 +811,7 @@
         private System.Windows.Forms.CheckBox chkboxLoopAnim;
         private System.Windows.Forms.CheckBox chkboxShowFrameRect;
         private System.Windows.Forms.OpenFileDialog openFileDialogGfxFile;
+        private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
     }
 }
 
