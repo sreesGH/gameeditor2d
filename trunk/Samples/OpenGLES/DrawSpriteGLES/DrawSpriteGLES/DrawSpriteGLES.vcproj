@@ -195,6 +195,18 @@
 					/>
 				</FileConfiguration>
 			</File>
+			<Filter
+				Name="src"
+				>
+				<File
+					RelativePath=".\src\Sprite.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Sprite.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -207,6 +219,10 @@
 			</File>
 			<File
 				RelativePath=".\Resource.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Sprite.h"
 				>
 			</File>
 			<File
