@@ -672,6 +672,7 @@ namespace GameEditor
             dgViewFrame.Rows[n].Cells[1].Value = "" + "FRAME_ID_" + m_frameID;
             CFrame frame = new CFrame();
             frame.mId = m_frameID;
+            frame.mDescription = "" + "FRAME_ID_" + m_frameID;
             mListAllFrames.Insert(n, frame);
             m_nFrames++;
             m_frameID++;
@@ -735,6 +736,7 @@ namespace GameEditor
         {
             CAnimation animation = new CAnimation();
             animation.mId = m_animationID;
+
             mListAllAnimations.Insert(m_animationID, animation);
 
             for (int i = 0; i < dgViewFrame.RowCount; i++)
@@ -787,6 +789,7 @@ namespace GameEditor
                 int n = dgViewAnimation.Rows.Add();
                 dgViewAnimation.Rows[i].Cells[0].Value = "" + mListAllAnimations[i].mId;
                 dgViewAnimation.Rows[i].Cells[1].Value = "" + "ANIMATION_ID_" + mListAllAnimations[i].mId;
+                mListAllAnimations[i].mDescription = "" + "ANIMATION_ID_" + mListAllAnimations[i].mId;
             }
         }
 
