@@ -9,7 +9,7 @@ namespace GameEditor
 {
     public class ModuleSave
     {
-        public static bool Save(CImage image, List<CModule> moduleList, List<CFrame> frameList, List<CAnimation> animationList)
+        public static bool Save(CLoadSaveContainer container)
         {
             string path = GameEditor.GetImagePath();
             int extStart = path.IndexOf(".");
@@ -17,19 +17,10 @@ namespace GameEditor
             path += ".gfx";
             TextWriter textWriter = new StreamWriter(@path);
 
-            XmlSerializer serializerImage = new XmlSerializer(typeof(CImage));
-            serializerImage.Serialize(textWriter, image);
-
-            XmlSerializer serializerModule = new XmlSerializer(typeof(List<CModule>));
-            serializerModule.Serialize(textWriter, moduleList);
-
-            XmlSerializer serializerFrame = new XmlSerializer(typeof(List<CFrame>));
-            serializerFrame.Serialize(textWriter, frameList);
-
-            XmlSerializer serializerAnimation = new XmlSerializer(typeof(List<CAnimation>));
-            serializerAnimation.Serialize(textWriter, animationList);
-
+            XmlSerializer serializerImage = new XmlSerializer(typeof(CLoadSaveContainer));
+            serializerImage.Serialize(textWriter, container);
             textWriter.Close();
+
             return true;
         }
     }
