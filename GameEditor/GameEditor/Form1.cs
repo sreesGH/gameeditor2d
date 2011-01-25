@@ -33,7 +33,7 @@ namespace GameEditor
         //Image
         Bitmap m_Image;
         bool m_bImageLoaded = false;
-        CImage m_ImageProperty = new CImage();
+        
         static string m_ImagePath = null;
         public static string GetImagePath()
         {
@@ -52,24 +52,29 @@ namespace GameEditor
         short m_moduleID = 0;
         Rectangle m_moduleRect;
         Image m_ModuleImage;
-        List<CModule> mListAllModules = new List<CModule>();
+        
         List<Image> mListAllModuleImages = new List<Image>();
 
         //Frame
         short m_nFrames = 0;
         short m_frameID = 0;
-        List<CFrame> mListAllFrames = new List<CFrame>();
-
+        
         int snappedFrameModuleID = -1;
 
         //Animation
         short m_animationID = 0;
         short m_nAnimations = 0;
-        List<CAnimation> mListAllAnimations = new List<CAnimation>();
+        
         short m_animationFrameCounter = 0;
         Int64 m_StartTime = 0;
 
         int snappedAnimationFrameID = -1;
+
+        static CLoadSaveContainer container = new CLoadSaveContainer();
+        public static void SetContainer(CLoadSaveContainer c)
+        {
+            container = c;
+        }
 
         //Actions
         bool m_blmbDown = false;
@@ -149,9 +154,9 @@ namespace GameEditor
                         int selectedFrame = dgViewFrame.CurrentRow.Index;
                         if (m_nFrames <= selectedFrame) return;
                         DrawFrame(selectedFrame);
-                        //for (int i = 0; i < mListAllFrames[selectedFrame].mListFrameModules.Count; i++)
+                        //for (int i = 0; i < container.mListAllFrames[selectedFrame].mListFrameModules.Count; i++)
                         //{
-                        //    gViewerGraphics.DrawImage(mListAllModuleImages[mListAllFrames[selectedFrame].mListFrameModules[i].mId], mListAllFrames[selectedFrame].mListFrameModules[i].mX, mListAllFrames[selectedFrame].mListFrameModules[i].mY);
+                        //    gViewerGraphics.DrawImage(mListAllModuleImages[container.mListAllFrames[selectedFrame].mListFrameModules[i].mId], container.mListAllFrames[selectedFrame].mListFrameModules[i].mX, container.mListAllFrames[selectedFrame].mListFrameModules[i].mY);
                         //}
 
                         //DrawFrame bounding box
@@ -161,10 +166,10 @@ namespace GameEditor
                         Rectangle rect = new Rectangle(0, 0, 1, 1);
                         if (chkboxShowFrameRect.Checked)
                         {
-                            rect.X = (int)mListAllFrames[selectedFrame].mFrameRectX;
-                            rect.Y = (int)mListAllFrames[selectedFrame].mFrameRectY;
-                            rect.Width = (int)mListAllFrames[selectedFrame].mFrameRectWidth;
-                            rect.Height = (int)mListAllFrames[selectedFrame].mFrameRectHeight;
+                            rect.X = (int)container.mListAllFrames[selectedFrame].mFrameRectX;
+                            rect.Y = (int)container.mListAllFrames[selectedFrame].mFrameRectY;
+                            rect.Width = (int)container.mListAllFrames[selectedFrame].mFrameRectWidth;
+                            rect.Height = (int)container.mListAllFrames[selectedFrame].mFrameRectHeight;
                             gViewerGraphics.DrawRectangle(gPen, rect);
                         }
                         break;
@@ -174,7 +179,7 @@ namespace GameEditor
                         if (m_nAnimations <= 0) return;
                         int selectedAnimation = dgViewAnimation.CurrentRow.Index;
                         if (m_nAnimations <= selectedAnimation) return;
-                        if (mListAllAnimations[selectedAnimation].mListAnimationFrames[m_animationFrameCounter].mTime
+                        if (container.mListAllAnimations[selectedAnimation].mListAnimationFrames[m_animationFrameCounter].mTime
                             >= (System.Environment.TickCount - m_StartTime))
                         {
                             m_StartTime = System.Environment.TickCount;
@@ -182,16 +187,16 @@ namespace GameEditor
                         }
                         if (chkboxLoopAnim.Checked)
                         {
-                            if (m_animationFrameCounter >= mListAllAnimations[selectedAnimation].mListAnimationFrames.Count)
+                            if (m_animationFrameCounter >= container.mListAllAnimations[selectedAnimation].mListAnimationFrames.Count)
                             {
                                 m_animationFrameCounter = 0;
                             }
                         }
                         else
                         {
-                            if (m_animationFrameCounter >= mListAllAnimations[selectedAnimation].mListAnimationFrames.Count)
+                            if (m_animationFrameCounter >= container.mListAllAnimations[selectedAnimation].mListAnimationFrames.Count)
                             {
-                                m_animationFrameCounter = (short)(mListAllAnimations[selectedAnimation].mListAnimationFrames.Count - 1);
+                                m_animationFrameCounter = (short)(container.mListAllAnimations[selectedAnimation].mListAnimationFrames.Count - 1);
                             }
                         }
                         DrawAnimationFrame(selectedAnimation, m_animationFrameCounter);
@@ -220,22 +225,22 @@ namespace GameEditor
 
         private void DrawFrame(int index)
         {
-            for (int i = 0; i < mListAllFrames[index].mListFrameModules.Count; i++)
+            for (int i = 0; i < container.mListAllFrames[index].mListFrameModules.Count; i++)
             {
-                gViewerGraphics.DrawImage(mListAllModuleImages[mListAllFrames[index].mListFrameModules[i].mId], mListAllFrames[index].mListFrameModules[i].mX, mListAllFrames[index].mListFrameModules[i].mY);
+                gViewerGraphics.DrawImage(mListAllModuleImages[container.mListAllFrames[index].mListFrameModules[i].mId], container.mListAllFrames[index].mListFrameModules[i].mX, container.mListAllFrames[index].mListFrameModules[i].mY);
             }
         }
 
         private void DrawAnimationFrame(int selectedAnimation, int index)
         {
-            int frameX = mListAllAnimations[selectedAnimation].mListAnimationFrames[index].mX;
-            int frameY = mListAllAnimations[selectedAnimation].mListAnimationFrames[index].mY;
+            int frameX = container.mListAllAnimations[selectedAnimation].mListAnimationFrames[index].mX;
+            int frameY = container.mListAllAnimations[selectedAnimation].mListAnimationFrames[index].mY;
 
-            for (int i = 0; i < mListAllAnimations[selectedAnimation].mListAnimationFrames[index].mListFrameModules.Count; i++)
+            for (int i = 0; i < container.mListAllAnimations[selectedAnimation].mListAnimationFrames[index].mListFrameModules.Count; i++)
             {
-                gViewerGraphics.DrawImage(mListAllModuleImages[mListAllAnimations[selectedAnimation].mListAnimationFrames[index].mListFrameModules[i].mId],
-                                        mListAllAnimations[selectedAnimation].mListAnimationFrames[index].mListFrameModules[i].mX + frameX,
-                                        mListAllAnimations[selectedAnimation].mListAnimationFrames[index].mListFrameModules[i].mY + frameY);
+                gViewerGraphics.DrawImage(mListAllModuleImages[container.mListAllAnimations[selectedAnimation].mListAnimationFrames[index].mListFrameModules[i].mId],
+                                        container.mListAllAnimations[selectedAnimation].mListAnimationFrames[index].mListFrameModules[i].mX + frameX,
+                                        container.mListAllAnimations[selectedAnimation].mListAnimationFrames[index].mListFrameModules[i].mY + frameY);
             }
         }
 
@@ -278,17 +283,24 @@ namespace GameEditor
 
         private void openFileDialogImage_FileOk(object sender, CancelEventArgs e)
         {
-            m_Image = new Bitmap(openFileDialogImage.OpenFile());
-            m_ImagePath = openFileDialogImage.FileName;
+            //openFileDialogImage.OpenFile();
+            LoadImage(openFileDialogImage.FileName);
+            container.m_ImageProperty.mName = m_ImagePath;
+            container.m_ImageProperty.mWidth = (short)m_Image.Width;
+            container.m_ImageProperty.mHeight = (short)m_Image.Height;
+            container.m_ImageProperty.mBpp = (short)(Image.GetPixelFormatSize(m_Image.PixelFormat) / 8);
+            m_bImageLoaded = true;
+        }
+
+        private void LoadImage(string path)
+        {
+            m_Image = new Bitmap(path);
+            m_ImagePath = path;
             txtboxImageName.Text = m_ImagePath;
             lblImageWidth.Text = "Width: " + m_Image.Width;
             lblImageHeight.Text = "Height: " + m_Image.Height;
             lblImageBpp.Text = "Bpp: " + (Image.GetPixelFormatSize(m_Image.PixelFormat) / 8);
             lblImageDpi.Text = "Dpi: " + m_Image.HorizontalResolution;
-            m_ImageProperty.mName = m_ImagePath;
-            m_ImageProperty.mWidth = (short)m_Image.Width;
-            m_ImageProperty.mHeight = (short)m_Image.Height;
-            m_ImageProperty.mBpp = (short)(Image.GetPixelFormatSize(m_Image.PixelFormat) / 8);
             m_bImageLoaded = true;
         }
 
@@ -409,11 +421,11 @@ namespace GameEditor
                             int selectedFrame = dgViewFrame.CurrentRow.Index;
                             if (m_nFrames <= selectedFrame) return;
 
-                            int diffX = e.X - mListAllFrames[selectedFrame].mListFrameModules[snappedFrameModuleID].mX;
-                            int diffY = e.Y - mListAllFrames[selectedFrame].mListFrameModules[snappedFrameModuleID].mY;
+                            int diffX = e.X - container.mListAllFrames[selectedFrame].mListFrameModules[snappedFrameModuleID].mX;
+                            int diffY = e.Y - container.mListAllFrames[selectedFrame].mListFrameModules[snappedFrameModuleID].mY;
 
-                            mListAllFrames[selectedFrame].mListFrameModules[snappedFrameModuleID].mX += (short)diffX;
-                            mListAllFrames[selectedFrame].mListFrameModules[snappedFrameModuleID].mY += (short)diffY;
+                            container.mListAllFrames[selectedFrame].mListFrameModules[snappedFrameModuleID].mX += (short)diffX;
+                            container.mListAllFrames[selectedFrame].mListFrameModules[snappedFrameModuleID].mY += (short)diffY;
 
                             UpdateFrameRect(selectedFrame);
 
@@ -432,11 +444,11 @@ namespace GameEditor
                             int selectedAnimation = dgViewAnimation.CurrentRow.Index;
                             if (m_nAnimations <= selectedAnimation) return;
 
-                            int diffX = e.X - (mListAllAnimations[selectedAnimation].mListAnimationFrames[snappedAnimationFrameID].mFrameRectX + mListAllAnimations[selectedAnimation].mListAnimationFrames[snappedAnimationFrameID].mX);
-                            int diffY = e.Y - (mListAllAnimations[selectedAnimation].mListAnimationFrames[snappedAnimationFrameID].mFrameRectY + mListAllAnimations[selectedAnimation].mListAnimationFrames[snappedAnimationFrameID].mY);
+                            int diffX = e.X - (container.mListAllAnimations[selectedAnimation].mListAnimationFrames[snappedAnimationFrameID].mFrameRectX + container.mListAllAnimations[selectedAnimation].mListAnimationFrames[snappedAnimationFrameID].mX);
+                            int diffY = e.Y - (container.mListAllAnimations[selectedAnimation].mListAnimationFrames[snappedAnimationFrameID].mFrameRectY + container.mListAllAnimations[selectedAnimation].mListAnimationFrames[snappedAnimationFrameID].mY);
 
-                            mListAllAnimations[selectedAnimation].mListAnimationFrames[snappedAnimationFrameID].mX += (short)diffX;
-                            mListAllAnimations[selectedAnimation].mListAnimationFrames[snappedAnimationFrameID].mY += (short)diffY;
+                            container.mListAllAnimations[selectedAnimation].mListAnimationFrames[snappedAnimationFrameID].mX += (short)diffX;
+                            container.mListAllAnimations[selectedAnimation].mListAnimationFrames[snappedAnimationFrameID].mY += (short)diffY;
 
                             //Now update corresponding data grid too
 
@@ -477,12 +489,12 @@ namespace GameEditor
                         if (m_nFrames <= selectedFrame) return;
 
                         //Do it reverse order to get the top one selected first
-                        for (int i = mListAllFrames[selectedFrame].mListFrameModules.Count - 1; i >= 0; i--)
+                        for (int i = container.mListAllFrames[selectedFrame].mListFrameModules.Count - 1; i >= 0; i--)
                         {
-                            if (e.X >= mListAllFrames[selectedFrame].mListFrameModules[i].mX
-                                && e.X <= (mListAllFrames[selectedFrame].mListFrameModules[i].mX + mListAllFrames[selectedFrame].mListFrameModules[i].mClipWidth)
-                                && e.Y >= mListAllFrames[selectedFrame].mListFrameModules[i].mY
-                                && e.Y <= (mListAllFrames[selectedFrame].mListFrameModules[i].mY + mListAllFrames[selectedFrame].mListFrameModules[i].mClipHeight)
+                            if (e.X >= container.mListAllFrames[selectedFrame].mListFrameModules[i].mX
+                                && e.X <= (container.mListAllFrames[selectedFrame].mListFrameModules[i].mX + container.mListAllFrames[selectedFrame].mListFrameModules[i].mClipWidth)
+                                && e.Y >= container.mListAllFrames[selectedFrame].mListFrameModules[i].mY
+                                && e.Y <= (container.mListAllFrames[selectedFrame].mListFrameModules[i].mY + container.mListAllFrames[selectedFrame].mListFrameModules[i].mClipHeight)
                                 )
                             {
                                 snappedFrameModuleID = i;
@@ -499,7 +511,7 @@ namespace GameEditor
                         if (m_nAnimations <= selectedAnimation) return;
 
                         int selectedAnimationFrame = dgViewAnimationFrame.CurrentRow.Index;
-                        if (selectedAnimationFrame >= mListAllAnimations[selectedAnimation].mListAnimationFrames.Count)
+                        if (selectedAnimationFrame >= container.mListAllAnimations[selectedAnimation].mListAnimationFrames.Count)
                         {
                             return;
                         }
@@ -510,13 +522,13 @@ namespace GameEditor
                         }
 
                         //Do it reverse order to get the top one selected first
-                        //for (int i = mListAllAnimations[selectedAnimation].mListAnimationFrames.Count - 1; i >= 0; i--)
-                        //for (int i = 0; i < mListAllAnimations[selectedAnimation].mListAnimationFrames.Count; i--)
+                        //for (int i = container.mListAllAnimations[selectedAnimation].mListAnimationFrames.Count - 1; i >= 0; i--)
+                        //for (int i = 0; i < container.mListAllAnimations[selectedAnimation].mListAnimationFrames.Count; i--)
                         //{
-                          //  if (e.X >= mListAllAnimations[selectedAnimation].mListAnimationFrames[i].mFrameRectX + mListAllAnimations[selectedAnimation].mListAnimationFrames[i].mX
-                            //    && e.X <= (mListAllAnimations[selectedAnimation].mListAnimationFrames[i].mFrameRectX + mListAllAnimations[selectedAnimation].mListAnimationFrames[i].mFrameRectWidth) + mListAllAnimations[selectedAnimation].mListAnimationFrames[i].mX
-                              //  && e.Y >= mListAllAnimations[selectedAnimation].mListAnimationFrames[i].mFrameRectY + +mListAllAnimations[selectedAnimation].mListAnimationFrames[i].mY
-                                //&& e.Y <= (mListAllAnimations[selectedAnimation].mListAnimationFrames[i].mFrameRectY + mListAllAnimations[selectedAnimation].mListAnimationFrames[i].mFrameRectHeight) + +mListAllAnimations[selectedAnimation].mListAnimationFrames[i].mY
+                          //  if (e.X >= container.mListAllAnimations[selectedAnimation].mListAnimationFrames[i].mFrameRectX + container.mListAllAnimations[selectedAnimation].mListAnimationFrames[i].mX
+                            //    && e.X <= (container.mListAllAnimations[selectedAnimation].mListAnimationFrames[i].mFrameRectX + container.mListAllAnimations[selectedAnimation].mListAnimationFrames[i].mFrameRectWidth) + container.mListAllAnimations[selectedAnimation].mListAnimationFrames[i].mX
+                              //  && e.Y >= container.mListAllAnimations[selectedAnimation].mListAnimationFrames[i].mFrameRectY + +container.mListAllAnimations[selectedAnimation].mListAnimationFrames[i].mY
+                                //&& e.Y <= (container.mListAllAnimations[selectedAnimation].mListAnimationFrames[i].mFrameRectY + container.mListAllAnimations[selectedAnimation].mListAnimationFrames[i].mFrameRectHeight) + +container.mListAllAnimations[selectedAnimation].mListAnimationFrames[i].mY
                                 //)
                             //{
                               //  snappedAnimationFrameID = i;
@@ -580,7 +592,7 @@ namespace GameEditor
                                     module.mDescription = "MODULE_ID_" + m_moduleID;
                                     module.mFlag = 0;
 
-                                    mListAllModules.Add(module);
+                                    container.mListAllModules.Add(module);
 
                                     for (int i = 0; i <= n; i++)
                                     {
@@ -649,7 +661,7 @@ namespace GameEditor
                         module.mFlag = 0;
                         module.mId = id;
                         int selectedFrame = dgViewFrame.CurrentRow.Index;
-                        mListAllFrames[selectedFrame].mListFrameModules.Add(module);
+                        container.mListAllFrames[selectedFrame].mListFrameModules.Add(module);
                         UpdateFrameRect(selectedFrame);
                         break;
                     }
@@ -658,12 +670,12 @@ namespace GameEditor
 
         private void UpdateFrameRect(int selectedFrame)
         {
-            for (int i = 0; i < mListAllFrames[selectedFrame].mListFrameModules.Count; i++)
+            for (int i = 0; i < container.mListAllFrames[selectedFrame].mListFrameModules.Count; i++)
             {
-                mListAllFrames[selectedFrame].mFrameRectX = Math.Min(mListAllFrames[selectedFrame].mFrameRectX, mListAllFrames[selectedFrame].mListFrameModules[i].mX);
-                mListAllFrames[selectedFrame].mFrameRectY = Math.Min(mListAllFrames[selectedFrame].mFrameRectY, mListAllFrames[selectedFrame].mListFrameModules[i].mY);
-                mListAllFrames[selectedFrame].mFrameRectWidth = Math.Max(mListAllFrames[selectedFrame].mFrameRectWidth, (short)(mListAllFrames[selectedFrame].mListFrameModules[i].mX + mListAllFrames[selectedFrame].mListFrameModules[i].mClipWidth));
-                mListAllFrames[selectedFrame].mFrameRectHeight = Math.Max(mListAllFrames[selectedFrame].mFrameRectHeight, (short)(mListAllFrames[selectedFrame].mListFrameModules[i].mY + mListAllFrames[selectedFrame].mListFrameModules[i].mClipHeight));
+                container.mListAllFrames[selectedFrame].mFrameRectX = Math.Min(container.mListAllFrames[selectedFrame].mFrameRectX, container.mListAllFrames[selectedFrame].mListFrameModules[i].mX);
+                container.mListAllFrames[selectedFrame].mFrameRectY = Math.Min(container.mListAllFrames[selectedFrame].mFrameRectY, container.mListAllFrames[selectedFrame].mListFrameModules[i].mY);
+                container.mListAllFrames[selectedFrame].mFrameRectWidth = Math.Max(container.mListAllFrames[selectedFrame].mFrameRectWidth, (short)(container.mListAllFrames[selectedFrame].mListFrameModules[i].mX + container.mListAllFrames[selectedFrame].mListFrameModules[i].mClipWidth));
+                container.mListAllFrames[selectedFrame].mFrameRectHeight = Math.Max(container.mListAllFrames[selectedFrame].mFrameRectHeight, (short)(container.mListAllFrames[selectedFrame].mListFrameModules[i].mY + container.mListAllFrames[selectedFrame].mListFrameModules[i].mClipHeight));
             }
         }
 
@@ -676,7 +688,7 @@ namespace GameEditor
             CFrame frame = new CFrame();
             frame.mId = m_frameID;
             frame.mDescription = "" + "FRAME_ID_" + m_frameID;
-            mListAllFrames.Insert(n, frame);
+            container.mListAllFrames.Insert(n, frame);
             m_nFrames++;
             m_frameID++;
         }
@@ -701,12 +713,12 @@ namespace GameEditor
             if (m_nFrames <= selectedFrame) return;
             
             //Now refresh with new
-            for (int i = 0; i < mListAllFrames[selectedFrame].mListFrameModules.Count; i++)
+            for (int i = 0; i < container.mListAllFrames[selectedFrame].mListFrameModules.Count; i++)
             {
                 int n = dgViewFrameModule.Rows.Add();
-                dgViewFrameModule.Rows[i].Cells[0].Value = "" + mListAllFrames[selectedFrame].mListFrameModules[i].mId;
-                dgViewFrameModule.Rows[i].Cells[1].Value = "" + mListAllFrames[selectedFrame].mListFrameModules[i].mX;
-                dgViewFrameModule.Rows[i].Cells[2].Value = "" + mListAllFrames[selectedFrame].mListFrameModules[i].mY;
+                dgViewFrameModule.Rows[i].Cells[0].Value = "" + container.mListAllFrames[selectedFrame].mListFrameModules[i].mId;
+                dgViewFrameModule.Rows[i].Cells[1].Value = "" + container.mListAllFrames[selectedFrame].mListFrameModules[i].mX;
+                dgViewFrameModule.Rows[i].Cells[2].Value = "" + container.mListAllFrames[selectedFrame].mListFrameModules[i].mY;
             }
         }
 
@@ -718,7 +730,7 @@ namespace GameEditor
             //dgViewAnimation.Rows[m_animationID].Cells[1].Value = "" + "ANIMATION_ID_" + m_animationID;
             CAnimation animation = new CAnimation();
             animation.mId = m_animationID;
-            mListAllAnimations.Insert(m_animationID, animation);
+            container.mListAllAnimations.Insert(m_animationID, animation);
             m_nAnimations++;
             m_animationID++;
 
@@ -740,23 +752,23 @@ namespace GameEditor
             CAnimation animation = new CAnimation();
             animation.mId = m_animationID;
 
-            mListAllAnimations.Insert(m_animationID, animation);
+            container.mListAllAnimations.Insert(m_animationID, animation);
 
             for (int i = 0; i < dgViewFrame.RowCount; i++)
             {
                 if (dgViewFrame.Rows[i].Selected)
                 {
                     CFrame frame = new CFrame();
-                    frame.mId = mListAllFrames[i].mId;
+                    frame.mId = container.mListAllFrames[i].mId;
                     frame.mX = 0;
                     frame.mY = 0;
-                    frame.mFrameRectX = mListAllFrames[i].mFrameRectX;
-                    frame.mFrameRectY = mListAllFrames[i].mFrameRectY;
-                    frame.mFrameRectWidth = mListAllFrames[i].mFrameRectWidth;
-                    frame.mFrameRectHeight = mListAllFrames[i].mFrameRectHeight;
-                    frame.mListFrameModules = mListAllFrames[i].mListFrameModules;
+                    frame.mFrameRectX = container.mListAllFrames[i].mFrameRectX;
+                    frame.mFrameRectY = container.mListAllFrames[i].mFrameRectY;
+                    frame.mFrameRectWidth = container.mListAllFrames[i].mFrameRectWidth;
+                    frame.mFrameRectHeight = container.mListAllFrames[i].mFrameRectHeight;
+                    frame.mListFrameModules = container.mListAllFrames[i].mListFrameModules;
                     frame.mTime = 1000;
-                    mListAllAnimations[m_animationID].mListAnimationFrames.Add(frame);
+                    container.mListAllAnimations[m_animationID].mListAnimationFrames.Add(frame);
                     
                 }
             }
@@ -786,13 +798,13 @@ namespace GameEditor
                     dgViewAnimation.Rows.RemoveAt(j);
                 }
             }
-            for (int i = 0; i < mListAllAnimations.Count; i++)
+            for (int i = 0; i < container.mListAllAnimations.Count; i++)
             {
                 //create row and fill it:      
                 int n = dgViewAnimation.Rows.Add();
-                dgViewAnimation.Rows[i].Cells[0].Value = "" + mListAllAnimations[i].mId;
-                dgViewAnimation.Rows[i].Cells[1].Value = "" + "ANIMATION_ID_" + mListAllAnimations[i].mId;
-                mListAllAnimations[i].mDescription = "" + "ANIMATION_ID_" + mListAllAnimations[i].mId;
+                dgViewAnimation.Rows[i].Cells[0].Value = "" + container.mListAllAnimations[i].mId;
+                dgViewAnimation.Rows[i].Cells[1].Value = "" + "ANIMATION_ID_" + container.mListAllAnimations[i].mId;
+                container.mListAllAnimations[i].mDescription = "" + "ANIMATION_ID_" + container.mListAllAnimations[i].mId;
             }
         }
 
@@ -820,13 +832,13 @@ namespace GameEditor
             if (m_nAnimations <= selectedAnimation) return;
 
             //Now refresh with new
-            for (int i = 0; i < mListAllAnimations[selectedAnimation].mListAnimationFrames.Count; i++)
+            for (int i = 0; i < container.mListAllAnimations[selectedAnimation].mListAnimationFrames.Count; i++)
             {
                 int n = dgViewAnimationFrame.Rows.Add();
-                dgViewAnimationFrame.Rows[i].Cells[0].Value = "" + mListAllAnimations[selectedAnimation].mListAnimationFrames[i].mId;
-                dgViewAnimationFrame.Rows[i].Cells[1].Value = "" + mListAllAnimations[selectedAnimation].mListAnimationFrames[i].mTime;
-                dgViewAnimationFrame.Rows[i].Cells[2].Value = "" + mListAllAnimations[selectedAnimation].mListAnimationFrames[i].mX;
-                dgViewAnimationFrame.Rows[i].Cells[3].Value = "" + mListAllAnimations[selectedAnimation].mListAnimationFrames[i].mY;
+                dgViewAnimationFrame.Rows[i].Cells[0].Value = "" + container.mListAllAnimations[selectedAnimation].mListAnimationFrames[i].mId;
+                dgViewAnimationFrame.Rows[i].Cells[1].Value = "" + container.mListAllAnimations[selectedAnimation].mListAnimationFrames[i].mTime;
+                dgViewAnimationFrame.Rows[i].Cells[2].Value = "" + container.mListAllAnimations[selectedAnimation].mListAnimationFrames[i].mX;
+                dgViewAnimationFrame.Rows[i].Cells[3].Value = "" + container.mListAllAnimations[selectedAnimation].mListAnimationFrames[i].mY;
             }
 
             //Reset animtaion viewer properties
@@ -841,7 +853,7 @@ namespace GameEditor
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ModuleSave.Save(m_ImageProperty, mListAllModules, mListAllFrames, mListAllAnimations);
+            ModuleSave.Save(container);
         }
 
         private void dgViewAnimationFrame_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
@@ -860,12 +872,13 @@ namespace GameEditor
         {
             // Read Gfx file
             m_GfxFilePath = openFileDialogGfxFile.FileName;
-            ModuleLoad.Load(m_ImageProperty, mListAllModules, mListAllFrames, mListAllAnimations);
+            ModuleLoad.Load();
+            LoadImage(container.m_ImageProperty.mName);
         }
 
         private void exportToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ModuleExport.Export(m_ImageProperty, mListAllModules, mListAllFrames, mListAllAnimations);
+            ModuleExport.Export(container.m_ImageProperty, container.mListAllModules, container.mListAllFrames, container.mListAllAnimations);
         }
     }
 
@@ -929,5 +942,13 @@ namespace GameEditor
         {
             mListAnimationFrames = new List<CFrame>();
         }
+    }
+
+    public class CLoadSaveContainer
+    {
+        public CImage m_ImageProperty = new CImage();
+        public List<CModule> mListAllModules = new List<CModule>();
+        public List<CFrame> mListAllFrames = new List<CFrame>();
+        public List<CAnimation> mListAllAnimations = new List<CAnimation>();
     }
 }
