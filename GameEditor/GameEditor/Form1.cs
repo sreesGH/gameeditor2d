@@ -874,6 +874,49 @@ namespace GameEditor
             m_GfxFilePath = openFileDialogGfxFile.FileName;
             ModuleLoad.Load();
             LoadImage(container.m_ImageProperty.mName);
+
+            //Fill module data grid
+            for (int i = 0; i < container.mListAllModules.Count; i++ )
+            {
+                int n = dgViewModule.Rows.Add();
+                dgViewModule.Rows[n].Cells[0].Value = "" + container.mListAllModules[i].mId;
+                dgViewModule.Rows[n].Cells[1].Value = "" + container.mListAllModules[i].mClipX;
+                dgViewModule.Rows[n].Cells[2].Value = "" + container.mListAllModules[i].mClipY;
+                dgViewModule.Rows[n].Cells[3].Value = "" + container.mListAllModules[i].mClipWidth;
+                dgViewModule.Rows[n].Cells[4].Value = "" + container.mListAllModules[i].mClipHeight;
+                dgViewModule.Rows[n].Cells[5].Value = "" + container.mListAllModules[i].mDescription;
+
+                m_moduleRect.X = container.mListAllModules[i].mClipX;
+                m_moduleRect.Y = container.mListAllModules[i].mClipY;
+                m_moduleRect.Width = container.mListAllModules[i].mClipWidth;
+                m_moduleRect.Height = container.mListAllModules[i].mClipHeight;
+
+                m_ModuleImage = m_Image.Clone(m_moduleRect, PixelFormat.Format32bppArgb);
+                //For list viewer
+                ImageListmodule.Images.Add(m_ModuleImage, Color.Magenta);
+                listViewModuleList.Items.Add(n.ToString(), n);
+                //For drawing in the viewer
+                mListAllModuleImages.Add(m_ModuleImage);
+            }
+            m_nModules = (short)container.mListAllModules.Count;
+
+            //Fill frame data grid
+            for (int i = 0; i < container.mListAllFrames.Count; i++)
+            {
+                int n = dgViewFrame.Rows.Add();
+                dgViewFrame.Rows[n].Cells[0].Value = "" + container.mListAllFrames[i].mId;
+                dgViewFrame.Rows[n].Cells[1].Value = "" + container.mListAllFrames[i].mDescription;
+            }
+            m_nFrames = (short)container.mListAllFrames.Count;
+
+            //Fill animation data grid
+            for (int i = 0; i < container.mListAllAnimations.Count; i++)
+            {
+                int n = dgViewAnimation.Rows.Add();
+                dgViewAnimation.Rows[n].Cells[0].Value = "" + container.mListAllAnimations[i].mId;
+                dgViewAnimation.Rows[n].Cells[1].Value = "" + container.mListAllAnimations[i].mDescription;
+            }
+            m_nAnimations = (short)container.mListAllAnimations.Count;
         }
 
         private void exportToolStripMenuItem_Click(object sender, EventArgs e)

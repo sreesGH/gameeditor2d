@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             this.mnsp = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -62,12 +63,6 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabModule = new System.Windows.Forms.TabPage();
             this.dgViewModule = new System.Windows.Forms.DataGridView();
-            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.X = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Y = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Width = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Height = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Desc = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabFrame = new System.Windows.Forms.TabPage();
             this.dgViewFrameModule = new System.Windows.Forms.DataGridView();
             this.FrameModuleID = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -75,8 +70,6 @@
             this.FrameModuleY = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FrameModuleFlag = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.dgViewFrame = new System.Windows.Forms.DataGridView();
-            this.frameID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FrameDesc = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabAnimation = new System.Windows.Forms.TabPage();
             this.dgViewAnimationFrame = new System.Windows.Forms.DataGridView();
             this.AnimationFrameID = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -84,8 +77,6 @@
             this.AnimationFrameX = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AnimationFrameY = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgViewAnimation = new System.Windows.Forms.DataGridView();
-            this.AnimationID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AnimationDesc = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabMap = new System.Windows.Forms.TabPage();
             this.listViewModuleList = new System.Windows.Forms.ListView();
             this.ImageListmodule = new System.Windows.Forms.ImageList(this.components);
@@ -94,7 +85,16 @@
             this.contextMenuStripFrame = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.frameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialogGfxFile = new System.Windows.Forms.OpenFileDialog();
-            this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.X = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Y = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Width = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Height = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Desc = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.frameID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FrameDesc = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AnimationID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AnimationDesc = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.mnsp.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbViewer)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -134,31 +134,37 @@
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
+            // newToolStripMenuItem
+            // 
+            this.newToolStripMenuItem.Name = "newToolStripMenuItem";
+            this.newToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
+            this.newToolStripMenuItem.Text = "New";
+            // 
             // openToolStripMenuItem
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // exportToolStripMenuItem
             // 
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            this.exportToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
             this.exportToolStripMenuItem.Text = "Export";
             this.exportToolStripMenuItem.Click += new System.EventHandler(this.exportToolStripMenuItem_Click);
             // 
             // closeToolStripMenuItem
             // 
             this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.closeToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
             this.closeToolStripMenuItem.Text = "Exit";
             // 
             // toolStripGameEditor
@@ -442,42 +448,6 @@
             this.dgViewModule.TabIndex = 0;
             this.dgViewModule.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgViewModule_RowHeaderMouseClick);
             // 
-            // ID
-            // 
-            this.ID.HeaderText = "ID";
-            this.ID.Name = "ID";
-            this.ID.Width = 50;
-            // 
-            // X
-            // 
-            this.X.HeaderText = "X";
-            this.X.Name = "X";
-            this.X.Width = 50;
-            // 
-            // Y
-            // 
-            this.Y.HeaderText = "Y";
-            this.Y.Name = "Y";
-            this.Y.Width = 50;
-            // 
-            // Width
-            // 
-            this.Width.HeaderText = "Width";
-            this.Width.Name = "Width";
-            this.Width.Width = 50;
-            // 
-            // Height
-            // 
-            this.Height.HeaderText = "Height";
-            this.Height.Name = "Height";
-            this.Height.Width = 50;
-            // 
-            // Desc
-            // 
-            this.Desc.HeaderText = "Desc.";
-            this.Desc.Name = "Desc";
-            this.Desc.Width = 198;
-            // 
             // tabFrame
             // 
             this.tabFrame.Controls.Add(this.dgViewFrameModule);
@@ -553,17 +523,6 @@
             this.dgViewFrame.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgViewFrame_RowHeaderMouseDoubleClick);
             this.dgViewFrame.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgViewFrame_RowHeaderMouseClick);
             // 
-            // frameID
-            // 
-            this.frameID.HeaderText = "ID";
-            this.frameID.Name = "frameID";
-            // 
-            // FrameDesc
-            // 
-            this.FrameDesc.HeaderText = "Desc.";
-            this.FrameDesc.Name = "FrameDesc";
-            this.FrameDesc.Width = 340;
-            // 
             // tabAnimation
             // 
             this.tabAnimation.Controls.Add(this.dgViewAnimationFrame);
@@ -623,17 +582,6 @@
             this.dgViewAnimation.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgViewAnimation_RowHeaderMouseClick);
             this.dgViewAnimation.SelectionChanged += new System.EventHandler(this.dgViewAnimation_SelectionChanged);
             this.dgViewAnimation.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.dgViewAnimation_RowStateChanged);
-            // 
-            // AnimationID
-            // 
-            this.AnimationID.HeaderText = "ID";
-            this.AnimationID.Name = "AnimationID";
-            // 
-            // AnimationDesc
-            // 
-            this.AnimationDesc.HeaderText = "Desc.";
-            this.AnimationDesc.Name = "AnimationDesc";
-            this.AnimationDesc.Width = 300;
             // 
             // tabMap
             // 
@@ -698,11 +646,66 @@
             this.openFileDialogGfxFile.Filter = "(*.gfx)|*.gfx";
             this.openFileDialogGfxFile.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialogGfxFile_FileOk);
             // 
-            // newToolStripMenuItem
+            // ID
             // 
-            this.newToolStripMenuItem.Name = "newToolStripMenuItem";
-            this.newToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.newToolStripMenuItem.Text = "New";
+            this.ID.HeaderText = "ID";
+            this.ID.Name = "ID";
+            this.ID.ReadOnly = true;
+            this.ID.Width = 50;
+            // 
+            // X
+            // 
+            this.X.HeaderText = "X";
+            this.X.Name = "X";
+            this.X.Width = 50;
+            // 
+            // Y
+            // 
+            this.Y.HeaderText = "Y";
+            this.Y.Name = "Y";
+            this.Y.Width = 50;
+            // 
+            // Width
+            // 
+            this.Width.HeaderText = "Width";
+            this.Width.Name = "Width";
+            this.Width.Width = 50;
+            // 
+            // Height
+            // 
+            this.Height.HeaderText = "Height";
+            this.Height.Name = "Height";
+            this.Height.Width = 50;
+            // 
+            // Desc
+            // 
+            this.Desc.HeaderText = "Desc.";
+            this.Desc.Name = "Desc";
+            this.Desc.Width = 198;
+            // 
+            // frameID
+            // 
+            this.frameID.HeaderText = "ID";
+            this.frameID.Name = "frameID";
+            this.frameID.ReadOnly = true;
+            // 
+            // FrameDesc
+            // 
+            this.FrameDesc.HeaderText = "Desc.";
+            this.FrameDesc.Name = "FrameDesc";
+            this.FrameDesc.Width = 340;
+            // 
+            // AnimationID
+            // 
+            this.AnimationID.HeaderText = "ID";
+            this.AnimationID.Name = "AnimationID";
+            this.AnimationID.ReadOnly = true;
+            // 
+            // AnimationDesc
+            // 
+            this.AnimationDesc.HeaderText = "Desc.";
+            this.AnimationDesc.Name = "AnimationDesc";
+            this.AnimationDesc.Width = 300;
             // 
             // GameEditor
             // 
@@ -779,15 +782,7 @@
         private System.Windows.Forms.TabPage tabAnimation;
         private System.Windows.Forms.TabPage tabMap;
         private System.Windows.Forms.DataGridView dgViewModule;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn X;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Y;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Width;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Height;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Desc;
         private System.Windows.Forms.DataGridView dgViewFrame;
-        private System.Windows.Forms.DataGridViewTextBoxColumn frameID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn FrameDesc;
         private System.Windows.Forms.DataGridView dgViewFrameModule;
         private System.Windows.Forms.DataGridViewTextBoxColumn FrameModuleID;
         private System.Windows.Forms.DataGridViewTextBoxColumn FrameModuleX;
@@ -795,8 +790,6 @@
         private System.Windows.Forms.DataGridViewComboBoxColumn FrameModuleFlag;
         private System.Windows.Forms.DataGridView dgViewAnimationFrame;
         private System.Windows.Forms.DataGridView dgViewAnimation;
-        private System.Windows.Forms.DataGridViewTextBoxColumn AnimationID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn AnimationDesc;
         private System.Windows.Forms.ListView listViewModuleList;
         private System.Windows.Forms.ImageList ImageListmodule;
         private System.Windows.Forms.Label lbldebug;
@@ -812,6 +805,16 @@
         private System.Windows.Forms.CheckBox chkboxShowFrameRect;
         private System.Windows.Forms.OpenFileDialog openFileDialogGfxFile;
         private System.Windows.Forms.ToolStripMenuItem newToolStripMenuItem;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn X;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Y;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Width;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Height;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Desc;
+        private System.Windows.Forms.DataGridViewTextBoxColumn frameID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn FrameDesc;
+        private System.Windows.Forms.DataGridViewTextBoxColumn AnimationID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn AnimationDesc;
     }
 }
 
