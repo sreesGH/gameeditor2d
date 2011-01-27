@@ -27,7 +27,7 @@ using System.IO;
 //      |-ANIMATION ID                          (2 bytes - Short)
 //      |-NB. OF ANIMATION FRAMES               (4 bytes - Integer)
 //          |-ANIMATION FRAMES ID               (2 bytes - Short)
-//          |-ANIMATION FRAMES TIME             (4 bytes - Integer)
+//          |-ANIMATION FRAMES TIME             (8 bytes - Int64)
 //          |-ANIMATION FRAMES X                (2 bytes - Short)
 //          |-ANIMATION FRAMES Y                (2 bytes - Short)
 ///////////////////////////////////////////////////////////////////////////////
