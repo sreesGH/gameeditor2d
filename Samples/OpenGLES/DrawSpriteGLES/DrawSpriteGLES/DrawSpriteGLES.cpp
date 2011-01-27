@@ -9,20 +9,7 @@
 #include <math.h>
 #include <stdio.h>
 
-//#define USE_FIXEDPOINT		1
-
-#if	USE_FIXEDPOINT
-
-#define FIXED_PRECISION ((unsigned int)16)
-#define FIXED_ONE       ((GLfixed)(1 << FIXED_PRECISION))
-#define FIXED_ZERO      ((GLfixed)(0))
-
-inline GLfixed IntToFixed(int value) {return value << FIXED_PRECISION;};
-inline GLfixed FloatToFixed(float value) {return (GLfixed)(value * (float)(FIXED_ONE));};
-inline GLfixed MultiplyFixed(GLfixed op1, GLfixed op2) {return (op1 * op2) >> FIXED_PRECISION;};
-
-#endif	//USE_FIXEDPOINT
-
+#include "src/Sprite.h"
 #define MAX_LOADSTRING 100
 
 // Global Variables:
@@ -45,27 +32,12 @@ EGLContext glesContext;
 HWND hWnd; 
 HDC hDC;  
 
+CSprite sprite;
+
 GLuint texture[1];
 
 float xrot = 0.0f;
 float yrot = 0.0f;
-#if	USE_FIXEDPOINT
-	GLfixed box[] = {
-		// FRONT
-		 0,			0,			0,
-		 2097152,	0,			0,
-		 0,			2097152,	0,
-		 2097152,	2097152,	0,
-	};
-
-	GLfixed texCoords[] = {
-		// FRONT
-		 16384, 49152,
-		 49152, 49152,
-		 16384, 16384,
-		 49152, 16384,
-	};
-#else
 
 GLfloat vertices[] = { -1.0f, 1.0f, 1.0f,    //front
 				        1.0f, 1.0f, 1.0f,    //1
@@ -131,34 +103,22 @@ GLfloat cubeTexCords[] = {
 		 0.25f, 0.25f,
 		 0.75f, 0.25f,
 	};
-#endif	//USE_FIXEDPOINT
+
 float lightAmbient[] = { 0.8f, 0.8f, 0.8f, 1.0f };
 float matAmbient[] = { 0.8f, 0.8f, 0.8f, 1.0f };
 
-#if USE_FIXEDPOINT
-void DrawImage(GLfixed x, GLfixed y, GLfixed moduleX, GLfixed moduleY, GLfixed moduleWidth, GLfixed moduleHeight)
-#else
 void DrawImage(float x, float y, int moduleX, int moduleY, int moduleWidth, int moduleHeight)
-#endif	//USE_FIXEDPOINT
 {
 	box[0] = x;					box[1] = y;
 	box[3] = x + moduleWidth;	box[4] = y;
 	box[6] = x;					box[7] = y + moduleHeight;
 	box[9] = x + moduleWidth;	box[10] = y + moduleHeight;
 
-#if USE_FIXEDPOINT
-	GLfixed s1 = moduleX / 64;
-	GLfixed t1 = moduleY / 64;
-
-	GLfixed s2 = (moduleX + moduleWidth) / 64;
-	GLfixed t2 = (moduleY + moduleHeight) / 64;
-#else
 	float s1 = (float)moduleX / 64;
 	float t1 = (float)moduleY / 64;
-
 	float s2 = (float)(moduleX + moduleWidth) / 64;
 	float t2 = (float)(moduleY + moduleHeight) / 64;
-#endif //USE_FIXEDPOINT
+
 	texCoords[0] = s1;			texCoords[1] = t2;
 	texCoords[2] = s2;			texCoords[3] = t2;
 	texCoords[4] = s1;			texCoords[5] = t1;
@@ -255,17 +215,9 @@ bool loadTextures()
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, info.biWidth,
 		info.biHeight, 0, GL_RGB, GL_UNSIGNED_BYTE,
 		bitmap);
-#if USE_FIXEDPOINT
-	glTexParameterx(GL_TEXTURE_2D, 
-		GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameterx(GL_TEXTURE_2D,
-		GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-#else
-	glTexParameterf(GL_TEXTURE_2D, 
-		GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameterf(GL_TEXTURE_2D,
-		GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-#endif	//USE_FIXEDPOINT
+
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 	delete[] bitmap;
 
@@ -345,21 +297,16 @@ void SetOrtho()
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity(); 
 	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-#if USE_FIXEDPOINT
-	glOrthox(FloatToFixed(0.0f), FloatToFixed(320.0f), FloatToFixed(0.0f), FloatToFixed(480.0f),
-			FloatToFixed(-1.0f), FloatToFixed(1.0f));
-#else
 	glOrthof(0.0f, 320.0f, 0.0f, 480.0f, -1.0f, 1.0f);
-#endif	//USE_FIXEDPOINT
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 }
 
 void InitGame()
 {
-	//float ratio = (float)SCREEN_WIDTH / SCREEN_HEIGHT;
-	//SetPerspective(45.0f, ratio, -2.0f, 100.0f);
-
+	char path[128];
+	sprintf(path, "%s", "sprite.bgfx");
+	sprite.Load(path);
 	if (!loadTextures())
 	{
 		MessageBox(NULL, L"Error loading textures", L"Error", MB_OK);
@@ -400,22 +347,14 @@ void Render()
 	glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
 	glLoadIdentity();
 	glEnable(GL_TEXTURE_2D);
-#ifdef USE_FIXEDPOINT
-	DrawImage(FloatToFixed(160.0f), FloatToFixed(240.0f), FloatToFixed(16.0f), FloatToFixed(16.0f),
-				FloatToFixed(32.0f), FloatToFixed(32.0f));
-#else
+
 	DrawImage(160.0f, 240.0f, 16.0f, 16.0f, 32.0f, 32.0f);
-#endif	//USE_FIXEDPOINT
+
 	glDisable(GL_TEXTURE_2D);
-#if USE_FIXEDPOINT
-	glTranslatex(FloatToFixed(64.0f), FloatToFixed(64.0f), FloatToFixed(0.0f));
-	glColor4x(FloatToFixed(1.0f), FloatToFixed(0.0f), FloatToFixed(0.0f), FloatToFixed(1.0f));
-	glNormal3x(FloatToFixed(0.0f), FloatToFixed(0.0f), FloatToFixed(1.0f));
-#else
 	glTranslatef(64.0f, 64.0f, 0.0f);
 	glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
 	glNormal3f(0.0f, 0.0f, 1.0f);
-#endif	//USE_FIXEDPOINT
+
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
 	float ratio = (float)SCREEN_WIDTH / SCREEN_HEIGHT;
