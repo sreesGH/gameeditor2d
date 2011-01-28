@@ -80,8 +80,13 @@ namespace GameEditor
             exportWriter.Write(imageName.Length);
             size += 4;  //image path length
 
-            exportWriter.Write(imageName);
-            size += (imageName.Length + 1);
+            //Size of the file name is getting written with image name: Thats how exporter works
+            //Here is the fix
+            for (int i = 0; i < imageName.Length; i++)
+            {
+                exportWriter.Write(imageName[i]);
+            }
+            size += (imageName.Length);
 
             header_h.WriteLine("#ifndef _" + fileName.ToUpper() + "_H_" );
             header_h.WriteLine("#define _" + fileName.ToUpper() + "_H_");
