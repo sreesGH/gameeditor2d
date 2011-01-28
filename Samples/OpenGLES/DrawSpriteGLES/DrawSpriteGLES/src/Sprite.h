@@ -1,3 +1,37 @@
+//////////////////////////////////////////////////////////////
+//	CSprite:
+//	Author	: Sreenath M
+//	Date	: 28/01/2011
+//////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////////////////
+//  HEADER              (4 bytes - Integer)
+//  FLAG                (4 bytes - Integer)
+//  FILE SIZE           (4 bytes - Integer)
+//  IMAGE NAME LENGTH   (4 bytes - Integer)
+//  IMAGE NAME          (Byte array)
+//  NB. OF MODULES      (4 bytes - Integer)
+//      |-MODULE ID             (2 bytes - Short)
+//      |-MODULE CLIP X         (2 bytes - Short)
+//      |-MODULE CLIP Y         (2 bytes - Short)
+//      |-MODULE CLIP WIDTH     (2 bytes - Short)
+//      |-MODULE CLIP HEIGHT    (2 bytes - Short)
+//  NB. OF FRAMES      (4 bytes - Integer)
+//      |-FRAME ID                          (2 bytes - Short)
+//			|-NB. OF FRAME MODULES          (4 bytes - Integer)
+//          |-FRAME MODULES ID              (2 bytes - Short)
+//          |-FRAME MODULES X               (2 bytes - Short)
+//          |-FRAME MODULES Y               (2 bytes - Short)
+//          |-FRAME MODULES FLAG            (1 byte - Byte)
+//  NB. OF ANIMATIONS      (4 bytes - Integer)
+//      |-ANIMATION ID                          (2 bytes - Short)
+//			|-NB. OF ANIMATION FRAMES           (4 bytes - Integer)
+//          |-ANIMATION FRAMES ID               (2 bytes - Short)
+//          |-ANIMATION FRAMES TIME             (8 bytes - Int64)
+//          |-ANIMATION FRAMES X                (2 bytes - Short)
+//          |-ANIMATION FRAMES Y                (2 bytes - Short)
+///////////////////////////////////////////////////////////////////////////////
+
 #pragma once
 #define MAX_NAME_SIZE		128
 
@@ -10,7 +44,7 @@ public:
 	bool Load(const char* name) const;
 
 private:
-	char m_name[MAX_NAME_SIZE];
+	char m_ImageName[MAX_NAME_SIZE];
 
 	int m_nModules;
 	short *m_pModuleID;

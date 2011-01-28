@@ -20,8 +20,12 @@ bool CSprite::Load(const char* name) const
 		fread(&fileSize, 1, sizeof(int), fp);
 		fseek(fp, 0, SEEK_END);
 		int size = ftell(fp);
+		fseek(fp, 12, SEEK_SET);
 		if(fileSize == size)
 		{
+			int imageNameSize;
+			fread(&imageNameSize, 1, sizeof(int), fp);
+			fread((void *)m_ImageName, imageNameSize, sizeof(char), fp);
 			return true;
 		}
 		else
