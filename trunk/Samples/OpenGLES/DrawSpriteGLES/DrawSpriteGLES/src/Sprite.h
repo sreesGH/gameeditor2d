@@ -41,7 +41,7 @@ public:
 	CSprite(void);
 	CSprite(const CSprite &RHS);
 	~CSprite(void);
-	bool Load(const char* name) const;
+	bool Load(const char* name);
 
 private:
 	char m_ImageName[MAX_NAME_SIZE];
@@ -56,17 +56,17 @@ private:
 	int m_nFrames;
 	short *m_pFrameID;
 	int *m_pnFrameModules;
-	short *m_pFrameModuleID;
-	short *m_pFrameModuleX;
-	short *m_pFrameModuleY;
-	unsigned char *m_pFrameModuleFlag;
+	short **m_pFrameModuleID;
+	short **m_pFrameModuleX;
+	short **m_pFrameModuleY;
+	unsigned char **m_pFrameModuleFlag;
 
 	int m_nAnimations;
 	short *m_pAnimationID;
 	int *m_pnAnimationFrames;
-	short *m_pAnimationFrameID;
-	long long *m_pAnimationFrameTime;
-	short *m_pAnimationFrameModuleX;
-	short *m_pAnimationFrameY;
+	short **m_pAnimationFrameID;
+	long long **m_pAnimationFrameTime;
+	short **m_pAnimationFrameX;
+	short **m_pAnimationFrameY;
 
 };
