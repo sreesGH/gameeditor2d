@@ -63,6 +63,12 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabModule = new System.Windows.Forms.TabPage();
             this.dgViewModule = new System.Windows.Forms.DataGridView();
+            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.X = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Y = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Width = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Height = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Desc = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabFrame = new System.Windows.Forms.TabPage();
             this.dgViewFrameModule = new System.Windows.Forms.DataGridView();
             this.FrameModuleID = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -70,6 +76,8 @@
             this.FrameModuleY = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FrameModuleFlag = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.dgViewFrame = new System.Windows.Forms.DataGridView();
+            this.frameID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FrameDesc = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabAnimation = new System.Windows.Forms.TabPage();
             this.dgViewAnimationFrame = new System.Windows.Forms.DataGridView();
             this.AnimationFrameID = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -77,6 +85,8 @@
             this.AnimationFrameX = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.AnimationFrameY = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dgViewAnimation = new System.Windows.Forms.DataGridView();
+            this.AnimationID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AnimationDesc = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabMap = new System.Windows.Forms.TabPage();
             this.listViewModuleList = new System.Windows.Forms.ListView();
             this.ImageListmodule = new System.Windows.Forms.ImageList(this.components);
@@ -85,16 +95,6 @@
             this.contextMenuStripFrame = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.frameToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialogGfxFile = new System.Windows.Forms.OpenFileDialog();
-            this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.X = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Y = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Width = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Height = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Desc = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.frameID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.FrameDesc = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AnimationID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.AnimationDesc = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.mnsp.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbViewer)).BeginInit();
             this.groupBox1.SuspendLayout();
@@ -448,6 +448,43 @@
             this.dgViewModule.TabIndex = 0;
             this.dgViewModule.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgViewModule_RowHeaderMouseClick);
             // 
+            // ID
+            // 
+            this.ID.HeaderText = "ID";
+            this.ID.Name = "ID";
+            this.ID.ReadOnly = true;
+            this.ID.Width = 50;
+            // 
+            // X
+            // 
+            this.X.HeaderText = "X";
+            this.X.Name = "X";
+            this.X.Width = 50;
+            // 
+            // Y
+            // 
+            this.Y.HeaderText = "Y";
+            this.Y.Name = "Y";
+            this.Y.Width = 50;
+            // 
+            // Width
+            // 
+            this.Width.HeaderText = "Width";
+            this.Width.Name = "Width";
+            this.Width.Width = 50;
+            // 
+            // Height
+            // 
+            this.Height.HeaderText = "Height";
+            this.Height.Name = "Height";
+            this.Height.Width = 50;
+            // 
+            // Desc
+            // 
+            this.Desc.HeaderText = "Desc.";
+            this.Desc.Name = "Desc";
+            this.Desc.Width = 198;
+            // 
             // tabFrame
             // 
             this.tabFrame.Controls.Add(this.dgViewFrameModule);
@@ -523,6 +560,18 @@
             this.dgViewFrame.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgViewFrame_RowHeaderMouseDoubleClick);
             this.dgViewFrame.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgViewFrame_RowHeaderMouseClick);
             // 
+            // frameID
+            // 
+            this.frameID.HeaderText = "ID";
+            this.frameID.Name = "frameID";
+            this.frameID.ReadOnly = true;
+            // 
+            // FrameDesc
+            // 
+            this.FrameDesc.HeaderText = "Desc.";
+            this.FrameDesc.Name = "FrameDesc";
+            this.FrameDesc.Width = 340;
+            // 
             // tabAnimation
             // 
             this.tabAnimation.Controls.Add(this.dgViewAnimationFrame);
@@ -582,6 +631,18 @@
             this.dgViewAnimation.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgViewAnimation_RowHeaderMouseClick);
             this.dgViewAnimation.SelectionChanged += new System.EventHandler(this.dgViewAnimation_SelectionChanged);
             this.dgViewAnimation.RowStateChanged += new System.Windows.Forms.DataGridViewRowStateChangedEventHandler(this.dgViewAnimation_RowStateChanged);
+            // 
+            // AnimationID
+            // 
+            this.AnimationID.HeaderText = "ID";
+            this.AnimationID.Name = "AnimationID";
+            this.AnimationID.ReadOnly = true;
+            // 
+            // AnimationDesc
+            // 
+            this.AnimationDesc.HeaderText = "Desc.";
+            this.AnimationDesc.Name = "AnimationDesc";
+            this.AnimationDesc.Width = 300;
             // 
             // tabMap
             // 
@@ -646,69 +707,9 @@
             this.openFileDialogGfxFile.Filter = "(*.gfx)|*.gfx";
             this.openFileDialogGfxFile.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialogGfxFile_FileOk);
             // 
-            // ID
-            // 
-            this.ID.HeaderText = "ID";
-            this.ID.Name = "ID";
-            this.ID.ReadOnly = true;
-            this.ID.Width = 50;
-            // 
-            // X
-            // 
-            this.X.HeaderText = "X";
-            this.X.Name = "X";
-            this.X.Width = 50;
-            // 
-            // Y
-            // 
-            this.Y.HeaderText = "Y";
-            this.Y.Name = "Y";
-            this.Y.Width = 50;
-            // 
-            // Width
-            // 
-            this.Width.HeaderText = "Width";
-            this.Width.Name = "Width";
-            this.Width.Width = 50;
-            // 
-            // Height
-            // 
-            this.Height.HeaderText = "Height";
-            this.Height.Name = "Height";
-            this.Height.Width = 50;
-            // 
-            // Desc
-            // 
-            this.Desc.HeaderText = "Desc.";
-            this.Desc.Name = "Desc";
-            this.Desc.Width = 198;
-            // 
-            // frameID
-            // 
-            this.frameID.HeaderText = "ID";
-            this.frameID.Name = "frameID";
-            this.frameID.ReadOnly = true;
-            // 
-            // FrameDesc
-            // 
-            this.FrameDesc.HeaderText = "Desc.";
-            this.FrameDesc.Name = "FrameDesc";
-            this.FrameDesc.Width = 340;
-            // 
-            // AnimationID
-            // 
-            this.AnimationID.HeaderText = "ID";
-            this.AnimationID.Name = "AnimationID";
-            this.AnimationID.ReadOnly = true;
-            // 
-            // AnimationDesc
-            // 
-            this.AnimationDesc.HeaderText = "Desc.";
-            this.AnimationDesc.Name = "AnimationDesc";
-            this.AnimationDesc.Width = 300;
-            // 
             // GameEditor
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1144, 830);
@@ -723,6 +724,8 @@
             this.Name = "GameEditor";
             this.Text = "Game Editor";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.DragDrop += new System.Windows.Forms.DragEventHandler(this.GameEditor_DragDrop);
+            this.DragEnter += new System.Windows.Forms.DragEventHandler(this.GameEditor_DragEnter);
             this.Resize += new System.EventHandler(this.Form1_Resize);
             this.mnsp.ResumeLayout(false);
             this.mnsp.PerformLayout();
