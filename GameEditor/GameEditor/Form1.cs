@@ -41,7 +41,7 @@ namespace GameEditor
         }
 
         //Gfx File
-        static string m_GfxFilePath = null;
+        public static string m_GfxFilePath = null;
         public static string GetGfxFilePath()
         {
             return m_GfxFilePath;
@@ -256,6 +256,10 @@ namespace GameEditor
             m_state = (byte)ViewerState.MODULE_EDITOR;
 
             timerUpdate.Enabled = true;
+            if(m_GfxFilePath != null)
+            {
+                LoadAssociatedFile();
+            }
         }
 
         private void Form1_Resize(object sender, EventArgs e)
@@ -868,10 +872,49 @@ namespace GameEditor
 
         }
 
+        private void exportToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ModuleExport.Export(container.m_ImageProperty, container.mListAllModules, container.mListAllFrames, container.mListAllAnimations);
+        }
+
+        private void GameEditor_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                e.Effect = DragDropEffects.Copy;
+            }
+            else
+            {
+                e.Effect = DragDropEffects.None;
+            }
+        }
+
+        private void GameEditor_DragDrop(object sender, DragEventArgs e)
+        {
+            Array a = (Array)e.Data.GetData(DataFormats.FileDrop);
+            
+            if (a.GetValue(0).ToString().IndexOf(".gfx") == -1)
+            {
+                return;
+            }
+            else
+            {
+                m_GfxFilePath = a.GetValue(0).ToString();
+            }
+            
+            LoadAssociatedFile();
+        }
+
         private void openFileDialogGfxFile_FileOk(object sender, CancelEventArgs e)
         {
             // Read Gfx file
             m_GfxFilePath = openFileDialogGfxFile.FileName;
+            LoadAssociatedFile();
+        }
+
+        public void LoadAssociatedFileByDoubleClicking(string fileName)
+        {
+            m_GfxFilePath = fileName;
             LoadAssociatedFile();
         }
 
@@ -922,38 +965,6 @@ namespace GameEditor
                 dgViewAnimation.Rows[n].Cells[1].Value = "" + container.mListAllAnimations[i].mDescription;
             }
             m_nAnimations = (short)container.mListAllAnimations.Count;
-        }
-        private void exportToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ModuleExport.Export(container.m_ImageProperty, container.mListAllModules, container.mListAllFrames, container.mListAllAnimations);
-        }
-
-        private void GameEditor_DragEnter(object sender, DragEventArgs e)
-        {
-            if (e.Data.GetDataPresent(DataFormats.FileDrop))
-            {
-                e.Effect = DragDropEffects.Copy;
-            }
-            else
-            {
-                e.Effect = DragDropEffects.None;
-            }
-        }
-
-        private void GameEditor_DragDrop(object sender, DragEventArgs e)
-        {
-            Array a = (Array)e.Data.GetData(DataFormats.FileDrop);
-            
-            if (a.GetValue(0).ToString().IndexOf(".gfx") == -1)
-            {
-                return;
-            }
-            else
-            {
-                m_GfxFilePath = a.GetValue(0).ToString();
-            }
-            
-            LoadAssociatedFile();
         }
     }
 
