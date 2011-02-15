@@ -10,6 +10,8 @@ using System.IO;
 //  FILE SIZE           (4 bytes - Integer)
 //  IMAGE NAME LENGTH   (4 bytes - Integer)
 //  IMAGE NAME          (Byte array)
+//  IMAGE WIDTH         (2 bytes - short)
+//  IMAGE HEIGHT        (2 bytes - short)
 //  NB. OF MODULES      (4 bytes - Integer)
 //      |-MODULE ID             (2 bytes - Short)
 //      |-MODULE CLIP X         (2 bytes - Short)
@@ -87,6 +89,12 @@ namespace GameEditor
                 exportWriter.Write(imageName[i]);
             }
             size += (imageName.Length);
+            
+            exportWriter.Write(image.mWidth);
+            size += 2;  //Image width
+
+            exportWriter.Write(image.mHeight);
+            size += 2;  //Image height
 
             header_h.WriteLine("#ifndef _" + fileName.ToUpper() + "_H_" );
             header_h.WriteLine("#define _" + fileName.ToUpper() + "_H_");
