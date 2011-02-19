@@ -9,7 +9,10 @@
 #include <math.h>
 #include <stdio.h>
 
+//#include "MemoryManager.h"
+#include "src/memory/MMGR.H"
 #include "src/Sprite.h"
+
 #define MAX_LOADSTRING 100
 
 // Global Variables:
@@ -34,195 +37,8 @@ HDC hDC;
 
 CSprite sprite;
 
-GLuint texture[1];
-
-float xrot = 0.0f;
-float yrot = 0.0f;
-
-GLfloat vertices[] = { -1.0f, 1.0f, 1.0f,    //front
-				        1.0f, 1.0f, 1.0f,    //1
-				        1.0f,-1.0f, 1.0f,    //2
-				       -1.0f,-1.0f, 1.0f,    //3
-				       -1.0f, 1.0f,-1.0f,    //4
-				        1.0f, 1.0f,-1.0f,    //5
-				        1.0f,-1.0f,-1.0f,    //6
-				       -1.0f,-1.0f,-1.0f  }; //7
-
-// Index Array for method II
-GLubyte indices[] = {	0, 1, 2, 3,		//front
-						4, 5, 1, 0,		//top
-						3, 2, 6, 7,		//bottom
-						5, 4, 7, 6,		//back
-						1, 5, 6, 2,		//right
-						4, 0, 3, 7  };	//left
-
-GLfloat cubeTexCords[] = {
-	// FRONT
-	 0.0f, 0.0f,
-	 1.0f, 0.0f,
-	 0.0f, 1.0f,
-	 1.0f, 1.0f,
-	// BACK
-	 1.0f, 0.0f,
-	 1.0f, 1.0f,
-	 0.0f, 0.0f,
-	 0.0f, 1.0f,
-	// LEFT
-	 1.0f, 0.0f,
-	 1.0f, 1.0f,
-	 0.0f, 0.0f,
-	 0.0f, 1.0f,
-	// RIGHT
-	 1.0f, 0.0f,
-	 1.0f, 1.0f,
-	 0.0f, 0.0f,
-	 0.0f, 1.0f,
-	// TOP
-	 0.0f, 0.0f,
-	 1.0f, 0.0f,
-	 0.0f, 1.0f,
-	 1.0f, 1.0f,
-	// BOTTOM
-	 1.0f, 0.0f,
-	 1.0f, 1.0f,
-	 0.0f, 0.0f,
-	 0.0f, 1.0f
-};
-	GLfloat box[] = {
-		// FRONT
-		 0.0f,  0.0f,  0.0f,
-		 32.0f,  0.0f,  0.0f,
-		 0.0f,  32.0f,  0.0f,
-		 32.0f, 32.0f,  0.0f,
-	};
-
-	GLfloat texCoords[] = {
-		// FRONT
-		 0.25f, 0.75f,
-		 0.75f, 0.75f,
-		 0.25f, 0.25f,
-		 0.75f, 0.25f,
-	};
-
 float lightAmbient[] = { 0.8f, 0.8f, 0.8f, 1.0f };
 float matAmbient[] = { 0.8f, 0.8f, 0.8f, 1.0f };
-
-void DrawImage(float x, float y, int moduleX, int moduleY, int moduleWidth, int moduleHeight)
-{
-	box[0] = x;					box[1] = y;
-	box[3] = x + moduleWidth;	box[4] = y;
-	box[6] = x;					box[7] = y + moduleHeight;
-	box[9] = x + moduleWidth;	box[10] = y + moduleHeight;
-
-	float s1 = (float)moduleX / 64;
-	float t1 = (float)moduleY / 64;
-	float s2 = (float)(moduleX + moduleWidth) / 64;
-	float t2 = (float)(moduleY + moduleHeight) / 64;
-
-	texCoords[0] = s1;			texCoords[1] = t2;
-	texCoords[2] = s2;			texCoords[3] = t2;
-	texCoords[4] = s1;			texCoords[5] = t1;
-	texCoords[6] = s2;			texCoords[7] = t1;
-
-	glDrawArrays(GL_TRIANGLE_STRIP/*GL_LINES*/, 0, 4);
-	return;
-}
-
-unsigned char *loadBMP(char *filename, BITMAPINFOHEADER *bmpInfo)
-{
-	FILE *file;
-	BITMAPFILEHEADER bmpFile;
-	unsigned char *bmpImage = NULL;
-	unsigned char tmpRGB;
-
-	TCHAR path[256];
-	char fullPath[256];
-	GetModuleFileName(NULL, path, 256);
-
-	TCHAR *pos = wcsrchr(path, '\\');
-	*(pos + 1) = '\0';
-	
-	wcstombs(fullPath, path, 256);
-	
-	strcat(fullPath, filename);
-
-	file = fopen(fullPath,"rb");
-
-	if (!file)
-	{
-		MessageBox(NULL, L"Can't Find Bitmap", L"Error", MB_OK);
-		return NULL;
-	}
-
-	fread(&bmpFile,sizeof(BITMAPFILEHEADER),1,file);
-
-	if (bmpFile.bfType != 0x4D42)
-	{
-		MessageBox(NULL, L"Incorrect texture type", L"Error", MB_OK);
-		fclose(file);
-		return NULL;
-	}
-
-	fread(bmpInfo,sizeof(BITMAPINFOHEADER),1,file);
-
-	fseek(file,bmpFile.bfOffBits,SEEK_SET);
-
-	bmpImage = new unsigned char[bmpInfo->biSizeImage];
-
-	if (!bmpImage)
-	{
-		MessageBox(NULL, L"Out of Memory", L"Error", MB_OK);
-		delete[] bmpImage;
-		fclose(file);
-		return NULL;
-	}
-
-	fread(bmpImage,1,bmpInfo->biSizeImage,file);
-
-	if (!bmpImage)
-	{
-		MessageBox(NULL, L"Error reading bitmap", L"Error", MB_OK);
-		fclose(file);
-		return NULL;
-	}
-
-	for (unsigned int i = 0; i < bmpInfo->biSizeImage; i+=3)
-	{
-		tmpRGB = bmpImage[i];
-		bmpImage[i] = bmpImage[i+2];
-		bmpImage[i+2] = tmpRGB;
-	}
-
-	fclose(file);
-
-	return bmpImage;
-}
-
-bool loadTextures()
-{
-	BITMAPINFOHEADER info;
-	unsigned char *bitmap = NULL;
-	
-	bitmap = loadBMP("zeus.bmp", &info);
-
-	if (!bitmap)
-		return false;
-
-	glGenTextures(1, texture);
-
-	glBindTexture(GL_TEXTURE_2D, texture[0]);
-
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, info.biWidth,
-		info.biHeight, 0, GL_RGB, GL_UNSIGNED_BYTE,
-		bitmap);
-
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-	delete[] bitmap;
-
-	return true;
-}
 
 bool InitOGLES()
 {  
@@ -307,11 +123,6 @@ void InitGame()
 	char path[128];
 	sprintf(path, "%s", "sprite.bgfx");
 	sprite.Load(path);
-	if (!loadTextures())
-	{
-		MessageBox(NULL, L"Error loading textures", L"Error", MB_OK);
-		return ;
-	}
 
 	glEnable(GL_TEXTURE_2D);
 
@@ -328,8 +139,6 @@ void InitGame()
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	glClearDepthf(1.0f);
 
-	glVertexPointer(3, GL_FLOAT, 0, box);
-	glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
@@ -343,13 +152,14 @@ void Render()
 {
 	SetOrtho();
 	glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glVertexPointer(3, GL_FLOAT, 0, box);
-	glTexCoordPointer(2, GL_FLOAT, 0, texCoords);
+
 	glLoadIdentity();
 	glEnable(GL_TEXTURE_2D);
 
-	DrawImage(160.0f, 240.0f, 16.0f, 16.0f, 32.0f, 32.0f);
-
+	//sprite.PaintModule(0, 200.0, 200.0, 1);
+	//sprite.PaintFrame(0, 300, 10, 1);
+	sprite.PaintAnimation(0, 0, 0, 1, true);
+#if 0
 	glDisable(GL_TEXTURE_2D);
 	glTranslatef(64.0f, 64.0f, 0.0f);
 	glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
@@ -370,7 +180,7 @@ void Render()
 	glDrawElements(GL_TRIANGLE_STRIP, 24, GL_UNSIGNED_BYTE, indices);
 	glPopMatrix();
 	glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-	
+#endif	//if0	
 	eglSwapBuffers(glesDisplay, glesSurface);
 	return;
 }
@@ -448,6 +258,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 		}
 	}
 #endif	//if0
+
 	return (int) msg.wParam;
 }
 

@@ -19,3 +19,6 @@
 #include <stdio.h>
 
 // TODO: reference additional headers your program requires here
+# define SAFE_DELETE(p)				{if(p)	delete (p); p = NULL; }
+# define SAFE_DELETE_ARRAY(p)		{if(p)	delete[] (p); p = NULL; }
+

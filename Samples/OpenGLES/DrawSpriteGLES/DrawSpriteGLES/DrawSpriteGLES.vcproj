@@ -47,7 +47,7 @@
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
-				WarningLevel="3"
+				WarningLevel="0"
 				DebugInformationFormat="4"
 			/>
 			<Tool
@@ -65,7 +65,7 @@
 				LinkIncremental="2"
 				IgnoreDefaultLibraryNames=""
 				GenerateDebugInformation="true"
-				SubSystem="1"
+				SubSystem="2"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -208,6 +208,38 @@
 					RelativePath=".\src\Sprite.h"
 					>
 				</File>
+				<File
+					RelativePath=".\src\Texture.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Texture.h"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Utility.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\src\Utility.h"
+					>
+				</File>
+				<Filter
+					Name="memory"
+					>
+					<File
+						RelativePath=".\src\memory\mmgr.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\src\memory\mmgr.h"
+						>
+					</File>
+					<File
+						RelativePath=".\src\memory\nommgr.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 		</Filter>
 		<Filter
@@ -221,10 +253,6 @@
 			</File>
 			<File
 				RelativePath=".\Resource.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Sprite.h"
 				>
 			</File>
 			<File
