@@ -10,6 +10,8 @@
 //  FILE SIZE           (4 bytes - Integer)
 //  IMAGE NAME LENGTH   (4 bytes - Integer)
 //  IMAGE NAME          (Byte array)
+//  IMAGE WIDTH         (2 bytes - short)
+//  IMAGE HEIGHT        (2 bytes - short)
 //  NB. OF MODULES      (4 bytes - Integer)
 //      |-MODULE ID             (2 bytes - Short)
 //      |-MODULE CLIP X         (2 bytes - Short)
@@ -35,6 +37,8 @@
 #pragma once
 #define MAX_NAME_SIZE		128
 
+class CTexture;
+
 class CSprite
 {
 public:
@@ -42,9 +46,14 @@ public:
 	CSprite(const CSprite &RHS);
 	~CSprite(void);
 	bool Load(const char* name);
+	void PaintModule(int id, float x, float y, int flag)const;
+	void PaintFrame(int id, float x, float y, int flag)const;
+	void PaintAnimation(int id, float x, float y, int flag, bool bLoop = true, int startingFrameIndex = 0);
 
 private:
 	char m_ImageName[MAX_NAME_SIZE];
+	unsigned int m_ImageWidth;
+	unsigned int m_ImageHeight;
 
 	int m_nModules;
 	short *m_pModuleID;
@@ -69,4 +78,8 @@ private:
 	short **m_pAnimationFrameX;
 	short **m_pAnimationFrameY;
 
+	CTexture *m_texture;
+
+	long long m_animationStartTime;
+	int m_CurrentAnimationFrame;
 };

@@ -1,12 +1,72 @@
 #include "StdAfx.h"
-#include "Sprite.h"
 
-CSprite::CSprite(void)
+//#include "MemoryManager.h"
+#include "src/memory/MMGR.H"
+
+#include "Sprite.h"
+#include "Texture.h"
+#include "Utility.h"
+
+GLfloat gRect[] =		{
+							0.0f, 0.0f, 0.0f,
+							1.0f, 0.0f, 0.0f,
+							0.0f, 1.0f, 0.0f,
+							1.0f, 1.0f, 0.0f,
+						};
+
+GLfloat gTexCoords[] =	{
+							0.0f, 1.0f,
+							1.0f, 1.0f,
+							0.0f, 0.0f,
+							1.0f, 0.0f,
+						};
+
+CSprite::CSprite(void):m_animationStartTime(-1),
+						m_CurrentAnimationFrame(0)
 {
+	m_texture = new CTexture();
 }
 
 CSprite::~CSprite(void)
 {
+	SAFE_DELETE (m_texture);
+
+	// delete module data
+	SAFE_DELETE_ARRAY(m_pModuleID);
+	SAFE_DELETE_ARRAY(m_pModuleClipX);
+	SAFE_DELETE_ARRAY(m_pModuleClipY);
+	SAFE_DELETE_ARRAY(m_pModuleClipWidth);
+	SAFE_DELETE_ARRAY(m_pModuleClipHeight);
+
+	// delete frame data
+	SAFE_DELETE_ARRAY(m_pFrameID);
+	for(int i = 0; i < m_nFrames; i++)
+	{
+		SAFE_DELETE_ARRAY(m_pFrameModuleID[i]);
+		SAFE_DELETE_ARRAY(m_pFrameModuleX[i]);
+		SAFE_DELETE_ARRAY(m_pFrameModuleY[i]);
+		SAFE_DELETE_ARRAY(m_pFrameModuleFlag[i]);
+	}	
+	SAFE_DELETE_ARRAY(m_pFrameModuleID);
+	SAFE_DELETE_ARRAY(m_pFrameModuleX);
+	SAFE_DELETE_ARRAY(m_pFrameModuleY);
+	SAFE_DELETE_ARRAY(m_pFrameModuleFlag);
+	SAFE_DELETE_ARRAY(m_pnFrameModules);
+
+	// delete animation data
+	SAFE_DELETE_ARRAY(m_pAnimationID);
+	for(int i = 0; i < m_pnAnimationFrames[i]; i++)
+	{
+		SAFE_DELETE_ARRAY(m_pAnimationFrameID[i]);
+		SAFE_DELETE_ARRAY(m_pAnimationFrameTime[i]);
+		SAFE_DELETE_ARRAY(m_pAnimationFrameX[i]);
+		SAFE_DELETE_ARRAY(m_pAnimationFrameY[i]);
+	}
+	SAFE_DELETE_ARRAY(m_pAnimationFrameID);
+	SAFE_DELETE_ARRAY(m_pAnimationFrameTime);
+	SAFE_DELETE_ARRAY(m_pAnimationFrameX);
+	SAFE_DELETE_ARRAY(m_pAnimationFrameY);
+	SAFE_DELETE_ARRAY(m_pnAnimationFrames);
 }
 
 bool CSprite::Load(const char* name)
@@ -28,6 +88,14 @@ bool CSprite::Load(const char* name)
 			fread(&imageNameSize, 1, sizeof(int), fp);
 			//Read image name
 			fread((void *)m_ImageName, imageNameSize, sizeof(char), fp);
+			m_texture->LoadTexture(m_ImageName);
+
+			//Read image width
+			fread(&m_ImageWidth, 1, sizeof(short), fp);
+
+			//Read image height
+			fread(&m_ImageHeight, 1, sizeof(short), fp);
+
 			//Read number of modules
 			fread(&m_nModules, 1, sizeof(int), fp);
 			//Read moduleID, clipX, clipY, clipWidth, ClipHeight
@@ -148,4 +216,84 @@ bool CSprite::Load(const char* name)
 	{
 		return false;
 	}
+}
+
+////////////////////////////////////////////////////////////////////
+//	Editor co-ordinate system 
+//  (0, 0)
+//		|--------------
+//		|	O
+//		|  /||\
+//		|	/\
+//
+//	OPENGL-ES co-ordinate system 
+//
+//		|	O
+//		|  /||\
+//		|	/\
+//		|--------------
+//  (0, 0)
+////////////////////////////////////////////////////////////////////
+
+void CSprite::PaintModule(int id, float x, float y, int flag)const
+{
+	gRect[0] = x;								gRect[1] = y;
+	gRect[3] = x + m_pModuleClipWidth[id];		gRect[4] = y;
+	gRect[6] = x;								gRect[7] = y + m_pModuleClipHeight[id];
+	gRect[9] = x + m_pModuleClipWidth[id];		gRect[10] = y + m_pModuleClipHeight[id];
+
+	float s1 = (float)m_pModuleClipX[id] / m_ImageWidth;
+	float t1 = (float)(m_ImageHeight - m_pModuleClipY[id]) / m_ImageHeight;
+	float s2 = (float)(m_pModuleClipX[id] + m_pModuleClipWidth[id]) / m_ImageWidth;
+	float t2 = (float)(m_ImageHeight -(m_pModuleClipY[id] + m_pModuleClipHeight[id])) / m_ImageHeight;
+
+	gTexCoords[0] = s1;			gTexCoords[1] = t2;
+	gTexCoords[2] = s2;			gTexCoords[3] = t2;
+	gTexCoords[4] = s1;			gTexCoords[5] = t1;
+	gTexCoords[6] = s2;			gTexCoords[7] = t1;
+
+	glVertexPointer(3, GL_FLOAT, 0, gRect);
+	glTexCoordPointer(2, GL_FLOAT, 0, gTexCoords);
+	glBindTexture(GL_TEXTURE_2D, m_texture->GetID());
+	glDrawArrays(GL_TRIANGLE_STRIP/*GL_LINES*/, 0, 4);
+	return;
+}
+
+void CSprite::PaintFrame(int id, float x, float y, int flag)const
+{
+	for(int i = 0; i < m_pnFrameModules[id]; i++)
+	{
+		PaintModule(m_pFrameModuleID[id][i], m_pFrameModuleX[id][i] + x, m_pFrameModuleY[id][i] + y, 1.0); 
+	}
+	return;
+}
+
+void CSprite::PaintAnimation(int id, float x, float y, int flag, bool bLoop, int startingFrameIndex)
+{
+	if(m_CurrentAnimationFrame == startingFrameIndex)
+	{
+		if(m_animationStartTime == -1)
+		{
+			m_animationStartTime = CUtility::GetTime();
+		}
+	}
+
+	PaintFrame(m_CurrentAnimationFrame, m_pAnimationFrameX[id][m_CurrentAnimationFrame] + x, m_pAnimationFrameY[id][m_CurrentAnimationFrame] + y, 1);
+
+	if((CUtility::GetTime() - m_animationStartTime) > m_pAnimationFrameTime[id][m_CurrentAnimationFrame])
+	{
+		if(m_CurrentAnimationFrame < m_pnAnimationFrames[id] - 1)
+		{
+			m_CurrentAnimationFrame++;
+			m_animationStartTime = CUtility::GetTime();
+		}
+		else
+		{
+			if(bLoop)
+			{
+				m_CurrentAnimationFrame = 0;
+			}
+		}
+	}
+	return;
 }
