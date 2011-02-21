@@ -240,6 +240,26 @@
 						>
 					</File>
 				</Filter>
+				<Filter
+					Name="ImageLoader"
+					>
+					<File
+						RelativePath=".\src\ImageLoaders\BMPLoader.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\src\ImageLoaders\BMPLoader.h"
+						>
+					</File>
+					<File
+						RelativePath=".\src\ImageLoaders\TGALoader.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\src\ImageLoaders\TGALoader.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 		</Filter>
 		<Filter
