@@ -8,6 +8,9 @@
 
 #include "GLES/gl.h"
 
+class CTGALoader;
+class CBMPLoader;
+
 class CTexture
 {
 public:
@@ -24,6 +27,6 @@ private:
 	char *m_fileName;
 	char* m_data;
 	unsigned int m_imageSize;
-
-	unsigned char* LoadBMP(char *filename, BITMAPINFOHEADER *bmpInfo);
+	CTGALoader* m_TGALoader;
+	CBMPLoader* m_BMPLoader;
 };
