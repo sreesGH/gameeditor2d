@@ -400,7 +400,7 @@
             // 
             // openFileDialogImage
             // 
-            this.openFileDialogImage.Filter = "(*.png)|*.png|(*.bmp)|*.bmp|(*.tga)|*.tga";
+            this.openFileDialogImage.Filter = "(*.BMP;*.PNG;*.TGA)|*.BMP;*.PNG;*.TGA";
             this.openFileDialogImage.FileOk += new System.ComponentModel.CancelEventHandler(this.openFileDialogImage_FileOk);
             // 
             // tabControl1

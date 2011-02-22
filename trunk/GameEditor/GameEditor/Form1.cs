@@ -298,7 +298,77 @@ namespace GameEditor
 
         private void LoadImage(string path)
         {
-            m_Image = new Bitmap(path);
+            if (path.IndexOf(".tga") != -1)
+            {
+                CTGALoader loader = new CTGALoader();
+                loader.Load(path);
+
+                int imageWidth = loader.GetWidth();
+                int imageHeight = loader.GetHeight();
+                int bpp = loader.GetBPP() / 8;
+                bool bRGB = loader.IsRGB();
+                byte[] imageData = loader.GetImg();
+                bool bFlipImg = loader.IsFlipNeeded();
+
+                m_Image = new Bitmap(imageWidth, imageHeight);
+                Color color = Color.FromArgb(255, 255, 0, 255);
+
+                for (int i = 0; i < imageHeight; i++)
+                {
+                    for (int j = 0; j < imageWidth; j++)
+                    {
+                        if (bpp == 4)
+                        {
+                            if (bRGB)
+                            {
+                                //swap BGR to RGB here
+                                color = Color.FromArgb(imageData[(i * bpp * imageWidth) + (j * bpp) + 3],
+                                                    imageData[(i * bpp * imageWidth) + (j * bpp) + 2],
+                                                    imageData[(i * bpp * imageWidth) + (j * bpp) + 1],
+                                                    imageData[(i * bpp * imageWidth) + (j * bpp) + 0]);
+                            }
+                            else
+                            {
+                                color = Color.FromArgb(imageData[(i * bpp * imageWidth) + (j * bpp) + 3],
+                                                    imageData[(i * bpp * imageWidth) + (j * bpp) + 0],
+                                                    imageData[(i * bpp * imageWidth) + (j * bpp) + 1],
+                                                    imageData[(i * bpp * imageWidth) + (j * bpp) + 2]);
+                            }
+                        }
+                        else if (bpp == 3)
+                        {
+                            if (bRGB)
+                            {
+                                //swap BGR to RGB here
+                                color = Color.FromArgb(255,
+                                                    imageData[(i * bpp * imageWidth) + (j * bpp) + 2],
+                                                    imageData[(i * bpp * imageWidth) + (j * bpp) + 1],
+                                                    imageData[(i * bpp * imageWidth) + (j * bpp) + 0]);
+                            }
+                            else
+                            {
+                                color = Color.FromArgb(255,
+                                                    imageData[(i * bpp * imageWidth) + (j * bpp) + 0],
+                                                    imageData[(i * bpp * imageWidth) + (j * bpp) + 1],
+                                                    imageData[(i * bpp * imageWidth) + (j * bpp) + 2]);
+                            }
+                        }
+                        if (bFlipImg)
+                        {
+                            m_Image.SetPixel(i, j , color);
+                        }
+                        else
+                        {
+                            m_Image.SetPixel(j, (imageHeight - 1 - i), color);
+                        }
+                    }
+                }
+            }
+            else    // png / bmp
+            {
+                m_Image = new Bitmap(path);
+            }
+         
             m_ImagePath = path;
             txtboxImageName.Text = m_ImagePath;
             lblImageWidth.Text = "Width: " + m_Image.Width;
@@ -306,6 +376,7 @@ namespace GameEditor
             lblImageBpp.Text = "Bpp: " + (Image.GetPixelFormatSize(m_Image.PixelFormat) / 8);
             lblImageDpi.Text = "Dpi: " + m_Image.HorizontalResolution;
             m_bImageLoaded = true;
+            
         }
 
         private void btnImageLoad_Click(object sender, EventArgs e)

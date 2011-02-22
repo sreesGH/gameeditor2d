@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CTGALoader.cs" />
     <Compile Include="FileAssociation.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
