@@ -30,5 +30,10 @@ namespace LevelEditor
         {
             folderBrowserDialog.ShowDialog();
         }
+
+        private void folderBrowserDialog_HelpRequest(object sender, EventArgs e)
+        {
+
+        }
     }
 }
