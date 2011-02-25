@@ -67,6 +67,20 @@ namespace LevelEditor.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap GEditorBlue {
+            get {
+                object obj = ResourceManager.GetObject("GEditorBlue", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap GEditorRed {
+            get {
+                object obj = ResourceManager.GetObject("GEditorRed", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap grid {
             get {
                 object obj = ResourceManager.GetObject("grid", resourceCulture);
@@ -91,6 +105,27 @@ namespace LevelEditor.Properties {
         internal static System.Drawing.Bitmap pickTile {
             get {
                 object obj = ResourceManager.GetObject("pickTile", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap tile_red {
+            get {
+                object obj = ResourceManager.GetObject("tile_red", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap tile_yellow {
+            get {
+                object obj = ResourceManager.GetObject("tile_yellow", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap trigger {
+            get {
+                object obj = ResourceManager.GetObject("trigger", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

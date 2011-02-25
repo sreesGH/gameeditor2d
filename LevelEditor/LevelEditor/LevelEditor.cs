@@ -11,6 +11,9 @@ namespace LevelEditor
 {
     public partial class LevelEditor : Form
     {
+        string SpriteRootDirectory = null;
+        string TileRootDirectory = null;
+
         public LevelEditor()
         {
             InitializeComponent();
@@ -18,7 +21,16 @@ namespace LevelEditor
 
         private void buttonBrowseSprite_Click(object sender, EventArgs e)
         {
-            folderBrowserDialog.ShowDialog();
+            DialogResult result=this.folderBrowserDialog.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                SpriteRootDirectory = folderBrowserDialog.SelectedPath;
+            }
+            else
+            {
+                SpriteRootDirectory = null;
+            }
+
         }
 
         private void pbTileViewer_Click(object sender, EventArgs e)
@@ -28,12 +40,19 @@ namespace LevelEditor
 
         private void buttonBrowseTilesetFolder_Click(object sender, EventArgs e)
         {
-            folderBrowserDialog.ShowDialog();
+            DialogResult result = this.folderBrowserDialog.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                TileRootDirectory = folderBrowserDialog.SelectedPath;
+            }
+            else
+            {
+                TileRootDirectory = null;
+            }
         }
 
         private void folderBrowserDialog_HelpRequest(object sender, EventArgs e)
         {
-
         }
     }
 }
