@@ -38,30 +38,31 @@
             this.treeViewSprite = new System.Windows.Forms.TreeView();
             this.treeViewLevel = new System.Windows.Forms.TreeView();
             this.treeViewTileImages = new System.Windows.Forms.TreeView();
-            this.pbTileViewer = new System.Windows.Forms.PictureBox();
             this.textBoxSpriteFolder = new System.Windows.Forms.TextBox();
             this.buttonBrowseSprite = new System.Windows.Forms.Button();
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.buttonBrowseTilesetFolder = new System.Windows.Forms.Button();
             this.textBoxTilesetFolder = new System.Windows.Forms.TextBox();
             this.groupBoxObjectProperties = new System.Windows.Forms.GroupBox();
-            this.pictureBoxViewer = new System.Windows.Forms.PictureBox();
             this.dataGridViewLayer = new System.Windows.Forms.DataGridView();
             this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.type = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.visibility = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.pictureBoxViewer = new System.Windows.Forms.PictureBox();
+            this.pbTileViewer = new System.Windows.Forms.PictureBox();
             this.toolStripButtonAddLayer = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonTilePicker = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonPanMap = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonMoveObject = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonZoom = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonGrid = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonAddTrigger = new System.Windows.Forms.ToolStripButton();
             this.menuStripLevelEditor.SuspendLayout();
             this.toolStripLevelEditor.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbTileViewer)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxViewer)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewLayer)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxViewer)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbTileViewer)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStripLevelEditor
@@ -118,7 +119,8 @@
             this.toolStripButtonPanMap,
             this.toolStripButtonMoveObject,
             this.toolStripButtonZoom,
-            this.toolStripButtonGrid});
+            this.toolStripButtonGrid,
+            this.toolStripButtonAddTrigger});
             this.toolStripLevelEditor.Location = new System.Drawing.Point(0, 24);
             this.toolStripLevelEditor.Name = "toolStripLevelEditor";
             this.toolStripLevelEditor.Size = new System.Drawing.Size(1272, 50);
@@ -148,17 +150,6 @@
             this.treeViewTileImages.Name = "treeViewTileImages";
             this.treeViewTileImages.Size = new System.Drawing.Size(257, 157);
             this.treeViewTileImages.TabIndex = 4;
-            // 
-            // pbTileViewer
-            // 
-            this.pbTileViewer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pbTileViewer.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pbTileViewer.Location = new System.Drawing.Point(1006, 282);
-            this.pbTileViewer.Name = "pbTileViewer";
-            this.pbTileViewer.Size = new System.Drawing.Size(255, 255);
-            this.pbTileViewer.TabIndex = 5;
-            this.pbTileViewer.TabStop = false;
-            this.pbTileViewer.Click += new System.EventHandler(this.pbTileViewer_Click);
             // 
             // textBoxSpriteFolder
             // 
@@ -210,18 +201,6 @@
             this.groupBoxObjectProperties.TabStop = false;
             this.groupBoxObjectProperties.Text = "ObjectProperties";
             // 
-            // pictureBoxViewer
-            // 
-            this.pictureBoxViewer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBoxViewer.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pictureBoxViewer.Location = new System.Drawing.Point(280, 77);
-            this.pictureBoxViewer.Name = "pictureBoxViewer";
-            this.pictureBoxViewer.Size = new System.Drawing.Size(714, 496);
-            this.pictureBoxViewer.TabIndex = 12;
-            this.pictureBoxViewer.TabStop = false;
-            // 
             // dataGridViewLayer
             // 
             this.dataGridViewLayer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
@@ -266,6 +245,29 @@
             this.visibility.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.visibility.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.visibility.Width = 40;
+            // 
+            // pictureBoxViewer
+            // 
+            this.pictureBoxViewer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBoxViewer.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pictureBoxViewer.Location = new System.Drawing.Point(280, 77);
+            this.pictureBoxViewer.Name = "pictureBoxViewer";
+            this.pictureBoxViewer.Size = new System.Drawing.Size(714, 496);
+            this.pictureBoxViewer.TabIndex = 12;
+            this.pictureBoxViewer.TabStop = false;
+            // 
+            // pbTileViewer
+            // 
+            this.pbTileViewer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pbTileViewer.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pbTileViewer.Location = new System.Drawing.Point(1006, 282);
+            this.pbTileViewer.Name = "pbTileViewer";
+            this.pbTileViewer.Size = new System.Drawing.Size(255, 255);
+            this.pbTileViewer.TabIndex = 5;
+            this.pbTileViewer.TabStop = false;
+            this.pbTileViewer.Click += new System.EventHandler(this.pbTileViewer_Click);
             // 
             // toolStripButtonAddLayer
             // 
@@ -333,6 +335,17 @@
             this.toolStripButtonGrid.Size = new System.Drawing.Size(48, 48);
             this.toolStripButtonGrid.Text = "Grid ON / OFF";
             // 
+            // toolStripButtonAddTrigger
+            // 
+            this.toolStripButtonAddTrigger.AutoSize = false;
+            this.toolStripButtonAddTrigger.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonAddTrigger.Image = global::LevelEditor.Properties.Resources.trigger;
+            this.toolStripButtonAddTrigger.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripButtonAddTrigger.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonAddTrigger.Name = "toolStripButtonAddTrigger";
+            this.toolStripButtonAddTrigger.Size = new System.Drawing.Size(48, 48);
+            this.toolStripButtonAddTrigger.Text = "Add Trigger";
+            // 
             // LevelEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -359,9 +372,9 @@
             this.menuStripLevelEditor.PerformLayout();
             this.toolStripLevelEditor.ResumeLayout(false);
             this.toolStripLevelEditor.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbTileViewer)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxViewer)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewLayer)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxViewer)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbTileViewer)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -398,6 +411,7 @@
         private System.Windows.Forms.ToolStripButton toolStripButtonMoveObject;
         private System.Windows.Forms.ToolStripButton toolStripButtonZoom;
         private System.Windows.Forms.ToolStripButton toolStripButtonGrid;
+        private System.Windows.Forms.ToolStripButton toolStripButtonAddTrigger;
     }
 }
 
