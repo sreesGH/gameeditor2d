@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LevelEditor));
             this.menuStripLevelEditor = new System.Windows.Forms.MenuStrip();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
@@ -35,6 +37,13 @@
             this.exportToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripLevelEditor = new System.Windows.Forms.ToolStrip();
+            this.toolStripButtonAddLayer = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonTilePicker = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonPanMap = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonMoveObject = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonZoom = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonGrid = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonAddTrigger = new System.Windows.Forms.ToolStripButton();
             this.treeViewSprite = new System.Windows.Forms.TreeView();
             this.treeViewLevel = new System.Windows.Forms.TreeView();
             this.treeViewTileImages = new System.Windows.Forms.TreeView();
@@ -51,13 +60,8 @@
             this.visibility = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.pictureBoxViewer = new System.Windows.Forms.PictureBox();
             this.pbTileViewer = new System.Windows.Forms.PictureBox();
-            this.toolStripButtonAddLayer = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonTilePicker = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonPanMap = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonMoveObject = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonZoom = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonGrid = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonAddTrigger = new System.Windows.Forms.ToolStripButton();
+            this.imageListTreeViewSprite = new System.Windows.Forms.ImageList(this.components);
+            this.imageListTreeViewTileSet = new System.Windows.Forms.ImageList(this.components);
             this.menuStripLevelEditor.SuspendLayout();
             this.toolStripLevelEditor.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewLayer)).BeginInit();
@@ -127,12 +131,92 @@
             this.toolStripLevelEditor.TabIndex = 1;
             this.toolStripLevelEditor.Text = "toolStrip1";
             // 
+            // toolStripButtonAddLayer
+            // 
+            this.toolStripButtonAddLayer.AutoSize = false;
+            this.toolStripButtonAddLayer.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonAddLayer.Image = global::LevelEditor.Properties.Resources.addLayer;
+            this.toolStripButtonAddLayer.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripButtonAddLayer.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonAddLayer.Name = "toolStripButtonAddLayer";
+            this.toolStripButtonAddLayer.Size = new System.Drawing.Size(48, 48);
+            this.toolStripButtonAddLayer.Text = "Add Layer";
+            // 
+            // toolStripButtonTilePicker
+            // 
+            this.toolStripButtonTilePicker.AutoSize = false;
+            this.toolStripButtonTilePicker.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonTilePicker.Image = global::LevelEditor.Properties.Resources.pickTile;
+            this.toolStripButtonTilePicker.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripButtonTilePicker.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonTilePicker.Name = "toolStripButtonTilePicker";
+            this.toolStripButtonTilePicker.Size = new System.Drawing.Size(48, 48);
+            this.toolStripButtonTilePicker.Text = "Pick Tile";
+            // 
+            // toolStripButtonPanMap
+            // 
+            this.toolStripButtonPanMap.AutoSize = false;
+            this.toolStripButtonPanMap.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonPanMap.Image = global::LevelEditor.Properties.Resources.mapmover;
+            this.toolStripButtonPanMap.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripButtonPanMap.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonPanMap.Name = "toolStripButtonPanMap";
+            this.toolStripButtonPanMap.Size = new System.Drawing.Size(48, 48);
+            this.toolStripButtonPanMap.Text = "Pan Map";
+            // 
+            // toolStripButtonMoveObject
+            // 
+            this.toolStripButtonMoveObject.AutoSize = false;
+            this.toolStripButtonMoveObject.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonMoveObject.Image = global::LevelEditor.Properties.Resources.objectMover;
+            this.toolStripButtonMoveObject.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripButtonMoveObject.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonMoveObject.Name = "toolStripButtonMoveObject";
+            this.toolStripButtonMoveObject.Size = new System.Drawing.Size(48, 48);
+            this.toolStripButtonMoveObject.Text = "Move Object";
+            // 
+            // toolStripButtonZoom
+            // 
+            this.toolStripButtonZoom.AutoSize = false;
+            this.toolStripButtonZoom.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonZoom.Image = global::LevelEditor.Properties.Resources.zoom;
+            this.toolStripButtonZoom.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripButtonZoom.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonZoom.Name = "toolStripButtonZoom";
+            this.toolStripButtonZoom.Size = new System.Drawing.Size(48, 48);
+            this.toolStripButtonZoom.Text = "Zoom IN / OUT";
+            // 
+            // toolStripButtonGrid
+            // 
+            this.toolStripButtonGrid.AutoSize = false;
+            this.toolStripButtonGrid.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonGrid.Image = global::LevelEditor.Properties.Resources.grid;
+            this.toolStripButtonGrid.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripButtonGrid.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonGrid.Name = "toolStripButtonGrid";
+            this.toolStripButtonGrid.Size = new System.Drawing.Size(48, 48);
+            this.toolStripButtonGrid.Text = "Grid ON / OFF";
+            // 
+            // toolStripButtonAddTrigger
+            // 
+            this.toolStripButtonAddTrigger.AutoSize = false;
+            this.toolStripButtonAddTrigger.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonAddTrigger.Image = global::LevelEditor.Properties.Resources.trigger;
+            this.toolStripButtonAddTrigger.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripButtonAddTrigger.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonAddTrigger.Name = "toolStripButtonAddTrigger";
+            this.toolStripButtonAddTrigger.Size = new System.Drawing.Size(48, 48);
+            this.toolStripButtonAddTrigger.Text = "Add Trigger";
+            // 
             // treeViewSprite
             // 
             this.treeViewSprite.Location = new System.Drawing.Point(5, 99);
             this.treeViewSprite.Name = "treeViewSprite";
             this.treeViewSprite.Size = new System.Drawing.Size(262, 267);
             this.treeViewSprite.TabIndex = 2;
+            this.treeViewSprite.AfterCollapse += new System.Windows.Forms.TreeViewEventHandler(this.treeViewSprite_AfterCollapse);
+            this.treeViewSprite.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewSprite_AfterSelect);
+            this.treeViewSprite.AfterExpand += new System.Windows.Forms.TreeViewEventHandler(this.treeViewSprite_AfterExpand);
             // 
             // treeViewLevel
             // 
@@ -150,6 +234,9 @@
             this.treeViewTileImages.Name = "treeViewTileImages";
             this.treeViewTileImages.Size = new System.Drawing.Size(257, 157);
             this.treeViewTileImages.TabIndex = 4;
+            this.treeViewTileImages.AfterCollapse += new System.Windows.Forms.TreeViewEventHandler(this.treeViewTileImages_AfterCollapse);
+            this.treeViewTileImages.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewTileImages_AfterSelect);
+            this.treeViewTileImages.AfterExpand += new System.Windows.Forms.TreeViewEventHandler(this.treeViewTileImages_AfterExpand);
             // 
             // textBoxSpriteFolder
             // 
@@ -167,10 +254,6 @@
             this.buttonBrowseSprite.Text = "Browse";
             this.buttonBrowseSprite.UseVisualStyleBackColor = true;
             this.buttonBrowseSprite.Click += new System.EventHandler(this.buttonBrowseSprite_Click);
-            // 
-            // folderBrowserDialog
-            // 
-            this.folderBrowserDialog.HelpRequest += new System.EventHandler(this.folderBrowserDialog_HelpRequest);
             // 
             // buttonBrowseTilesetFolder
             // 
@@ -267,84 +350,24 @@
             this.pbTileViewer.Size = new System.Drawing.Size(255, 255);
             this.pbTileViewer.TabIndex = 5;
             this.pbTileViewer.TabStop = false;
-            this.pbTileViewer.Click += new System.EventHandler(this.pbTileViewer_Click);
             // 
-            // toolStripButtonAddLayer
+            // imageListTreeViewSprite
             // 
-            this.toolStripButtonAddLayer.AutoSize = false;
-            this.toolStripButtonAddLayer.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonAddLayer.Image = global::LevelEditor.Properties.Resources.addLayer;
-            this.toolStripButtonAddLayer.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.toolStripButtonAddLayer.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonAddLayer.Name = "toolStripButtonAddLayer";
-            this.toolStripButtonAddLayer.Size = new System.Drawing.Size(48, 48);
-            this.toolStripButtonAddLayer.Text = "Add Layer";
+            this.imageListTreeViewSprite.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListTreeViewSprite.ImageStream")));
+            this.imageListTreeViewSprite.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageListTreeViewSprite.Images.SetKeyName(0, "folderClosed.png");
+            this.imageListTreeViewSprite.Images.SetKeyName(1, "folderOpned.png");
+            this.imageListTreeViewSprite.Images.SetKeyName(2, "GEditorRed.png");
+            this.imageListTreeViewSprite.Images.SetKeyName(3, "GEditorBlue.png");
             // 
-            // toolStripButtonTilePicker
+            // imageListTreeViewTileSet
             // 
-            this.toolStripButtonTilePicker.AutoSize = false;
-            this.toolStripButtonTilePicker.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonTilePicker.Image = global::LevelEditor.Properties.Resources.pickTile;
-            this.toolStripButtonTilePicker.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.toolStripButtonTilePicker.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonTilePicker.Name = "toolStripButtonTilePicker";
-            this.toolStripButtonTilePicker.Size = new System.Drawing.Size(48, 48);
-            this.toolStripButtonTilePicker.Text = "Pick Tile";
-            // 
-            // toolStripButtonPanMap
-            // 
-            this.toolStripButtonPanMap.AutoSize = false;
-            this.toolStripButtonPanMap.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonPanMap.Image = global::LevelEditor.Properties.Resources.mapmover;
-            this.toolStripButtonPanMap.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.toolStripButtonPanMap.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonPanMap.Name = "toolStripButtonPanMap";
-            this.toolStripButtonPanMap.Size = new System.Drawing.Size(48, 48);
-            this.toolStripButtonPanMap.Text = "Pan Map";
-            // 
-            // toolStripButtonMoveObject
-            // 
-            this.toolStripButtonMoveObject.AutoSize = false;
-            this.toolStripButtonMoveObject.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonMoveObject.Image = global::LevelEditor.Properties.Resources.objectMover;
-            this.toolStripButtonMoveObject.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.toolStripButtonMoveObject.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonMoveObject.Name = "toolStripButtonMoveObject";
-            this.toolStripButtonMoveObject.Size = new System.Drawing.Size(48, 48);
-            this.toolStripButtonMoveObject.Text = "Move Object";
-            // 
-            // toolStripButtonZoom
-            // 
-            this.toolStripButtonZoom.AutoSize = false;
-            this.toolStripButtonZoom.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonZoom.Image = global::LevelEditor.Properties.Resources.zoom;
-            this.toolStripButtonZoom.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.toolStripButtonZoom.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonZoom.Name = "toolStripButtonZoom";
-            this.toolStripButtonZoom.Size = new System.Drawing.Size(48, 48);
-            this.toolStripButtonZoom.Text = "Zoom IN / OUT";
-            // 
-            // toolStripButtonGrid
-            // 
-            this.toolStripButtonGrid.AutoSize = false;
-            this.toolStripButtonGrid.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonGrid.Image = global::LevelEditor.Properties.Resources.grid;
-            this.toolStripButtonGrid.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.toolStripButtonGrid.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonGrid.Name = "toolStripButtonGrid";
-            this.toolStripButtonGrid.Size = new System.Drawing.Size(48, 48);
-            this.toolStripButtonGrid.Text = "Grid ON / OFF";
-            // 
-            // toolStripButtonAddTrigger
-            // 
-            this.toolStripButtonAddTrigger.AutoSize = false;
-            this.toolStripButtonAddTrigger.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonAddTrigger.Image = global::LevelEditor.Properties.Resources.trigger;
-            this.toolStripButtonAddTrigger.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
-            this.toolStripButtonAddTrigger.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonAddTrigger.Name = "toolStripButtonAddTrigger";
-            this.toolStripButtonAddTrigger.Size = new System.Drawing.Size(48, 48);
-            this.toolStripButtonAddTrigger.Text = "Add Trigger";
+            this.imageListTreeViewTileSet.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListTreeViewTileSet.ImageStream")));
+            this.imageListTreeViewTileSet.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageListTreeViewTileSet.Images.SetKeyName(0, "folderClosed.png");
+            this.imageListTreeViewTileSet.Images.SetKeyName(1, "folderOpned.png");
+            this.imageListTreeViewTileSet.Images.SetKeyName(2, "tile_red.png");
+            this.imageListTreeViewTileSet.Images.SetKeyName(3, "tile_yellow.png");
             // 
             // LevelEditor
             // 
@@ -412,6 +435,8 @@
         private System.Windows.Forms.ToolStripButton toolStripButtonZoom;
         private System.Windows.Forms.ToolStripButton toolStripButtonGrid;
         private System.Windows.Forms.ToolStripButton toolStripButtonAddTrigger;
+        private System.Windows.Forms.ImageList imageListTreeViewSprite;
+        private System.Windows.Forms.ImageList imageListTreeViewTileSet;
     }
 }
 

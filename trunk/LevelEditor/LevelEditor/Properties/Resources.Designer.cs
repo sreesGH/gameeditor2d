@@ -67,6 +67,20 @@ namespace LevelEditor.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap folderClosed {
+            get {
+                object obj = ResourceManager.GetObject("folderClosed", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap folderOpned {
+            get {
+                object obj = ResourceManager.GetObject("folderOpned", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap GEditorBlue {
             get {
                 object obj = ResourceManager.GetObject("GEditorBlue", resourceCulture);
