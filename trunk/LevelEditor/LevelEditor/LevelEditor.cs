@@ -155,6 +155,18 @@ namespace LevelEditor
                 || e.Node.ToString().IndexOf(".tga") != -1)
             {
                 e.Node.SelectedImageIndex = 3;
+
+                string path = null;
+
+                TreeNode n = e.Node.Parent;
+                while(n != null)
+                {
+                    path = (n.Text + "\\" + path);
+                    n = n.Parent;
+                }
+
+                path += e.Node.Text;
+                pbTileViewer.Image = new Bitmap(path);
             }
         }
     }
