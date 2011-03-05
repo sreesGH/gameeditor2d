@@ -23,6 +23,24 @@ namespace LevelEditor
         string substringDirectory;
         string substringFile;
 
+        //Viewer settings
+        Graphics gViewerGraphics;
+        Bitmap gViewerBuffer;
+        int pbViewerWidth = 800;
+        int pbViewerHeight = 480;
+        Color pbViewerBGcolor = Color.White;
+
+        Graphics gTileViewerGraphics;
+        Bitmap gTileViewerBuffer;
+        int pbTileViewerWidth = 800;
+        int pbTileViewerHeight = 480;
+        Color pbTileViewerBGcolor = Color.Magenta;
+
+        int hScrollBarPbViewerTileSetX = 0;
+        int vScrollBarPbViewerTileSetY = 0;
+
+        Bitmap m_selectedTileSet = null;
+
         public LevelEditor()
         {
             InitializeComponent();
@@ -166,8 +184,93 @@ namespace LevelEditor
                 }
 
                 path += e.Node.Text;
-                pbTileViewer.Image = new Bitmap(path);
+                m_selectedTileSet = new Bitmap(path);
+                hScrollBarPbViewerTileSet.Maximum = m_selectedTileSet.Width - pbTileViewer.Width;
+                vScrollBarPbViewerTileSet.Maximum = m_selectedTileSet.Height - pbTileViewer.Height;
             }
         }
+
+        private void hScrollBarPbViewerTileSet_Scroll(object sender, ScrollEventArgs e)
+        {
+            hScrollBarPbViewerTileSetX = e.NewValue;
+        }
+
+        private void vScrollBar1_Scroll(object sender, ScrollEventArgs e)
+        {
+            vScrollBarPbViewerTileSetY = e.NewValue;
+        }
+
+        private void timerUpdate_Tick(object sender, EventArgs e)
+        {
+            UpdatePictureBoxes();
+            DrawPictureBoxes();
+            pbViewer.Refresh();
+            pbTileViewer.Refresh();
+        }
+
+        private void UpdatePictureBoxes()
+        {
+
+        }
+
+        private void DrawPictureBoxes()
+        {
+            //Clear it
+            gViewerGraphics.Clear(pbViewerBGcolor);
+            gTileViewerGraphics.Clear(pbTileViewerBGcolor);
+
+            if (m_selectedTileSet != null)
+            {
+                gTileViewerGraphics.DrawImage(m_selectedTileSet, -hScrollBarPbViewerTileSetX, -vScrollBarPbViewerTileSetY);
+            }
+        }
+
+        private void LevelEditor_Load(object sender, EventArgs e)
+        {
+            // Resize will be called already, so need to create buffer again here
+            // May be because of start maximised is set in from property
+            
+            // start timer
+            timerUpdate.Enabled = true;
+        }
+
+        private void LevelEditor_Resize(object sender, EventArgs e)
+        {
+            pbViewerWidth = pbViewer.Width;
+            pbViewerHeight = pbViewer.Height;
+
+            if (pbViewerWidth <= 0 || pbViewerHeight <= 0) return;
+
+            if (gViewerBuffer != null)
+            {
+                gViewerBuffer.Dispose();
+            }
+            if (gViewerGraphics != null)
+            {
+                gViewerGraphics.Dispose();
+            }
+            gViewerBuffer = new Bitmap(pbViewerWidth, pbViewerHeight);
+            gViewerGraphics = Graphics.FromImage(gViewerBuffer);
+            pbViewer.Image = gViewerBuffer;
+
+            pbTileViewerWidth = pbTileViewer.Width;
+            pbTileViewerHeight = pbTileViewer.Height;
+
+            if (pbTileViewerWidth <= 0 || pbTileViewerHeight <= 0) return;
+
+            if (gTileViewerBuffer != null)
+            {
+                gTileViewerBuffer.Dispose();
+            }
+            if (gTileViewerGraphics != null)
+            {
+                gTileViewerGraphics.Dispose();
+            }
+
+            gTileViewerBuffer = new Bitmap(pbTileViewerWidth, pbTileViewerHeight);
+            gTileViewerGraphics = Graphics.FromImage(gTileViewerBuffer);
+            pbTileViewer.Image = gTileViewerBuffer;
+        }
+
     }
 }
