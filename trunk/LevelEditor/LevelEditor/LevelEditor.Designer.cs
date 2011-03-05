@@ -58,14 +58,17 @@
             this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.type = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.visibility = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.pictureBoxViewer = new System.Windows.Forms.PictureBox();
+            this.pbViewer = new System.Windows.Forms.PictureBox();
             this.pbTileViewer = new System.Windows.Forms.PictureBox();
             this.imageListTreeViewSprite = new System.Windows.Forms.ImageList(this.components);
             this.imageListTreeViewTileSet = new System.Windows.Forms.ImageList(this.components);
+            this.hScrollBarPbViewerTileSet = new System.Windows.Forms.HScrollBar();
+            this.vScrollBarPbViewerTileSet = new System.Windows.Forms.VScrollBar();
+            this.timerUpdate = new System.Windows.Forms.Timer(this.components);
             this.menuStripLevelEditor.SuspendLayout();
             this.toolStripLevelEditor.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewLayer)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxViewer)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbViewer)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbTileViewer)).BeginInit();
             this.SuspendLayout();
             // 
@@ -294,10 +297,10 @@
             this.name,
             this.type,
             this.visibility});
-            this.dataGridViewLayer.Location = new System.Drawing.Point(1004, 543);
+            this.dataGridViewLayer.Location = new System.Drawing.Point(1004, 588);
             this.dataGridViewLayer.Name = "dataGridViewLayer";
             this.dataGridViewLayer.RowHeadersVisible = false;
-            this.dataGridViewLayer.Size = new System.Drawing.Size(264, 211);
+            this.dataGridViewLayer.Size = new System.Drawing.Size(264, 166);
             this.dataGridViewLayer.TabIndex = 13;
             // 
             // id
@@ -329,23 +332,23 @@
             this.visibility.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.visibility.Width = 40;
             // 
-            // pictureBoxViewer
+            // pbViewer
             // 
-            this.pictureBoxViewer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.pbViewer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBoxViewer.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pictureBoxViewer.Location = new System.Drawing.Point(280, 77);
-            this.pictureBoxViewer.Name = "pictureBoxViewer";
-            this.pictureBoxViewer.Size = new System.Drawing.Size(714, 496);
-            this.pictureBoxViewer.TabIndex = 12;
-            this.pictureBoxViewer.TabStop = false;
+            this.pbViewer.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pbViewer.Location = new System.Drawing.Point(280, 77);
+            this.pbViewer.Name = "pbViewer";
+            this.pbViewer.Size = new System.Drawing.Size(714, 496);
+            this.pbViewer.TabIndex = 12;
+            this.pbViewer.TabStop = false;
             // 
             // pbTileViewer
             // 
             this.pbTileViewer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pbTileViewer.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pbTileViewer.Location = new System.Drawing.Point(1006, 282);
+            this.pbTileViewer.Location = new System.Drawing.Point(1000, 282);
             this.pbTileViewer.Name = "pbTileViewer";
             this.pbTileViewer.Size = new System.Drawing.Size(255, 255);
             this.pbTileViewer.TabIndex = 5;
@@ -369,13 +372,35 @@
             this.imageListTreeViewTileSet.Images.SetKeyName(2, "tile_red.png");
             this.imageListTreeViewTileSet.Images.SetKeyName(3, "tile_yellow.png");
             // 
+            // hScrollBarPbViewerTileSet
+            // 
+            this.hScrollBarPbViewerTileSet.Location = new System.Drawing.Point(1000, 540);
+            this.hScrollBarPbViewerTileSet.Name = "hScrollBarPbViewerTileSet";
+            this.hScrollBarPbViewerTileSet.Size = new System.Drawing.Size(255, 11);
+            this.hScrollBarPbViewerTileSet.TabIndex = 14;
+            this.hScrollBarPbViewerTileSet.Scroll += new System.Windows.Forms.ScrollEventHandler(this.hScrollBarPbViewerTileSet_Scroll);
+            // 
+            // vScrollBarPbViewerTileSet
+            // 
+            this.vScrollBarPbViewerTileSet.Location = new System.Drawing.Point(1258, 282);
+            this.vScrollBarPbViewerTileSet.Name = "vScrollBarPbViewerTileSet";
+            this.vScrollBarPbViewerTileSet.Size = new System.Drawing.Size(10, 255);
+            this.vScrollBarPbViewerTileSet.TabIndex = 15;
+            this.vScrollBarPbViewerTileSet.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar1_Scroll);
+            // 
+            // timerUpdate
+            // 
+            this.timerUpdate.Tick += new System.EventHandler(this.timerUpdate_Tick);
+            // 
             // LevelEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1272, 766);
+            this.Controls.Add(this.vScrollBarPbViewerTileSet);
+            this.Controls.Add(this.hScrollBarPbViewerTileSet);
             this.Controls.Add(this.dataGridViewLayer);
-            this.Controls.Add(this.pictureBoxViewer);
+            this.Controls.Add(this.pbViewer);
             this.Controls.Add(this.groupBoxObjectProperties);
             this.Controls.Add(this.buttonBrowseTilesetFolder);
             this.Controls.Add(this.textBoxTilesetFolder);
@@ -391,12 +416,14 @@
             this.Name = "LevelEditor";
             this.Text = "Level Editor";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
+            this.Load += new System.EventHandler(this.LevelEditor_Load);
+            this.Resize += new System.EventHandler(this.LevelEditor_Resize);
             this.menuStripLevelEditor.ResumeLayout(false);
             this.menuStripLevelEditor.PerformLayout();
             this.toolStripLevelEditor.ResumeLayout(false);
             this.toolStripLevelEditor.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewLayer)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBoxViewer)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbViewer)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pbTileViewer)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -422,7 +449,7 @@
         private System.Windows.Forms.Button buttonBrowseTilesetFolder;
         private System.Windows.Forms.TextBox textBoxTilesetFolder;
         private System.Windows.Forms.GroupBox groupBoxObjectProperties;
-        private System.Windows.Forms.PictureBox pictureBoxViewer;
+        private System.Windows.Forms.PictureBox pbViewer;
         private System.Windows.Forms.DataGridView dataGridViewLayer;
         private System.Windows.Forms.DataGridViewTextBoxColumn id;
         private System.Windows.Forms.DataGridViewTextBoxColumn name;
@@ -437,6 +464,9 @@
         private System.Windows.Forms.ToolStripButton toolStripButtonAddTrigger;
         private System.Windows.Forms.ImageList imageListTreeViewSprite;
         private System.Windows.Forms.ImageList imageListTreeViewTileSet;
+        private System.Windows.Forms.HScrollBar hScrollBarPbViewerTileSet;
+        private System.Windows.Forms.VScrollBar vScrollBarPbViewerTileSet;
+        private System.Windows.Forms.Timer timerUpdate;
     }
 }
 
