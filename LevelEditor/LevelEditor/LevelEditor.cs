@@ -8,11 +8,22 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 
+using NewLayer;
+
 namespace LevelEditor
 {
     public partial class LevelEditor : Form
     {
 
+        // Commands to do actions
+        const int ACTION_ADD_LAYER = 0;
+
+
+        // Types of layers
+        const int LAYER_TILE = 0;
+        const int LAYER_OBJECT = 1;
+
+        // Different tree views to populate corresponding trees
         const int TREE_VIEW_SPRITE = 0;
         const int TREE_VIEW_TILESET = 1;
         const int TREE_VIEW_LEVEL = 2;
@@ -41,6 +52,19 @@ namespace LevelEditor
 
         Bitmap m_selectedTileSet = null;
 
+        int m_layerID = 0;
+        int m_layerType;
+        string m_layerName;
+        int m_mapWidth;
+        int m_mapHeight;
+        int m_tileWidth;
+        int m_tileHeight;
+        int m_nbHTiles;
+        int m_nbVTiles;
+
+        Pen gPen;
+        Boolean m_bShowMapGrid = false;
+
         public LevelEditor()
         {
             InitializeComponent();
@@ -51,6 +75,9 @@ namespace LevelEditor
         {
             treeViewSprite.ImageList = imageListTreeViewSprite;
             treeViewTileImages.ImageList = imageListTreeViewTileSet;
+
+            gPen = new Pen(Color.Gray, 1);
+
             return;
         }
 
@@ -223,6 +250,48 @@ namespace LevelEditor
             {
                 gTileViewerGraphics.DrawImage(m_selectedTileSet, -hScrollBarPbViewerTileSetX, -vScrollBarPbViewerTileSetY);
             }
+
+            if (m_bShowMapGrid)
+            {
+                if (m_tileHeight <= 0 || m_tileWidth <= 0)
+                {
+                    m_tileHeight = 16;
+                    m_tileWidth = 16;
+                }
+
+                int nbHlines = pbViewerWidth / m_tileHeight + 1;
+                int nbVlines = pbViewerWidth / m_tileWidth + 1;
+
+                for(int i = 0; i < nbHlines; i++)
+                {
+                    gViewerGraphics.DrawLine(gPen, 0, i * m_tileHeight, pbViewerWidth, i * m_tileHeight);
+                }
+                for (int j = 0; j < nbVlines; j++)
+                {
+                    gViewerGraphics.DrawLine(gPen, j * m_tileWidth, 0, j * m_tileWidth, pbViewerHeight);
+                }
+            }
+
+            if (checkBoxShowTileGrid.Checked)
+            {
+                if (m_tileHeight <= 0 || m_tileWidth <= 0)
+                {
+                    m_tileHeight = 16;
+                    m_tileWidth = 16;
+                }
+
+                int nbHlines = pbTileViewerWidth / m_tileHeight + 1;
+                int nbVlines = pbTileViewerWidth / m_tileWidth + 1;
+
+                for (int i = 0; i < nbHlines; i++)
+                {
+                    gTileViewerGraphics.DrawLine(gPen, 0, i * m_tileHeight - vScrollBarPbViewerTileSetY, pbViewerWidth, i * m_tileHeight - vScrollBarPbViewerTileSetY);
+                }
+                for (int j = 0; j < nbVlines; j++)
+                {
+                    gTileViewerGraphics.DrawLine(gPen, j * m_tileWidth - hScrollBarPbViewerTileSetX, 0, j * m_tileWidth - hScrollBarPbViewerTileSetX, pbViewerHeight);
+                }
+            }
         }
 
         private void LevelEditor_Load(object sender, EventArgs e)
@@ -272,5 +341,62 @@ namespace LevelEditor
             pbTileViewer.Image = gTileViewerBuffer;
         }
 
+        private void toolStripButtonAddLayer_Click(object sender, EventArgs e)
+        {
+            frmNewLayer childWindow = new frmNewLayer();
+            childWindow.ShowDialog();
+
+            m_layerType = childWindow.m_layerType;
+            m_layerName = childWindow.m_layerName;
+
+            if (childWindow.m_mapWidth > 0 && childWindow.m_mapHeight > 0)
+            {
+                m_mapWidth = childWindow.m_mapWidth;
+                m_mapHeight = childWindow.m_mapHeight;
+                m_tileWidth = childWindow.m_tileWidth;
+                m_tileHeight = childWindow.m_tileHeight;
+                m_nbHTiles = childWindow.m_nbHTiles;
+                m_nbVTiles = childWindow.m_nbVTiles;
+            }
+            if (m_layerType != -1)
+            {
+                DoAction(ACTION_ADD_LAYER);
+            }
+        }
+
+        private void DoAction(int command )
+        {
+            switch(command)
+            {
+                case ACTION_ADD_LAYER:
+                    AddLayer();
+                    break;
+            }
+        }
+
+        private void AddLayer()
+        {
+            switch (m_layerType)
+            {
+                case LAYER_TILE:
+                    break;
+                
+                case LAYER_OBJECT:
+                    break;
+            }
+
+            int n = dataGridViewLayer.Rows.Add();
+            dataGridViewLayer.Rows[n].Cells[0].Value = "" + m_layerID;
+            m_layerID++;
+            dataGridViewLayer.Rows[n].Cells[1].Value = "" + m_layerName;
+            dataGridViewLayer.Rows[n].Cells[2].Value = "" + (m_layerType == 0 ? "TILE LAYER" : "OBJECT LAYER");
+            //dataGridViewLayer.Rows[n].Cells[3].Value = "" + m_layerID;
+
+        }
+
+        private void toolStripButtonGrid_Click(object sender, EventArgs e)
+        {
+            m_bShowMapGrid = !m_bShowMapGrid;
+        }
     }
 }

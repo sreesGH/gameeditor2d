@@ -56,15 +56,16 @@
             this.dataGridViewLayer = new System.Windows.Forms.DataGridView();
             this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.type = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.type = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.visibility = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.pbViewer = new System.Windows.Forms.PictureBox();
-            this.pbTileViewer = new System.Windows.Forms.PictureBox();
             this.imageListTreeViewSprite = new System.Windows.Forms.ImageList(this.components);
             this.imageListTreeViewTileSet = new System.Windows.Forms.ImageList(this.components);
             this.hScrollBarPbViewerTileSet = new System.Windows.Forms.HScrollBar();
             this.vScrollBarPbViewerTileSet = new System.Windows.Forms.VScrollBar();
             this.timerUpdate = new System.Windows.Forms.Timer(this.components);
+            this.pbViewer = new System.Windows.Forms.PictureBox();
+            this.pbTileViewer = new System.Windows.Forms.PictureBox();
+            this.checkBoxShowTileGrid = new System.Windows.Forms.CheckBox();
             this.menuStripLevelEditor.SuspendLayout();
             this.toolStripLevelEditor.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewLayer)).BeginInit();
@@ -144,6 +145,7 @@
             this.toolStripButtonAddLayer.Name = "toolStripButtonAddLayer";
             this.toolStripButtonAddLayer.Size = new System.Drawing.Size(48, 48);
             this.toolStripButtonAddLayer.Text = "Add Layer";
+            this.toolStripButtonAddLayer.Click += new System.EventHandler(this.toolStripButtonAddLayer_Click);
             // 
             // toolStripButtonTilePicker
             // 
@@ -199,6 +201,7 @@
             this.toolStripButtonGrid.Name = "toolStripButtonGrid";
             this.toolStripButtonGrid.Size = new System.Drawing.Size(48, 48);
             this.toolStripButtonGrid.Text = "Grid ON / OFF";
+            this.toolStripButtonGrid.Click += new System.EventHandler(this.toolStripButtonGrid_Click);
             // 
             // toolStripButtonAddTrigger
             // 
@@ -317,12 +320,8 @@
             // type
             // 
             this.type.HeaderText = "Type";
-            this.type.Items.AddRange(new object[] {
-            "TILE LAYER",
-            "OBJECT LAYER"});
             this.type.Name = "type";
             this.type.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.type.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
             // visibility
             // 
@@ -331,28 +330,6 @@
             this.visibility.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.visibility.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.visibility.Width = 40;
-            // 
-            // pbViewer
-            // 
-            this.pbViewer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.pbViewer.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pbViewer.Location = new System.Drawing.Point(280, 77);
-            this.pbViewer.Name = "pbViewer";
-            this.pbViewer.Size = new System.Drawing.Size(714, 496);
-            this.pbViewer.TabIndex = 12;
-            this.pbViewer.TabStop = false;
-            // 
-            // pbTileViewer
-            // 
-            this.pbTileViewer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pbTileViewer.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pbTileViewer.Location = new System.Drawing.Point(1000, 282);
-            this.pbTileViewer.Name = "pbTileViewer";
-            this.pbTileViewer.Size = new System.Drawing.Size(255, 255);
-            this.pbTileViewer.TabIndex = 5;
-            this.pbTileViewer.TabStop = false;
             // 
             // imageListTreeViewSprite
             // 
@@ -392,11 +369,44 @@
             // 
             this.timerUpdate.Tick += new System.EventHandler(this.timerUpdate_Tick);
             // 
+            // pbViewer
+            // 
+            this.pbViewer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.pbViewer.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pbViewer.Location = new System.Drawing.Point(280, 77);
+            this.pbViewer.Name = "pbViewer";
+            this.pbViewer.Size = new System.Drawing.Size(714, 496);
+            this.pbViewer.TabIndex = 12;
+            this.pbViewer.TabStop = false;
+            // 
+            // pbTileViewer
+            // 
+            this.pbTileViewer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pbTileViewer.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pbTileViewer.Location = new System.Drawing.Point(1000, 282);
+            this.pbTileViewer.Name = "pbTileViewer";
+            this.pbTileViewer.Size = new System.Drawing.Size(255, 255);
+            this.pbTileViewer.TabIndex = 5;
+            this.pbTileViewer.TabStop = false;
+            // 
+            // checkBoxShowTileGrid
+            // 
+            this.checkBoxShowTileGrid.AutoSize = true;
+            this.checkBoxShowTileGrid.Location = new System.Drawing.Point(1006, 560);
+            this.checkBoxShowTileGrid.Name = "checkBoxShowTileGrid";
+            this.checkBoxShowTileGrid.Size = new System.Drawing.Size(75, 17);
+            this.checkBoxShowTileGrid.TabIndex = 16;
+            this.checkBoxShowTileGrid.Text = "Show Grid";
+            this.checkBoxShowTileGrid.UseVisualStyleBackColor = true;
+            // 
             // LevelEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1272, 766);
+            this.Controls.Add(this.checkBoxShowTileGrid);
             this.Controls.Add(this.vScrollBarPbViewerTileSet);
             this.Controls.Add(this.hScrollBarPbViewerTileSet);
             this.Controls.Add(this.dataGridViewLayer);
@@ -451,10 +461,6 @@
         private System.Windows.Forms.GroupBox groupBoxObjectProperties;
         private System.Windows.Forms.PictureBox pbViewer;
         private System.Windows.Forms.DataGridView dataGridViewLayer;
-        private System.Windows.Forms.DataGridViewTextBoxColumn id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn name;
-        private System.Windows.Forms.DataGridViewComboBoxColumn type;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn visibility;
         private System.Windows.Forms.ToolStripButton toolStripButtonAddLayer;
         private System.Windows.Forms.ToolStripButton toolStripButtonTilePicker;
         private System.Windows.Forms.ToolStripButton toolStripButtonPanMap;
@@ -467,6 +473,11 @@
         private System.Windows.Forms.HScrollBar hScrollBarPbViewerTileSet;
         private System.Windows.Forms.VScrollBar vScrollBarPbViewerTileSet;
         private System.Windows.Forms.Timer timerUpdate;
+        private System.Windows.Forms.DataGridViewTextBoxColumn id;
+        private System.Windows.Forms.DataGridViewTextBoxColumn name;
+        private System.Windows.Forms.DataGridViewTextBoxColumn type;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn visibility;
+        private System.Windows.Forms.CheckBox checkBoxShowTileGrid;
     }
 }
 
