@@ -52,6 +52,10 @@ namespace LevelEditor
 
         Bitmap m_selectedTileSet = null;
 
+        Pen gPen;
+        Boolean m_bShowMapGrid = false;
+
+        public List<CLayer> mListLayers = new List<CLayer>();
         int m_layerID = 0;
         int m_layerType;
         string m_layerName;
@@ -61,9 +65,6 @@ namespace LevelEditor
         int m_tileHeight;
         int m_nbHTiles;
         int m_nbVTiles;
-
-        Pen gPen;
-        Boolean m_bShowMapGrid = false;
 
         public LevelEditor()
         {
@@ -387,16 +388,40 @@ namespace LevelEditor
 
             int n = dataGridViewLayer.Rows.Add();
             dataGridViewLayer.Rows[n].Cells[0].Value = "" + m_layerID;
-            m_layerID++;
             dataGridViewLayer.Rows[n].Cells[1].Value = "" + m_layerName;
             dataGridViewLayer.Rows[n].Cells[2].Value = "" + (m_layerType == 0 ? "TILE LAYER" : "OBJECT LAYER");
             //dataGridViewLayer.Rows[n].Cells[3].Value = "" + m_layerID;
 
+            CLayer layer = new CLayer();
+            layer.m_layerID = m_layerID;
+            layer.m_layerName = "" + m_layerName;
+            m_layerID++;
+            layer.m_layerType = m_layerType;
+            layer.m_mapWidth = m_mapWidth;
+            layer.m_mapHeight = m_mapHeight;
+            layer.m_tileWidth = m_tileWidth;
+            layer.m_tileHeight = m_tileHeight;
+            layer.m_nbHTiles = m_nbHTiles;
+            layer.m_nbVTiles = m_nbVTiles;
+            mListLayers.Add(layer);
         }
 
         private void toolStripButtonGrid_Click(object sender, EventArgs e)
         {
             m_bShowMapGrid = !m_bShowMapGrid;
         }
+    }
+
+    public class CLayer
+    {
+        public int m_layerID = 0;
+        public int m_layerType;
+        public string m_layerName;
+        public int m_mapWidth;
+        public int m_mapHeight;
+        public int m_tileWidth;
+        public int m_tileHeight;
+        public int m_nbHTiles;
+        public int m_nbVTiles;
     }
 }
