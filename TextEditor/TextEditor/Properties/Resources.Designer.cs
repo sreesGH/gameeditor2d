@@ -116,6 +116,13 @@ namespace TextEditor.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap sprite {
+            get {
+                object obj = ResourceManager.GetObject("sprite", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap translate {
             get {
                 object obj = ResourceManager.GetObject("translate", resourceCulture);

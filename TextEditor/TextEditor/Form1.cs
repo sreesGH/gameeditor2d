@@ -93,12 +93,16 @@ namespace TextEditor
                     {
                         header_h.WriteLine("#define " + dataGridViewTextEditor[0, j].Value + "          " + j);
                         offsetExportWriter.Write(stream.Position);
-                        exportWriter.Write("" + dataGridViewTextEditor[i, j].Value);
+                        string s = "" + dataGridViewTextEditor[i, j].Value;
+                        for (int k = 0; k < s.Length; k++)
+                        {
+                            exportWriter.Write(s[k]);
+                        }
                     }
                     offsetExportWriter.Close();
                     exportWriter.Close();
                 }
-
+                header_h.WriteLine("#define STRING_COUNT            " + (dataGridViewTextEditor.RowCount - 1));
                 //close header stream
                 header_h.WriteLine("#endif //HEADER_H");
                 header_h.Close();
@@ -158,6 +162,23 @@ namespace TextEditor
                 rslt = t.Translate();
                 dataGridViewTextEditor[m_languageCount, i].Value = rslt; 
             }
+        }
+
+        private void toolStripButtonCreateSprite_Click(object sender, EventArgs e)
+        {
+            CreateFontSprite();
+        }
+
+        private void CreateFontSprite()
+        {
+            Bitmap ImageBufferBitmap = new Bitmap(512, 512);
+            Graphics ImageGraphics = Graphics.FromImage(ImageBufferBitmap);
+            Brush fBrush = new SolidBrush(Color.Blue);
+            Pen fPen = new Pen(Color.Blue, 1);
+            Font f = fontDialog1.Font;
+            ImageGraphics.DrawString("hello", f, fBrush, new Point(10, 10));
+            ImageBufferBitmap.Save("Font.bmp");
+            int iWidth = (int)ImageGraphics.MeasureString("G", f).Width;
         }
     }
 
