@@ -60,6 +60,18 @@
     <Compile Include="NewLayer.designer.cs">
       <DependentUpon>NewLayer.cs</DependentUpon>
     </Compile>
+    <Compile Include="NewObject.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NewObject.Designer.cs">
+      <DependentUpon>NewObject.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Preview.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Preview.Designer.cs">
+      <DependentUpon>Preview.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="LevelEditor.resx">
@@ -68,6 +80,14 @@
     </EmbeddedResource>
     <EmbeddedResource Include="NewLayer.resx">
       <DependentUpon>NewLayer.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NewObject.resx">
+      <DependentUpon>NewObject.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Preview.resx">
+      <DependentUpon>Preview.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -128,6 +148,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\folderClosed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\play.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\play.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\refresh.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

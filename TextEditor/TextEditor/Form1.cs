@@ -20,6 +20,7 @@ namespace TextEditor
         int m_selectedLanguage = 0;
 
         string m_ExportPath = null;
+        List <char> m_uniqueCharList = new List <char>();
 
         public frmTextEditor()
         {
@@ -166,19 +167,106 @@ namespace TextEditor
 
         private void toolStripButtonCreateSprite_Click(object sender, EventArgs e)
         {
-            CreateFontSprite();
+            saveFileDialogSprite.ShowDialog();
+            if (saveFileDialogSprite.FileName != "")
+            {
+                // parse only name of the file
+                string fileName = saveFileDialogSprite.FileName;
+                int nameStart = 0;
+                int nameLength = 0;
+                for (int i = fileName.Length - 1; i >= 0; i--)
+                {
+                    if (fileName[i] == '\\')
+                    {
+                        nameStart = i + 1;
+                        nameLength = fileName.Length - 1 - i;
+                        break;
+                    }
+                }
+                fileName = fileName.Substring(nameStart, nameLength);
+                //string imageName = fileName;
+                int extStart = fileName.IndexOf(".");
+                fileName = fileName.Substring(0, extStart);
+                //////////////////////////////////////////////////
+                CreateFontSprite(fileName);
+            }
         }
 
-        private void CreateFontSprite()
+        private void CreateFontSprite(string fileName)
         {
             Bitmap ImageBufferBitmap = new Bitmap(512, 512);
             Graphics ImageGraphics = Graphics.FromImage(ImageBufferBitmap);
             Brush fBrush = new SolidBrush(Color.Blue);
             Pen fPen = new Pen(Color.Blue, 1);
             Font f = fontDialog1.Font;
-            ImageGraphics.DrawString("hello", f, fBrush, new Point(10, 10));
-            ImageBufferBitmap.Save("Font.bmp");
-            int iWidth = (int)ImageGraphics.MeasureString("G", f).Width;
+            int imageWidth = 0;
+            int imageHeight = 0;
+            int area = 0;
+
+            //Create the list of unique chars used
+            for (int i = 1; i <= m_languageCount; i++)   // first column is ID
+            {
+                for (int j = 0; j < dataGridViewTextEditor.RowCount - 1; j++)
+                {
+                    string s = "" + dataGridViewTextEditor[i, j].Value;
+                    for (int k = 0; k < s.Length; k++)
+                    {
+                        if (m_uniqueCharList.BinarySearch(s[k]) < 0 )
+                        {
+                            m_uniqueCharList.Add(s[k]);
+                            m_uniqueCharList.Sort();
+                            string charString = new string(s[k], 1);
+                            string nullstring = "";
+                            int nullsize = (int)ImageGraphics.MeasureString(charString, f).Width / 2;
+                            imageWidth += ((int)ImageGraphics.MeasureString(charString, f).Width - nullsize);//+2 border, -4 for null terminste i think
+                            imageHeight += ((int)ImageGraphics.MeasureString(charString, f).Height);//+2 border
+                        }
+                    }
+                }
+            }
+
+            area = imageWidth * imageHeight;
+
+            imageWidth = 1;
+            imageHeight = 1;
+
+            while(area >= ((imageWidth) * (imageHeight)))
+            {
+                imageWidth *= 2;
+                imageHeight = 1;
+                while (imageWidth >= (imageHeight * 2))
+                {
+                    imageHeight *= 2;
+                    if (area <= (imageWidth * imageHeight))
+                    {
+                        break;
+                    }
+                }
+            }
+
+            if(ImageGraphics != null) ImageGraphics.Dispose();
+            if (ImageBufferBitmap != null) ImageBufferBitmap.Dispose();
+            ImageBufferBitmap = new Bitmap(imageWidth, imageHeight);
+            ImageGraphics = Graphics.FromImage(ImageBufferBitmap);
+
+            String uniquesString = new String(m_uniqueCharList.ToArray());
+            m_uniqueCharList.Clear();
+
+            int iW = 0;
+            int iH = 0;
+            for (int i = 0; i < uniquesString.Length; i++)
+            {
+                string charString = new string(uniquesString[i], 1);
+                ImageGraphics.DrawString(charString, f, fBrush, new Point(1 + iW, 1 + iH));
+                iW += ((int)ImageGraphics.MeasureString(charString, f).Width + 2 - 4);//+2 border, -4 for null terminste i think
+                if (iW > imageWidth)
+                {
+                    iH += ((int)ImageGraphics.MeasureString(charString, f).Height + 2);//+2 border
+                    iW = 0;
+                }
+            }
+            ImageBufferBitmap.Save(fileName + ".bmp");
+            
         }
     }
 

@@ -30,6 +30,7 @@ namespace LevelEditor
 
         string m_spriteRootDirectory = null;
         string m_tileRootDirectory = null;
+        string m_projectRootDirectory = null;
 
         string substringDirectory;
         string substringFile;
@@ -100,23 +101,12 @@ namespace LevelEditor
 
         private void buttonBrowseTilesetFolder_Click(object sender, EventArgs e)
         {
-            DialogResult result = this.folderBrowserDialog.ShowDialog();
-            if (result == DialogResult.OK)
-            {
-                m_tileRootDirectory = folderBrowserDialog.SelectedPath;
-                treeViewTileImages.Nodes.Add(m_tileRootDirectory);
-                PopulateTreeView(m_tileRootDirectory, treeViewTileImages.Nodes[0], TREE_VIEW_TILESET);
-            }
-            else
-            {
-                m_tileRootDirectory = null;
-            }
+
         }
 
         public void PopulateTreeView(string directoryValue, TreeNode parentNode, int type)
         {
-            string[] directoryArray =
-             Directory.GetDirectories(directoryValue);
+            string[] directoryArray = Directory.GetDirectories(directoryValue);
 
             try
             {
@@ -204,14 +194,7 @@ namespace LevelEditor
 
                 string path = null;
 
-                TreeNode n = e.Node.Parent;
-                while(n != null)
-                {
-                    path = (n.Text + "\\" + path);
-                    n = n.Parent;
-                }
-
-                path += e.Node.Text;
+                path = e.Node.Parent.FullPath + "\\" + e.Node.Text;
                 m_selectedTileSet = new Bitmap(path);
                 hScrollBarPbViewerTileSet.Maximum = m_selectedTileSet.Width - pbTileViewer.Width;
                 vScrollBarPbViewerTileSet.Maximum = m_selectedTileSet.Height - pbTileViewer.Height;
@@ -409,6 +392,71 @@ namespace LevelEditor
         private void toolStripButtonGrid_Click(object sender, EventArgs e)
         {
             m_bShowMapGrid = !m_bShowMapGrid;
+        }
+
+        private void toolStripButtonAddObject_Click(object sender, EventArgs e)
+        {
+            NewObject newObjectForm = new NewObject();
+            newObjectForm.Show();
+        }
+
+        private void toolStripButtonPlay_Click(object sender, EventArgs e)
+        {
+            Preview newPreviewForm = new Preview();
+            newPreviewForm.MaximizeBox = false;
+            newPreviewForm.Show();
+        }
+
+        private void newToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            saveFileDialogLevel.ShowDialog();
+        }
+
+        private void saveFileDialogLevel_FileOk(object sender, CancelEventArgs e)
+        {
+            if (saveFileDialogLevel.FileName != "")
+            {
+                m_projectRootDirectory = saveFileDialogLevel.FileName;
+                System.IO.Directory.CreateDirectory(saveFileDialogLevel.FileName);
+                System.IO.Directory.CreateDirectory(saveFileDialogLevel.FileName + "/" + "Text");
+                System.IO.Directory.CreateDirectory(saveFileDialogLevel.FileName + "/" + "Sprite");
+                System.IO.Directory.CreateDirectory(saveFileDialogLevel.FileName + "/" + "Level");
+                System.IO.Directory.CreateDirectory(saveFileDialogLevel.FileName + "/" + "TileSet");
+                System.IO.Directory.CreateDirectory(saveFileDialogLevel.FileName + "/" + "Sound");
+                System.IO.Directory.CreateDirectory(saveFileDialogLevel.FileName + "/" + "Raw");
+                //int nameStart = m_projectRootDirectory.LastIndexOf("\\");
+                //string projectName = m_projectRootDirectory.Substring(nameStart, m_projectRootDirectory.Length - nameStart);
+                //System.IO.File.Create(m_projectRootDirectory + projectName + ".game");
+            }
+        }
+
+        private void toolStripButtonRefresh_Click(object sender, EventArgs e)
+        {
+            treeViewSprite.Nodes.Clear();
+            m_spriteRootDirectory = m_projectRootDirectory + "\\" + "Sprite";
+            treeViewSprite.Nodes.Add(m_projectRootDirectory);
+            PopulateTreeView(m_projectRootDirectory, treeViewSprite.Nodes[0], TREE_VIEW_SPRITE);
+
+            treeViewTileImages.Nodes.Clear();
+            m_tileRootDirectory = m_projectRootDirectory + "\\" + "TileSet";
+            treeViewTileImages.Nodes.Add(m_projectRootDirectory);
+            PopulateTreeView(m_projectRootDirectory, treeViewTileImages.Nodes[0], TREE_VIEW_TILESET);
+            
+        }
+
+        private void undoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void redoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 
