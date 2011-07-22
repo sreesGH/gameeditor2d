@@ -29,6 +29,17 @@
         private void InitializeComponent()
         {
             this.toolStripTextEditor = new System.Windows.Forms.ToolStrip();
+            this.toolStripButtonAddLanguage = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonCopy = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonPaste = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonExport = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonUndo = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonRedo = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonInsert = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonchangecase = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonShowFontDialog = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonTranslate = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonCreateSprite = new System.Windows.Forms.ToolStripButton();
             this.menuStripTextEditor = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -41,17 +52,7 @@
             this.Language1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.fontDialog1 = new System.Windows.Forms.FontDialog();
             this.saveFileDialogExport = new System.Windows.Forms.SaveFileDialog();
-            this.toolStripButtonAddLanguage = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonCopy = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonPaste = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonExport = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonUndo = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonRedo = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonInsert = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonchangecase = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonShowFontDialog = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonTranslate = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonCreateSprite = new System.Windows.Forms.ToolStripButton();
+            this.saveFileDialogSprite = new System.Windows.Forms.SaveFileDialog();
             this.toolStripTextEditor.SuspendLayout();
             this.menuStripTextEditor.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewTextEditor)).BeginInit();
@@ -77,90 +78,6 @@
             this.toolStripTextEditor.Size = new System.Drawing.Size(792, 32);
             this.toolStripTextEditor.TabIndex = 0;
             this.toolStripTextEditor.Text = "toolStrip1";
-            // 
-            // menuStripTextEditor
-            // 
-            this.menuStripTextEditor.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem});
-            this.menuStripTextEditor.Location = new System.Drawing.Point(0, 0);
-            this.menuStripTextEditor.Name = "menuStripTextEditor";
-            this.menuStripTextEditor.Size = new System.Drawing.Size(792, 24);
-            this.menuStripTextEditor.TabIndex = 1;
-            this.menuStripTextEditor.Text = "menuStrip1";
-            // 
-            // fileToolStripMenuItem
-            // 
-            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openToolStripMenuItem,
-            this.saveToolStripMenuItem,
-            this.saveAsToolStripMenuItem,
-            this.exportToolStripMenuItem,
-            this.exitToolStripMenuItem});
-            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
-            this.fileToolStripMenuItem.Text = "File";
-            // 
-            // openToolStripMenuItem
-            // 
-            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
-            this.openToolStripMenuItem.Text = "Open";
-            // 
-            // saveToolStripMenuItem
-            // 
-            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
-            this.saveToolStripMenuItem.Text = "Save";
-            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
-            // 
-            // saveAsToolStripMenuItem
-            // 
-            this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
-            this.saveAsToolStripMenuItem.Text = "Save as";
-            // 
-            // exportToolStripMenuItem
-            // 
-            this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            this.exportToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
-            this.exportToolStripMenuItem.Text = "Export";
-            // 
-            // exitToolStripMenuItem
-            // 
-            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
-            this.exitToolStripMenuItem.Text = "Exit";
-            // 
-            // dataGridViewTextEditor
-            // 
-            this.dataGridViewTextEditor.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewTextEditor.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.ID,
-            this.Language1});
-            this.dataGridViewTextEditor.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dataGridViewTextEditor.Location = new System.Drawing.Point(0, 56);
-            this.dataGridViewTextEditor.Name = "dataGridViewTextEditor";
-            this.dataGridViewTextEditor.Size = new System.Drawing.Size(792, 390);
-            this.dataGridViewTextEditor.TabIndex = 2;
-            this.dataGridViewTextEditor.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewTextEditor_CellEndEdit);
-            // 
-            // ID
-            // 
-            this.ID.HeaderText = "Text ID";
-            this.ID.Name = "ID";
-            // 
-            // Language1
-            // 
-            this.Language1.HeaderText = "Language 1";
-            this.Language1.Name = "Language1";
-            // 
-            // fontDialog1
-            // 
-            this.fontDialog1.ShowColor = true;
-            // 
-            // saveFileDialogExport
-            // 
-            this.saveFileDialogExport.Filter = "(*.btxt)|*.btxt";
             // 
             // toolStripButtonAddLanguage
             // 
@@ -279,6 +196,94 @@
             this.toolStripButtonCreateSprite.Text = "Create Sprite";
             this.toolStripButtonCreateSprite.Click += new System.EventHandler(this.toolStripButtonCreateSprite_Click);
             // 
+            // menuStripTextEditor
+            // 
+            this.menuStripTextEditor.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem});
+            this.menuStripTextEditor.Location = new System.Drawing.Point(0, 0);
+            this.menuStripTextEditor.Name = "menuStripTextEditor";
+            this.menuStripTextEditor.Size = new System.Drawing.Size(792, 24);
+            this.menuStripTextEditor.TabIndex = 1;
+            this.menuStripTextEditor.Text = "menuStrip1";
+            // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openToolStripMenuItem,
+            this.saveToolStripMenuItem,
+            this.saveAsToolStripMenuItem,
+            this.exportToolStripMenuItem,
+            this.exitToolStripMenuItem});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(35, 20);
+            this.fileToolStripMenuItem.Text = "File";
+            // 
+            // openToolStripMenuItem
+            // 
+            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.openToolStripMenuItem.Text = "Open";
+            // 
+            // saveToolStripMenuItem
+            // 
+            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.saveToolStripMenuItem.Text = "Save";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
+            // 
+            // saveAsToolStripMenuItem
+            // 
+            this.saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
+            this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.saveAsToolStripMenuItem.Text = "Save as";
+            // 
+            // exportToolStripMenuItem
+            // 
+            this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.exportToolStripMenuItem.Text = "Export";
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.exitToolStripMenuItem.Text = "Exit";
+            // 
+            // dataGridViewTextEditor
+            // 
+            this.dataGridViewTextEditor.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridViewTextEditor.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ID,
+            this.Language1});
+            this.dataGridViewTextEditor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridViewTextEditor.Location = new System.Drawing.Point(0, 56);
+            this.dataGridViewTextEditor.Name = "dataGridViewTextEditor";
+            this.dataGridViewTextEditor.Size = new System.Drawing.Size(792, 390);
+            this.dataGridViewTextEditor.TabIndex = 2;
+            this.dataGridViewTextEditor.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridViewTextEditor_CellEndEdit);
+            // 
+            // ID
+            // 
+            this.ID.HeaderText = "Text ID";
+            this.ID.Name = "ID";
+            // 
+            // Language1
+            // 
+            this.Language1.HeaderText = "Language 1";
+            this.Language1.Name = "Language1";
+            // 
+            // fontDialog1
+            // 
+            this.fontDialog1.ShowColor = true;
+            // 
+            // saveFileDialogExport
+            // 
+            this.saveFileDialogExport.Filter = "(*.btxt)|*.btxt";
+            // 
+            // saveFileDialogSprite
+            // 
+            this.saveFileDialogSprite.Filter = "(*.gfx)|*.gfx";
+            // 
             // frmTextEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -326,6 +331,7 @@
         private System.Windows.Forms.ToolStripButton toolStripButtonTranslate;
         private System.Windows.Forms.SaveFileDialog saveFileDialogExport;
         private System.Windows.Forms.ToolStripButton toolStripButtonCreateSprite;
+        private System.Windows.Forms.SaveFileDialog saveFileDialogSprite;
     }
 }
 

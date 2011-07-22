@@ -123,6 +123,20 @@ namespace LevelEditor.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap play {
+            get {
+                object obj = ResourceManager.GetObject("play", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap refresh {
+            get {
+                object obj = ResourceManager.GetObject("refresh", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap tile_red {
             get {
                 object obj = ResourceManager.GetObject("tile_red", resourceCulture);
