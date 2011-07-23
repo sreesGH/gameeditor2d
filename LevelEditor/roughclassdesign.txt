@@ -1,4 +1,4 @@
-class Layer
+class Game
 {
 	<List>
 	class TileLayer
@@ -74,5 +74,17 @@ class Layer
 			ushort anchor;
 			int textID;
 		}
+	}
+	
+	class Camera
+	{
+		uint id;
+		uint type;
+		char* name;
+								
+		int x;
+		int y;
+		int width;
+		int height;
 	}
 }
