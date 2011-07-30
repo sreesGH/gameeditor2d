@@ -18,7 +18,6 @@ namespace LevelEditor
         // Commands to do actions
         const int ACTION_ADD_LAYER = 0;
 
-
         // Types of layers
         const int LAYER_TILE = 0;
         const int LAYER_OBJECT = 1;
@@ -83,27 +82,6 @@ namespace LevelEditor
             return;
         }
 
-        private void buttonBrowseSprite_Click(object sender, EventArgs e)
-        {
-            DialogResult result = this.folderBrowserDialog.ShowDialog();
-            if (result == DialogResult.OK)
-            {
-                m_spriteRootDirectory = folderBrowserDialog.SelectedPath;
-                treeViewSprite.Nodes.Add(m_spriteRootDirectory);
-                PopulateTreeView(m_spriteRootDirectory, treeViewSprite.Nodes[0], TREE_VIEW_SPRITE);
-            }
-            else
-            {
-                m_spriteRootDirectory = null;
-            }
-
-        }
-
-        private void buttonBrowseTilesetFolder_Click(object sender, EventArgs e)
-        {
-
-        }
-
         public void PopulateTreeView(string directoryValue, TreeNode parentNode, int type)
         {
             string[] directoryArray = Directory.GetDirectories(directoryValue);
@@ -114,6 +92,21 @@ namespace LevelEditor
                 {
                     foreach (string directory in directoryArray)
                     {
+                        if (type == TREE_VIEW_SPRITE)
+                        {
+                            if (directory.IndexOf("\\Sprite") == -1)
+                            {
+                                continue;
+                            }
+                        }
+                        else if (type == TREE_VIEW_TILESET)
+                        {
+                            if (directory.IndexOf("\\TileSet") == -1)
+                            {
+                                continue;
+                            }
+                        }
+                        
                         substringDirectory = directory.Substring(
                         directory.LastIndexOf('\\') + 1,
                         directory.Length - directory.LastIndexOf('\\') - 1);
@@ -458,6 +451,20 @@ namespace LevelEditor
         {
 
         }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DialogResult result = this.folderBrowserDialog.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                m_projectRootDirectory = folderBrowserDialog.SelectedPath;
+            }
+            else
+            {
+                m_projectRootDirectory = null;
+            }
+        }
+
     }
 
     public class CLayer
