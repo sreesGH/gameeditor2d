@@ -408,6 +408,11 @@ namespace LevelEditor
 
         private void toolStripButtonPlay_Click(object sender, EventArgs e)
         {
+            StartPreview();
+        }
+
+        private void StartPreview()
+        {
             if (m_cameraWidth < 128 || m_cameraHeight < 128)
             {
                 MessageBox.Show("Please set camera width and height of minimum 128");
@@ -446,6 +451,11 @@ namespace LevelEditor
 
         private void toolStripButtonRefresh_Click(object sender, EventArgs e)
         {
+            RefreshEditor();
+        }
+
+        private void RefreshEditor()
+        {
             treeViewSprite.Nodes.Clear();
             m_spriteRootDirectory = m_projectRootDirectory + "\\" + "Sprite";
             treeViewSprite.Nodes.Add(m_projectRootDirectory);
@@ -455,7 +465,6 @@ namespace LevelEditor
             m_tileRootDirectory = m_projectRootDirectory + "\\" + "TileSet";
             treeViewTileImages.Nodes.Add(m_projectRootDirectory);
             PopulateTreeView(m_projectRootDirectory, treeViewTileImages.Nodes[0], TREE_VIEW_TILESET);
-            
         }
 
         private void undoToolStripMenuItem_Click(object sender, EventArgs e)
@@ -488,6 +497,11 @@ namespace LevelEditor
 
         private void toolStripButtonCamera_Click(object sender, EventArgs e)
         {
+            SetCamera();
+        }
+
+        private void SetCamera()
+        {
             CameraProperties newCamPropForm = new CameraProperties();
             newCamPropForm.MaximizeBox = false;
             newCamPropForm.m_cameraX = m_cameraX;
@@ -501,6 +515,21 @@ namespace LevelEditor
             m_cameraY = newCamPropForm.m_cameraY;
             m_cameraWidth = newCamPropForm.m_cameraWidth;
             m_cameraHeight = newCamPropForm.m_cameraHeight;
+        }
+
+        private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            RefreshEditor();
+        }
+
+        private void previewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            StartPreview();
+        }
+
+        private void setCameraToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SetCamera();
         }
 
     }

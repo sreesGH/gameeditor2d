@@ -40,6 +40,9 @@
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.undoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.redoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.refreshToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.projectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.previewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripLevelEditor = new System.Windows.Forms.ToolStrip();
             this.toolStripButtonAddLayer = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonTilePicker = new System.Windows.Forms.ToolStripButton();
@@ -75,6 +78,7 @@
             this.hScrollBarPbViewerTileSet = new System.Windows.Forms.HScrollBar();
             this.vScrollBarPbViewerTileSet = new System.Windows.Forms.VScrollBar();
             this.pbTileViewer = new System.Windows.Forms.PictureBox();
+            this.setCameraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStripLevelEditor.SuspendLayout();
             this.toolStripLevelEditor.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewLayer)).BeginInit();
@@ -89,7 +93,8 @@
             // 
             this.menuStripLevelEditor.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.newToolStripMenuItem,
-            this.editToolStripMenuItem});
+            this.editToolStripMenuItem,
+            this.projectToolStripMenuItem});
             this.menuStripLevelEditor.Location = new System.Drawing.Point(0, 0);
             this.menuStripLevelEditor.Name = "menuStripLevelEditor";
             this.menuStripLevelEditor.Size = new System.Drawing.Size(1272, 24);
@@ -148,7 +153,8 @@
             // 
             this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.undoToolStripMenuItem,
-            this.redoToolStripMenuItem});
+            this.redoToolStripMenuItem,
+            this.refreshToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.editToolStripMenuItem.Text = "Edit";
@@ -168,6 +174,32 @@
             this.redoToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
             this.redoToolStripMenuItem.Text = "Redo";
             this.redoToolStripMenuItem.Click += new System.EventHandler(this.redoToolStripMenuItem_Click);
+            // 
+            // refreshToolStripMenuItem
+            // 
+            this.refreshToolStripMenuItem.Name = "refreshToolStripMenuItem";
+            this.refreshToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F6;
+            this.refreshToolStripMenuItem.Size = new System.Drawing.Size(148, 22);
+            this.refreshToolStripMenuItem.Text = "Refresh";
+            this.refreshToolStripMenuItem.Click += new System.EventHandler(this.refreshToolStripMenuItem_Click);
+            // 
+            // projectToolStripMenuItem
+            // 
+            this.projectToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.previewToolStripMenuItem,
+            this.setCameraToolStripMenuItem});
+            this.projectToolStripMenuItem.Name = "projectToolStripMenuItem";
+            this.projectToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
+            this.projectToolStripMenuItem.Size = new System.Drawing.Size(53, 20);
+            this.projectToolStripMenuItem.Text = "Project";
+            // 
+            // previewToolStripMenuItem
+            // 
+            this.previewToolStripMenuItem.Name = "previewToolStripMenuItem";
+            this.previewToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
+            this.previewToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.previewToolStripMenuItem.Text = "Preview";
+            this.previewToolStripMenuItem.Click += new System.EventHandler(this.previewToolStripMenuItem_Click);
             // 
             // toolStripLevelEditor
             // 
@@ -518,6 +550,14 @@
             this.pbTileViewer.TabIndex = 5;
             this.pbTileViewer.TabStop = false;
             // 
+            // setCameraToolStripMenuItem
+            // 
+            this.setCameraToolStripMenuItem.Name = "setCameraToolStripMenuItem";
+            this.setCameraToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F2;
+            this.setCameraToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.setCameraToolStripMenuItem.Text = "Set Camera";
+            this.setCameraToolStripMenuItem.Click += new System.EventHandler(this.setCameraToolStripMenuItem_Click);
+            // 
             // LevelEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -602,6 +642,10 @@
         private System.Windows.Forms.HScrollBar hScrollBarPbViewerTileSet;
         private System.Windows.Forms.VScrollBar vScrollBarPbViewerTileSet;
         private System.Windows.Forms.PictureBox pbTileViewer;
+        private System.Windows.Forms.ToolStripMenuItem refreshToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem projectToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem previewToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem setCameraToolStripMenuItem;
     }
 }
 
