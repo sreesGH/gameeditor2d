@@ -50,6 +50,7 @@
             this.toolStripButtonAddObject = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonPlay = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonRefresh = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonCamera = new System.Windows.Forms.ToolStripButton();
             this.treeViewSprite = new System.Windows.Forms.TreeView();
             this.treeViewLevel = new System.Windows.Forms.TreeView();
             this.treeViewTileImages = new System.Windows.Forms.TreeView();
@@ -62,26 +63,26 @@
             this.visibility = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.imageListTreeViewSprite = new System.Windows.Forms.ImageList(this.components);
             this.imageListTreeViewTileSet = new System.Windows.Forms.ImageList(this.components);
-            this.hScrollBarPbViewerTileSet = new System.Windows.Forms.HScrollBar();
-            this.vScrollBarPbViewerTileSet = new System.Windows.Forms.VScrollBar();
             this.timerUpdate = new System.Windows.Forms.Timer(this.components);
             this.checkBoxShowTileGrid = new System.Windows.Forms.CheckBox();
             this.saveFileDialogLevel = new System.Windows.Forms.SaveFileDialog();
-            this.pbViewer = new System.Windows.Forms.PictureBox();
-            this.pbTileViewer = new System.Windows.Forms.PictureBox();
             this.tabControlLevelEditor = new System.Windows.Forms.TabControl();
             this.tabPageSprtie = new System.Windows.Forms.TabPage();
             this.tabPageSound = new System.Windows.Forms.TabPage();
             this.tabPageText = new System.Windows.Forms.TabPage();
             this.tabPageLevel = new System.Windows.Forms.TabPage();
+            this.pbViewer = new System.Windows.Forms.PictureBox();
+            this.hScrollBarPbViewerTileSet = new System.Windows.Forms.HScrollBar();
+            this.vScrollBarPbViewerTileSet = new System.Windows.Forms.VScrollBar();
+            this.pbTileViewer = new System.Windows.Forms.PictureBox();
             this.menuStripLevelEditor.SuspendLayout();
             this.toolStripLevelEditor.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewLayer)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbViewer)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbTileViewer)).BeginInit();
             this.tabControlLevelEditor.SuspendLayout();
             this.tabPageSprtie.SuspendLayout();
             this.tabPageLevel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbViewer)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbTileViewer)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStripLevelEditor
@@ -111,7 +112,7 @@
             // 
             this.newToolStripMenuItem1.Name = "newToolStripMenuItem1";
             this.newToolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.newToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.newToolStripMenuItem1.Size = new System.Drawing.Size(151, 22);
             this.newToolStripMenuItem1.Text = "New";
             this.newToolStripMenuItem1.Click += new System.EventHandler(this.newToolStripMenuItem1_Click);
             // 
@@ -119,7 +120,7 @@
             // 
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
             this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.openToolStripMenuItem.Text = "Open";
             this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
@@ -127,20 +128,20 @@
             // 
             this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.saveToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.saveToolStripMenuItem.Text = "Save";
             this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // exportToolStripMenuItem
             // 
             this.exportToolStripMenuItem.Name = "exportToolStripMenuItem";
-            this.exportToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exportToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.exportToolStripMenuItem.Text = "Export";
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             // 
             // editToolStripMenuItem
@@ -180,7 +181,8 @@
             this.toolStripButtonGrid,
             this.toolStripButtonAddObject,
             this.toolStripButtonPlay,
-            this.toolStripButtonRefresh});
+            this.toolStripButtonRefresh,
+            this.toolStripButtonCamera});
             this.toolStripLevelEditor.Location = new System.Drawing.Point(0, 24);
             this.toolStripLevelEditor.Name = "toolStripLevelEditor";
             this.toolStripLevelEditor.Size = new System.Drawing.Size(1272, 50);
@@ -290,6 +292,18 @@
             this.toolStripButtonRefresh.Text = "Reload";
             this.toolStripButtonRefresh.Click += new System.EventHandler(this.toolStripButtonRefresh_Click);
             // 
+            // toolStripButtonCamera
+            // 
+            this.toolStripButtonCamera.AutoSize = false;
+            this.toolStripButtonCamera.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonCamera.Image = global::LevelEditor.Properties.Resources.camera;
+            this.toolStripButtonCamera.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripButtonCamera.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonCamera.Name = "toolStripButtonCamera";
+            this.toolStripButtonCamera.Size = new System.Drawing.Size(48, 48);
+            this.toolStripButtonCamera.Text = "Camera";
+            this.toolStripButtonCamera.Click += new System.EventHandler(this.toolStripButtonCamera_Click);
+            // 
             // treeViewSprite
             // 
             this.treeViewSprite.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
@@ -314,7 +328,7 @@
             // treeViewTileImages
             // 
             this.treeViewTileImages.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.treeViewTileImages.Location = new System.Drawing.Point(1000, 81);
+            this.treeViewTileImages.Location = new System.Drawing.Point(992, 81);
             this.treeViewTileImages.Name = "treeViewTileImages";
             this.treeViewTileImages.Size = new System.Drawing.Size(257, 195);
             this.treeViewTileImages.TabIndex = 4;
@@ -391,22 +405,6 @@
             this.imageListTreeViewTileSet.Images.SetKeyName(2, "tile_red.png");
             this.imageListTreeViewTileSet.Images.SetKeyName(3, "tile_yellow.png");
             // 
-            // hScrollBarPbViewerTileSet
-            // 
-            this.hScrollBarPbViewerTileSet.Location = new System.Drawing.Point(1000, 540);
-            this.hScrollBarPbViewerTileSet.Name = "hScrollBarPbViewerTileSet";
-            this.hScrollBarPbViewerTileSet.Size = new System.Drawing.Size(255, 11);
-            this.hScrollBarPbViewerTileSet.TabIndex = 14;
-            this.hScrollBarPbViewerTileSet.Scroll += new System.Windows.Forms.ScrollEventHandler(this.hScrollBarPbViewerTileSet_Scroll);
-            // 
-            // vScrollBarPbViewerTileSet
-            // 
-            this.vScrollBarPbViewerTileSet.Location = new System.Drawing.Point(1258, 282);
-            this.vScrollBarPbViewerTileSet.Name = "vScrollBarPbViewerTileSet";
-            this.vScrollBarPbViewerTileSet.Size = new System.Drawing.Size(10, 255);
-            this.vScrollBarPbViewerTileSet.TabIndex = 15;
-            this.vScrollBarPbViewerTileSet.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar1_Scroll);
-            // 
             // timerUpdate
             // 
             this.timerUpdate.Tick += new System.EventHandler(this.timerUpdate_Tick);
@@ -424,28 +422,6 @@
             // saveFileDialogLevel
             // 
             this.saveFileDialogLevel.FileOk += new System.ComponentModel.CancelEventHandler(this.saveFileDialogLevel_FileOk);
-            // 
-            // pbViewer
-            // 
-            this.pbViewer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.pbViewer.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pbViewer.Location = new System.Drawing.Point(272, 81);
-            this.pbViewer.Name = "pbViewer";
-            this.pbViewer.Size = new System.Drawing.Size(714, 496);
-            this.pbViewer.TabIndex = 12;
-            this.pbViewer.TabStop = false;
-            // 
-            // pbTileViewer
-            // 
-            this.pbTileViewer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.pbTileViewer.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pbTileViewer.Location = new System.Drawing.Point(1000, 282);
-            this.pbTileViewer.Name = "pbTileViewer";
-            this.pbTileViewer.Size = new System.Drawing.Size(255, 255);
-            this.pbTileViewer.TabIndex = 5;
-            this.pbTileViewer.TabStop = false;
             // 
             // tabControlLevelEditor
             // 
@@ -501,19 +477,60 @@
             this.tabPageLevel.Text = "Levels";
             this.tabPageLevel.UseVisualStyleBackColor = true;
             // 
+            // pbViewer
+            // 
+            this.pbViewer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+                        | System.Windows.Forms.AnchorStyles.Left)
+                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.pbViewer.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pbViewer.Location = new System.Drawing.Point(272, 81);
+            this.pbViewer.Name = "pbViewer";
+            this.pbViewer.Size = new System.Drawing.Size(714, 496);
+            this.pbViewer.TabIndex = 12;
+            this.pbViewer.TabStop = false;
+            // 
+            // hScrollBarPbViewerTileSet
+            // 
+            this.hScrollBarPbViewerTileSet.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.hScrollBarPbViewerTileSet.Location = new System.Drawing.Point(992, 541);
+            this.hScrollBarPbViewerTileSet.Name = "hScrollBarPbViewerTileSet";
+            this.hScrollBarPbViewerTileSet.Size = new System.Drawing.Size(256, 10);
+            this.hScrollBarPbViewerTileSet.TabIndex = 14;
+            this.hScrollBarPbViewerTileSet.Scroll += new System.Windows.Forms.ScrollEventHandler(this.hScrollBarPbViewerTileSet_Scroll);
+            // 
+            // vScrollBarPbViewerTileSet
+            // 
+            this.vScrollBarPbViewerTileSet.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.vScrollBarPbViewerTileSet.Location = new System.Drawing.Point(1253, 282);
+            this.vScrollBarPbViewerTileSet.Name = "vScrollBarPbViewerTileSet";
+            this.vScrollBarPbViewerTileSet.Size = new System.Drawing.Size(10, 256);
+            this.vScrollBarPbViewerTileSet.TabIndex = 15;
+            this.vScrollBarPbViewerTileSet.Scroll += new System.Windows.Forms.ScrollEventHandler(this.vScrollBar1_Scroll);
+            // 
+            // pbTileViewer
+            // 
+            this.pbTileViewer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pbTileViewer.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pbTileViewer.Location = new System.Drawing.Point(993, 282);
+            this.pbTileViewer.Name = "pbTileViewer";
+            this.pbTileViewer.Size = new System.Drawing.Size(256, 256);
+            this.pbTileViewer.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.pbTileViewer.TabIndex = 5;
+            this.pbTileViewer.TabStop = false;
+            // 
             // LevelEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1272, 766);
+            this.Controls.Add(this.hScrollBarPbViewerTileSet);
+            this.Controls.Add(this.vScrollBarPbViewerTileSet);
+            this.Controls.Add(this.pbTileViewer);
             this.Controls.Add(this.pbViewer);
             this.Controls.Add(this.tabControlLevelEditor);
             this.Controls.Add(this.checkBoxShowTileGrid);
-            this.Controls.Add(this.vScrollBarPbViewerTileSet);
-            this.Controls.Add(this.hScrollBarPbViewerTileSet);
             this.Controls.Add(this.dataGridViewLayer);
             this.Controls.Add(this.groupBoxObjectProperties);
-            this.Controls.Add(this.pbTileViewer);
             this.Controls.Add(this.treeViewTileImages);
             this.Controls.Add(this.toolStripLevelEditor);
             this.Controls.Add(this.menuStripLevelEditor);
@@ -528,11 +545,11 @@
             this.toolStripLevelEditor.ResumeLayout(false);
             this.toolStripLevelEditor.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewLayer)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbViewer)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pbTileViewer)).EndInit();
             this.tabControlLevelEditor.ResumeLayout(false);
             this.tabPageSprtie.ResumeLayout(false);
             this.tabPageLevel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pbViewer)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pbTileViewer)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -550,7 +567,6 @@
         private System.Windows.Forms.TreeView treeViewSprite;
         private System.Windows.Forms.TreeView treeViewLevel;
         private System.Windows.Forms.TreeView treeViewTileImages;
-        private System.Windows.Forms.PictureBox pbTileViewer;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
         private System.Windows.Forms.GroupBox groupBoxObjectProperties;
         private System.Windows.Forms.PictureBox pbViewer;
@@ -564,8 +580,6 @@
         private System.Windows.Forms.ToolStripButton toolStripButtonAddObject;
         private System.Windows.Forms.ImageList imageListTreeViewSprite;
         private System.Windows.Forms.ImageList imageListTreeViewTileSet;
-        private System.Windows.Forms.HScrollBar hScrollBarPbViewerTileSet;
-        private System.Windows.Forms.VScrollBar vScrollBarPbViewerTileSet;
         private System.Windows.Forms.Timer timerUpdate;
         private System.Windows.Forms.DataGridViewTextBoxColumn id;
         private System.Windows.Forms.DataGridViewTextBoxColumn name;
@@ -584,6 +598,10 @@
         private System.Windows.Forms.ToolStripMenuItem undoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem redoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
+        private System.Windows.Forms.ToolStripButton toolStripButtonCamera;
+        private System.Windows.Forms.HScrollBar hScrollBarPbViewerTileSet;
+        private System.Windows.Forms.VScrollBar vScrollBarPbViewerTileSet;
+        private System.Windows.Forms.PictureBox pbTileViewer;
     }
 }
 

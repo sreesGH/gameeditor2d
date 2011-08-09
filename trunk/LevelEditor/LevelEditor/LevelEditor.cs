@@ -55,21 +55,34 @@ namespace LevelEditor
         Pen gPen;
         Boolean m_bShowMapGrid = false;
 
-        public List<CLayer> mListLayers = new List<CLayer>();
-        int m_layerID = 0;
+        //layer
+        UInt32 m_layerID = 0;
         int m_layerType;
         string m_layerName;
-        int m_mapWidth;
-        int m_mapHeight;
-        int m_tileWidth;
-        int m_tileHeight;
-        int m_nbHTiles;
-        int m_nbVTiles;
+        UInt16 m_mapWidth;
+        UInt16 m_mapHeight;
+        UInt16 m_tileWidth;
+        UInt16 m_tileHeight;
+        UInt16 m_nbHTiles;
+        UInt16 m_nbVTiles;
+
+
+        //camera
+        UInt32 m_cameraID = 0;
+        Int16 m_cameraX;
+        Int16 m_cameraY;
+        UInt16 m_cameraWidth;
+        UInt16 m_cameraHeight;
+
+
+        CGame m_game;
 
         public LevelEditor()
         {
             InitializeComponent();
             InitializeLevelEditor();
+
+            m_game = new CGame();
         }
 
         private void InitializeLevelEditor()
@@ -379,7 +392,7 @@ namespace LevelEditor
             layer.m_tileHeight = m_tileHeight;
             layer.m_nbHTiles = m_nbHTiles;
             layer.m_nbVTiles = m_nbVTiles;
-            mListLayers.Add(layer);
+            m_game.mListLayers.Add(layer);
         }
 
         private void toolStripButtonGrid_Click(object sender, EventArgs e)
@@ -395,8 +408,16 @@ namespace LevelEditor
 
         private void toolStripButtonPlay_Click(object sender, EventArgs e)
         {
+            if (m_cameraWidth < 128 || m_cameraHeight < 128)
+            {
+                MessageBox.Show("Please set camera width and height of minimum 128");
+                return;
+            }
+
             Preview newPreviewForm = new Preview();
             newPreviewForm.MaximizeBox = false;
+            newPreviewForm.Width = m_cameraWidth;
+            newPreviewForm.Height = m_cameraHeight;
             newPreviewForm.Show();
         }
 
@@ -465,18 +486,41 @@ namespace LevelEditor
             }
         }
 
+        private void toolStripButtonCamera_Click(object sender, EventArgs e)
+        {
+            CameraProperties newCamPropForm = new CameraProperties();
+            newCamPropForm.MaximizeBox = false;
+            newCamPropForm.m_cameraX = m_cameraX;
+            newCamPropForm.m_cameraY = m_cameraY;
+            newCamPropForm.m_cameraWidth = m_cameraWidth;
+            newCamPropForm.m_cameraHeight = m_cameraHeight;
+            newCamPropForm.Init();
+
+            newCamPropForm.ShowDialog(); ;
+            m_cameraX = newCamPropForm.m_cameraX;
+            m_cameraY = newCamPropForm.m_cameraY;
+            m_cameraWidth = newCamPropForm.m_cameraWidth;
+            m_cameraHeight = newCamPropForm.m_cameraHeight;
+        }
+
     }
 
     public class CLayer
     {
-        public int m_layerID = 0;
+        public UInt32 m_layerID = 0;
         public int m_layerType;
         public string m_layerName;
-        public int m_mapWidth;
-        public int m_mapHeight;
-        public int m_tileWidth;
-        public int m_tileHeight;
-        public int m_nbHTiles;
-        public int m_nbVTiles;
+        public UInt16 m_mapWidth;
+        public UInt16 m_mapHeight;
+        public UInt16 m_tileWidth;
+        public UInt16 m_tileHeight;
+        public UInt16 m_nbHTiles;
+        public UInt16 m_nbVTiles;
+        public UInt16[,] m_tileArray;
+    }
+
+    public class CGame
+    {
+        public List<CLayer> mListLayers = new List<CLayer>();
     }
 }

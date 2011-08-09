@@ -67,6 +67,13 @@ namespace LevelEditor.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap camera {
+            get {
+                object obj = ResourceManager.GetObject("camera", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap folderClosed {
             get {
                 object obj = ResourceManager.GetObject("folderClosed", resourceCulture);
