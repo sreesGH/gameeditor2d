@@ -11,12 +11,12 @@ namespace NewLayer
 {
     public partial class frmNewLayer : Form
     {
-        public int m_mapWidth;
-        public int m_mapHeight;
-        public int m_tileWidth;
-        public int m_tileHeight;
-        public int m_nbHTiles;
-        public int m_nbVTiles;
+        public UInt16 m_mapWidth;
+        public UInt16 m_mapHeight;
+        public UInt16 m_tileWidth;
+        public UInt16 m_tileHeight;
+        public UInt16 m_nbHTiles;
+        public UInt16 m_nbVTiles;
         public int m_layerType;
         public string m_layerName;
 
@@ -74,13 +74,13 @@ namespace NewLayer
             if (tbNbHTiles.Text != null && tbTileWidth.Text != null && tbNbVTiles.Text != null && tbTileHeight.Text != null
                 && tbNbHTiles.Text != "" && tbTileWidth.Text != "" && tbNbVTiles.Text != "" && tbTileHeight.Text != "")
             {
-                m_tileWidth = System.Convert.ToInt32(tbTileWidth.Text);
-                m_nbHTiles = System.Convert.ToInt32(tbNbHTiles.Text);
-                m_tileHeight = System.Convert.ToInt32(tbTileHeight.Text);
-                m_nbVTiles = System.Convert.ToInt32(tbNbVTiles.Text);
+                m_tileWidth = System.Convert.ToUInt16(tbTileWidth.Text);
+                m_nbHTiles = System.Convert.ToUInt16(tbNbHTiles.Text);
+                m_tileHeight = System.Convert.ToUInt16(tbTileHeight.Text);
+                m_nbVTiles = System.Convert.ToUInt16(tbNbVTiles.Text);
 
-                m_mapWidth = m_nbHTiles * m_tileWidth;
-                m_mapHeight = m_nbVTiles * m_tileHeight;
+                m_mapWidth = (UInt16)(m_nbHTiles * m_tileWidth);
+                m_mapHeight = (UInt16)(m_nbVTiles * m_tileHeight);
                 lblMapSize.Text = "Map Size : " + m_mapWidth + " x " + m_mapHeight;
             }
         }

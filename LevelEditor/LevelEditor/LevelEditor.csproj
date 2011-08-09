@@ -48,6 +48,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CameraProperties.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CameraProperties.Designer.cs">
+      <DependentUpon>CameraProperties.cs</DependentUpon>
+    </Compile>
     <Compile Include="LevelEditor.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -74,6 +80,10 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="CameraProperties.resx">
+      <DependentUpon>CameraProperties.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
     <EmbeddedResource Include="LevelEditor.resx">
       <DependentUpon>LevelEditor.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -157,6 +167,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\refresh.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\camera.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
