@@ -3,6 +3,12 @@ class Game
 	<List>
 	class TileLayer
 	{
+		const uint FLAG_FLIP_X		= 0x1;
+		const uint FLAG_FLIP_Y		= 0x10;
+		const uint FLAG_ROTATE_90	= 0x100;
+		const uint FLAG_ROTATE_180	= 0x1000;
+		const uint FLAG_ROTATE_270	= 0x10000;
+
 		uint id;
 		int type;
 		char* name;
@@ -10,8 +16,8 @@ class Game
 		ushort tileHeight;
 		ushort nbHTiles;
 		ushort nbVTiles;
-		ushort [][] tileArray
-		ubyte [][] tileFlag
+		ushort [][] tileArray;
+		uint   [][] tileFlag;
 	}
 	
 	<List>
@@ -90,10 +96,3 @@ class Game
 		ushort height;
 	}
 }
-
-
-FLAG_FLIP_X		0x1
-FLAG_FLIP_Y		0x10
-FLAG_ROTATE_90		0x100
-FLAG_ROTATE_180		0x1000
-FLAG_ROTATE_270		0x10000

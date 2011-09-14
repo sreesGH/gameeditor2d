@@ -21,6 +21,7 @@ namespace LevelEditor
         // Types of layers
         const int LAYER_TILE = 0;
         const int LAYER_OBJECT = 1;
+        const int LAYER_PHYSICS = 2;
 
         // Different tree views to populate corresponding trees
         const int TREE_VIEW_SPRITE = 0;
@@ -370,33 +371,39 @@ namespace LevelEditor
 
         private void AddLayer()
         {
-            switch (m_layerType)
-            {
-                case LAYER_TILE:
-                    break;
-                
-                case LAYER_OBJECT:
-                    break;
-            }
-
             int n = dataGridViewLayer.Rows.Add();
             dataGridViewLayer.Rows[n].Cells[0].Value = "" + m_layerID;
             dataGridViewLayer.Rows[n].Cells[1].Value = "" + m_layerName;
-            dataGridViewLayer.Rows[n].Cells[2].Value = "" + (m_layerType == 0 ? "TILE LAYER" : "OBJECT LAYER");
-            //dataGridViewLayer.Rows[n].Cells[3].Value = "" + m_layerID;
+            switch (m_layerType)
+            {
+                case LAYER_TILE:
+                    dataGridViewLayer.Rows[n].Cells[2].Value = "" + "TILE LAYER";
 
-            CLayer layer = new CLayer();
-            layer.m_layerID = m_layerID;
-            layer.m_layerName = "" + m_layerName;
-            m_layerID++;
-            layer.m_layerType = m_layerType;
-            layer.m_mapWidth = m_mapWidth;
-            layer.m_mapHeight = m_mapHeight;
-            layer.m_tileWidth = m_tileWidth;
-            layer.m_tileHeight = m_tileHeight;
-            layer.m_nbHTiles = m_nbHTiles;
-            layer.m_nbVTiles = m_nbVTiles;
-            m_game.mListLayers.Add(layer);
+                    CTileLayer layer = new CTileLayer();
+                    layer.m_layerID = m_layerID;
+                    layer.m_layerName = "" + m_layerName;
+                    m_layerID++;
+                    layer.m_layerType = m_layerType;
+                    layer.m_mapWidth = m_mapWidth;
+                    layer.m_mapHeight = m_mapHeight;
+                    layer.m_tileWidth = m_tileWidth;
+                    layer.m_tileHeight = m_tileHeight;
+                    layer.m_nbHTiles = m_nbHTiles;
+                    layer.m_nbVTiles = m_nbVTiles;
+                    layer.m_tileArray = new UInt16[m_nbHTiles, m_nbVTiles];
+                    layer.m_tileFlagArray = new UInt32[m_nbHTiles, m_nbVTiles];
+                    m_game.mListLayers.Add(layer);
+
+                    break;
+
+                case LAYER_OBJECT:
+                    dataGridViewLayer.Rows[n].Cells[2].Value = "" + "OBJECT LAYER";
+                    break;
+
+                case LAYER_PHYSICS:
+                    dataGridViewLayer.Rows[n].Cells[2].Value = "" + "PHYSICS LAYER";
+                    break;
+            }
         }
 
         private void toolStripButtonGrid_Click(object sender, EventArgs e)
@@ -549,8 +556,14 @@ namespace LevelEditor
 
     }
 
-    public class CLayer
+    public class CTileLayer
     {
+        const uint FLAG_FLIP_X      = 0x1;
+		const uint FLAG_FLIP_Y      = 0x10;
+		const uint FLAG_ROTATE_90   = 0x100;
+		const uint FLAG_ROTATE_180  = 0x1000;
+        const uint FLAG_ROTATE_270  = 0x10000;
+
         public UInt32 m_layerID = 0;
         public int m_layerType;
         public string m_layerName;
@@ -561,10 +574,11 @@ namespace LevelEditor
         public UInt16 m_nbHTiles;
         public UInt16 m_nbVTiles;
         public UInt16[,] m_tileArray;
+        public UInt32[,] m_tileFlagArray;
     }
 
     public class CGame
     {
-        public List<CLayer> mListLayers = new List<CLayer>();
+        public List<CTileLayer> mListLayers = new List<CTileLayer>();
     }
 }
