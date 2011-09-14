@@ -202,8 +202,12 @@ namespace LevelEditor
 
                 path = e.Node.Parent.FullPath + "\\" + e.Node.Text;
                 m_selectedTileSet = new Bitmap(path);
-                hScrollBarPbViewerTileSet.Maximum = m_selectedTileSet.Width - pbTileViewer.Width;
-                vScrollBarPbViewerTileSet.Maximum = m_selectedTileSet.Height - pbTileViewer.Height;
+                if (m_selectedTileSet != null)
+                {
+                    pbTileViewer.Image = m_selectedTileSet;
+                }
+                //hScrollBarPbViewerTileSet.Maximum = m_selectedTileSet.Width - pbTileViewer.Width;
+                //vScrollBarPbViewerTileSet.Maximum = m_selectedTileSet.Height - pbTileViewer.Height;
             }
         }
 
@@ -484,6 +488,11 @@ namespace LevelEditor
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            OpenProject();
+        }
+
+        private void OpenProject()
+        {
             DialogResult result = this.folderBrowserDialog.ShowDialog();
             if (result == DialogResult.OK)
             {
@@ -493,6 +502,7 @@ namespace LevelEditor
             {
                 m_projectRootDirectory = null;
             }
+            RefreshEditor();
         }
 
         private void toolStripButtonCamera_Click(object sender, EventArgs e)
@@ -530,6 +540,11 @@ namespace LevelEditor
         private void setCameraToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SetCamera();
+        }
+
+        private void toolStripButtonOpen_Click(object sender, EventArgs e)
+        {
+            OpenProject();
         }
 
     }
