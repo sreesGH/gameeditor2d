@@ -51,7 +51,8 @@
             this.comboBoxLayerType.FormattingEnabled = true;
             this.comboBoxLayerType.Items.AddRange(new object[] {
             "TILE LAYER",
-            "OBJECT LAYER"});
+            "OBJECT LAYER",
+            "PHYSICS LAYER"});
             this.comboBoxLayerType.Location = new System.Drawing.Point(47, 12);
             this.comboBoxLayerType.Name = "comboBoxLayerType";
             this.comboBoxLayerType.Size = new System.Drawing.Size(374, 21);

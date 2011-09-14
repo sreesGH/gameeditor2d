@@ -58,7 +58,7 @@ namespace NewLayer
 
         private void comboBoxLayerType_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBoxLayerType.SelectedIndex == 1)
+            if (comboBoxLayerType.SelectedIndex == 1 || comboBoxLayerType.SelectedIndex == 2)
             {
                 gbLayer.Hide();
             }
@@ -90,7 +90,7 @@ namespace NewLayer
             m_layerType = comboBoxLayerType.SelectedIndex;
             m_layerName = tbLayerName.Text;
 
-            if (m_mapWidth > 0 && m_mapHeight > 0 || m_layerType == 1)
+            if (m_mapWidth > 0 && m_mapHeight > 0 || m_layerType == 1 || m_layerType == 2)
             {
                 if (m_layerName != null && m_layerName != "")
                 {

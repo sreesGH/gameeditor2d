@@ -4,13 +4,14 @@ class Game
 	class TileLayer
 	{
 		uint id;
-		uint type;
+		int type;
 		char* name;
 		ushort tileWidth;
 		ushort tileHeight;
 		ushort nbHTiles;
 		ushort nbVTiles;
 		ushort [][] tileArray
+		ubyte [][] tileFlag
 	}
 	
 	<List>
@@ -85,7 +86,14 @@ class Game
 								
 		int x;
 		int y;
-		int width;
-		int height;
+		ushort width;
+		ushort height;
 	}
 }
+
+
+FLAG_FLIP_X		0x1
+FLAG_FLIP_Y		0x10
+FLAG_ROTATE_90		0x100
+FLAG_ROTATE_180		0x1000
+FLAG_ROTATE_270		0x10000
