@@ -554,6 +554,14 @@ namespace LevelEditor
             OpenProject();
         }
 
+        private void buttonDeleteLayer_Click(object sender, EventArgs e)
+        {
+            DialogResult result3 = MessageBox.Show("Do you want to delete the Layer? \n [This action will be undoable]", "Level Editor",
+            MessageBoxButtons.YesNo,
+            MessageBoxIcon.Question,
+            MessageBoxDefaultButton.Button2);
+        }
+
     }
 
     public class CTileLayer
