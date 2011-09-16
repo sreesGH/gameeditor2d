@@ -66,6 +66,12 @@
     <Compile Include="NewLayer.designer.cs">
       <DependentUpon>NewLayer.cs</DependentUpon>
     </Compile>
+    <Compile Include="NewLevel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="NewLevel.Designer.cs">
+      <DependentUpon>NewLevel.cs</DependentUpon>
+    </Compile>
     <Compile Include="NewObject.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -90,6 +96,10 @@
     </EmbeddedResource>
     <EmbeddedResource Include="NewLayer.resx">
       <DependentUpon>NewLayer.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="NewLevel.resx">
+      <DependentUpon>NewLevel.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="NewObject.resx">
@@ -173,6 +183,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\open.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\addLevel.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

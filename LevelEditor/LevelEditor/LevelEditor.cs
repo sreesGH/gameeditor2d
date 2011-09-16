@@ -392,7 +392,7 @@ namespace LevelEditor
                     layer.m_nbVTiles = m_nbVTiles;
                     layer.m_tileArray = new UInt16[m_nbHTiles, m_nbVTiles];
                     layer.m_tileFlagArray = new UInt32[m_nbHTiles, m_nbVTiles];
-                    m_game.mListLayers.Add(layer);
+                    //m_game.mListLayers.Add(layer);
 
                     break;
 
@@ -462,20 +462,23 @@ namespace LevelEditor
 
         private void toolStripButtonRefresh_Click(object sender, EventArgs e)
         {
-            RefreshEditor();
+            RefreshData();
         }
 
-        private void RefreshEditor()
+        private void RefreshData()
         {
-            treeViewSprite.Nodes.Clear();
-            m_spriteRootDirectory = m_projectRootDirectory + "\\" + "Sprite";
-            treeViewSprite.Nodes.Add(m_projectRootDirectory);
-            PopulateTreeView(m_projectRootDirectory, treeViewSprite.Nodes[0], TREE_VIEW_SPRITE);
+            if (m_projectRootDirectory != null)
+            {
+                treeViewSprite.Nodes.Clear();
+                m_spriteRootDirectory = m_projectRootDirectory + "\\" + "Sprite";
+                treeViewSprite.Nodes.Add(m_projectRootDirectory);
+                PopulateTreeView(m_projectRootDirectory, treeViewSprite.Nodes[0], TREE_VIEW_SPRITE);
 
-            treeViewTileImages.Nodes.Clear();
-            m_tileRootDirectory = m_projectRootDirectory + "\\" + "TileSet";
-            treeViewTileImages.Nodes.Add(m_projectRootDirectory);
-            PopulateTreeView(m_projectRootDirectory, treeViewTileImages.Nodes[0], TREE_VIEW_TILESET);
+                treeViewTileImages.Nodes.Clear();
+                m_tileRootDirectory = m_projectRootDirectory + "\\" + "TileSet";
+                treeViewTileImages.Nodes.Add(m_projectRootDirectory);
+                PopulateTreeView(m_projectRootDirectory, treeViewTileImages.Nodes[0], TREE_VIEW_TILESET);
+            }
         }
 
         private void undoToolStripMenuItem_Click(object sender, EventArgs e)
@@ -509,7 +512,7 @@ namespace LevelEditor
             {
                 m_projectRootDirectory = null;
             }
-            RefreshEditor();
+            RefreshData();
         }
 
         private void toolStripButtonCamera_Click(object sender, EventArgs e)
@@ -536,7 +539,7 @@ namespace LevelEditor
 
         private void refreshToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            RefreshEditor();
+            RefreshData();
         }
 
         private void previewToolStripMenuItem_Click(object sender, EventArgs e)
@@ -562,6 +565,12 @@ namespace LevelEditor
             MessageBoxDefaultButton.Button2);
         }
 
+        private void toolStripButtonAddLEvel_Click(object sender, EventArgs e)
+        {
+            frmNewLevel childWindow = new frmNewLevel();
+            childWindow.ShowDialog();
+        }
+
     }
 
     public class CTileLayer
@@ -585,8 +594,13 @@ namespace LevelEditor
         public UInt32[,] m_tileFlagArray;
     }
 
-    public class CGame
+    public class CLevel
     {
         public List<CTileLayer> mListLayers = new List<CTileLayer>();
+    }
+
+    public class CGame
+    {
+        public List<CLevel> mListLayers = new List<CLevel>();
     }
 }

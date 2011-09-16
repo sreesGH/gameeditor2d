@@ -1,98 +1,102 @@
 class Game
 {
 	<List>
-	class TileLayer
+	class Level
 	{
-		const uint FLAG_FLIP_X		= 0x1;
-		const uint FLAG_FLIP_Y		= 0x10;
-		const uint FLAG_ROTATE_90	= 0x100;
-		const uint FLAG_ROTATE_180	= 0x1000;
-		const uint FLAG_ROTATE_270	= 0x10000;
-
-		uint id;
-		int type;
-		char* name;
-		ushort tileWidth;
-		ushort tileHeight;
-		ushort nbHTiles;
-		ushort nbVTiles;
-		ushort [][] tileArray;
-		uint   [][] tileFlag;
-	}
-	
-	<List>
-	class ObjectLayer
-	{
-		uint id;
-		uint type;
-		chra* name;
-		
 		<List>
-		class Actor
+		class TileLayer
+		{
+			const uint FLAG_FLIP_X		= 0x1;
+			const uint FLAG_FLIP_Y		= 0x10;
+			const uint FLAG_ROTATE_90	= 0x100;
+			const uint FLAG_ROTATE_180	= 0x1000;
+			const uint FLAG_ROTATE_270	= 0x10000;
+
+			uint id;
+			int type;
+			char* name;
+			ushort tileWidth;
+			ushort tileHeight;
+			ushort nbHTiles;
+			ushort nbVTiles;
+			ushort [][] tileArray;
+			uint   [][] tileFlag;
+		}
+
+		<List>
+		class ObjectLayer
+		{
+			uint id;
+			uint type;
+			chra* name;
+
+			<List>
+			class Actor
+			{
+				uint id;
+				uint type;
+				char* name;
+
+				int x;
+				int y;
+				ushort width;
+				ushort height;
+				ushort anchor;
+
+				sprite;
+				ushort animationID;
+				bool visible;
+			}
+
+			<List>
+			class Trigger
+			{
+				uint id;
+				uint type;
+				char* name;
+
+				int x;
+				int y;
+				ushort width;
+				ushort height;
+			}
+
+			<List>
+			class Sound
+			{
+				uint id;
+				uint type;
+				char* name;
+
+				int x;
+				int y;
+				int soundID;
+			}
+
+			<List>
+			class Text
+			{
+				uint id;
+				uint type;
+				char* name;
+
+				int x;
+				int y;
+				ushort anchor;
+				int textID;
+			}
+		}
+
+		class Camera
 		{
 			uint id;
 			uint type;
 			char* name;
-			
+
 			int x;
 			int y;
 			ushort width;
 			ushort height;
-			ushort anchor;
-			
-			sprite;
-			ushort animationID;
-			bool visible;
 		}
-		
-		<List>
-		class Trigger
-		{
-			uint id;
-			uint type;
-			char* name;
-
-			int x;
-			int y;
-			ushort width;
-			ushort height;
-		}
-		
-		<List>
-		class Sound
-		{
-			uint id;
-			uint type;
-			char* name;
-				
-			int x;
-			int y;
-			int soundID;
-		}
-		
-		<List>
-		class Text
-		{
-			uint id;
-			uint type;
-			char* name;
-						
-			int x;
-			int y;
-			ushort anchor;
-			int textID;
-		}
-	}
-	
-	class Camera
-	{
-		uint id;
-		uint type;
-		char* name;
-								
-		int x;
-		int y;
-		ushort width;
-		ushort height;
 	}
 }
