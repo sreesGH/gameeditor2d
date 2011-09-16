@@ -46,6 +46,7 @@
             this.setCameraToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripLevelEditor = new System.Windows.Forms.ToolStrip();
             this.toolStripButtonOpen = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonAddLEvel = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonAddLayer = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonTilePicker = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonPanMap = new System.Windows.Forms.ToolStripButton();
@@ -62,31 +63,31 @@
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.groupBoxObjectProperties = new System.Windows.Forms.GroupBox();
             this.dataGridViewLayer = new System.Windows.Forms.DataGridView();
+            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.type = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.visibility = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.imageListTreeViewSprite = new System.Windows.Forms.ImageList(this.components);
             this.imageListTreeViewTileSet = new System.Windows.Forms.ImageList(this.components);
             this.timerUpdate = new System.Windows.Forms.Timer(this.components);
             this.checkBoxShowTileGrid = new System.Windows.Forms.CheckBox();
             this.saveFileDialogLevel = new System.Windows.Forms.SaveFileDialog();
             this.tabControlLevelEditor = new System.Windows.Forms.TabControl();
+            this.tabPageLevel = new System.Windows.Forms.TabPage();
             this.tabPageSprtie = new System.Windows.Forms.TabPage();
             this.tabPageSound = new System.Windows.Forms.TabPage();
             this.tabPageText = new System.Windows.Forms.TabPage();
-            this.tabPageLevel = new System.Windows.Forms.TabPage();
             this.panelTileMap = new System.Windows.Forms.Panel();
             this.pbTileViewer = new System.Windows.Forms.PictureBox();
             this.panelMainViewer = new System.Windows.Forms.Panel();
             this.pbViewer = new System.Windows.Forms.PictureBox();
-            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.type = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.visibility = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.buttonDeleteLayer = new System.Windows.Forms.Button();
             this.menuStripLevelEditor.SuspendLayout();
             this.toolStripLevelEditor.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewLayer)).BeginInit();
             this.tabControlLevelEditor.SuspendLayout();
-            this.tabPageSprtie.SuspendLayout();
             this.tabPageLevel.SuspendLayout();
+            this.tabPageSprtie.SuspendLayout();
             this.panelTileMap.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbTileViewer)).BeginInit();
             this.panelMainViewer.SuspendLayout();
@@ -218,6 +219,7 @@
             this.toolStripLevelEditor.AutoSize = false;
             this.toolStripLevelEditor.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripButtonOpen,
+            this.toolStripButtonAddLEvel,
             this.toolStripButtonAddLayer,
             this.toolStripButtonTilePicker,
             this.toolStripButtonPanMap,
@@ -245,6 +247,18 @@
             this.toolStripButtonOpen.Size = new System.Drawing.Size(48, 48);
             this.toolStripButtonOpen.Text = "Open";
             this.toolStripButtonOpen.Click += new System.EventHandler(this.toolStripButtonOpen_Click);
+            // 
+            // toolStripButtonAddLEvel
+            // 
+            this.toolStripButtonAddLEvel.AutoSize = false;
+            this.toolStripButtonAddLEvel.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonAddLEvel.Image = global::LevelEditor.Properties.Resources.addLevel;
+            this.toolStripButtonAddLEvel.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
+            this.toolStripButtonAddLEvel.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonAddLEvel.Name = "toolStripButtonAddLEvel";
+            this.toolStripButtonAddLEvel.Size = new System.Drawing.Size(48, 48);
+            this.toolStripButtonAddLEvel.Text = "Add Level";
+            this.toolStripButtonAddLEvel.Click += new System.EventHandler(this.toolStripButtonAddLEvel_Click);
             // 
             // toolStripButtonAddLayer
             // 
@@ -419,6 +433,33 @@
             this.dataGridViewLayer.Size = new System.Drawing.Size(264, 134);
             this.dataGridViewLayer.TabIndex = 13;
             // 
+            // id
+            // 
+            this.id.HeaderText = "Id";
+            this.id.Name = "id";
+            this.id.ReadOnly = true;
+            this.id.Width = 20;
+            // 
+            // name
+            // 
+            this.name.HeaderText = "Name";
+            this.name.Name = "name";
+            // 
+            // type
+            // 
+            this.type.HeaderText = "Type";
+            this.type.Name = "type";
+            this.type.ReadOnly = true;
+            this.type.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            // 
+            // visibility
+            // 
+            this.visibility.HeaderText = "Visible";
+            this.visibility.Name = "visibility";
+            this.visibility.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.visibility.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
+            this.visibility.Width = 40;
+            // 
             // imageListTreeViewSprite
             // 
             this.imageListTreeViewSprite.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListTreeViewSprite.ImageStream")));
@@ -459,15 +500,26 @@
             // 
             this.tabControlLevelEditor.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)));
+            this.tabControlLevelEditor.Controls.Add(this.tabPageLevel);
             this.tabControlLevelEditor.Controls.Add(this.tabPageSprtie);
             this.tabControlLevelEditor.Controls.Add(this.tabPageSound);
             this.tabControlLevelEditor.Controls.Add(this.tabPageText);
-            this.tabControlLevelEditor.Controls.Add(this.tabPageLevel);
             this.tabControlLevelEditor.Location = new System.Drawing.Point(11, 81);
             this.tabControlLevelEditor.Name = "tabControlLevelEditor";
             this.tabControlLevelEditor.SelectedIndex = 0;
             this.tabControlLevelEditor.Size = new System.Drawing.Size(255, 670);
             this.tabControlLevelEditor.TabIndex = 17;
+            // 
+            // tabPageLevel
+            // 
+            this.tabPageLevel.Controls.Add(this.treeViewLevel);
+            this.tabPageLevel.Location = new System.Drawing.Point(4, 22);
+            this.tabPageLevel.Name = "tabPageLevel";
+            this.tabPageLevel.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageLevel.Size = new System.Drawing.Size(247, 644);
+            this.tabPageLevel.TabIndex = 1;
+            this.tabPageLevel.Text = "Levels";
+            this.tabPageLevel.UseVisualStyleBackColor = true;
             // 
             // tabPageSprtie
             // 
@@ -497,17 +549,6 @@
             this.tabPageText.TabIndex = 3;
             this.tabPageText.Text = "Texts";
             this.tabPageText.UseVisualStyleBackColor = true;
-            // 
-            // tabPageLevel
-            // 
-            this.tabPageLevel.Controls.Add(this.treeViewLevel);
-            this.tabPageLevel.Location = new System.Drawing.Point(4, 22);
-            this.tabPageLevel.Name = "tabPageLevel";
-            this.tabPageLevel.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageLevel.Size = new System.Drawing.Size(247, 644);
-            this.tabPageLevel.TabIndex = 1;
-            this.tabPageLevel.Text = "Levels";
-            this.tabPageLevel.UseVisualStyleBackColor = true;
             // 
             // panelTileMap
             // 
@@ -552,33 +593,6 @@
             this.pbViewer.TabIndex = 12;
             this.pbViewer.TabStop = false;
             // 
-            // id
-            // 
-            this.id.HeaderText = "Id";
-            this.id.Name = "id";
-            this.id.ReadOnly = true;
-            this.id.Width = 20;
-            // 
-            // name
-            // 
-            this.name.HeaderText = "Name";
-            this.name.Name = "name";
-            // 
-            // type
-            // 
-            this.type.HeaderText = "Type";
-            this.type.Name = "type";
-            this.type.ReadOnly = true;
-            this.type.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // visibility
-            // 
-            this.visibility.HeaderText = "Visible";
-            this.visibility.Name = "visibility";
-            this.visibility.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.visibility.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.visibility.Width = 40;
-            // 
             // buttonDeleteLayer
             // 
             this.buttonDeleteLayer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -617,8 +631,8 @@
             this.toolStripLevelEditor.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewLayer)).EndInit();
             this.tabControlLevelEditor.ResumeLayout(false);
-            this.tabPageSprtie.ResumeLayout(false);
             this.tabPageLevel.ResumeLayout(false);
+            this.tabPageSprtie.ResumeLayout(false);
             this.panelTileMap.ResumeLayout(false);
             this.panelTileMap.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbTileViewer)).EndInit();
@@ -682,6 +696,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn type;
         private System.Windows.Forms.DataGridViewCheckBoxColumn visibility;
         private System.Windows.Forms.Button buttonDeleteLayer;
+        private System.Windows.Forms.ToolStripButton toolStripButtonAddLEvel;
     }
 }
 
