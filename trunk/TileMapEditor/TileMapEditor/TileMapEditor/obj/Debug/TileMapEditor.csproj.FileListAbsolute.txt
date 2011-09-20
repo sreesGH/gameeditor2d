@@ -1,8 +1,0 @@
-D:\GameEditorSVN\trunk\TileMapEditor\TileMapEditor\TileMapEditor\bin\Debug\TileMapEditor.exe
-D:\GameEditorSVN\trunk\TileMapEditor\TileMapEditor\TileMapEditor\bin\Debug\TileMapEditor.pdb
-D:\GameEditorSVN\trunk\TileMapEditor\TileMapEditor\TileMapEditor\obj\Debug\ResolveAssemblyReference.cache
-D:\GameEditorSVN\trunk\TileMapEditor\TileMapEditor\TileMapEditor\obj\Debug\TileMapEditor.frmTielMapEditor.resources
-D:\GameEditorSVN\trunk\TileMapEditor\TileMapEditor\TileMapEditor\obj\Debug\TileMapEditor.Properties.Resources.resources
-D:\GameEditorSVN\trunk\TileMapEditor\TileMapEditor\TileMapEditor\obj\Debug\TileMapEditor.csproj.GenerateResource.Cache
-D:\GameEditorSVN\trunk\TileMapEditor\TileMapEditor\TileMapEditor\obj\Debug\TileMapEditor.exe
-D:\GameEditorSVN\trunk\TileMapEditor\TileMapEditor\TileMapEditor\obj\Debug\TileMapEditor.pdb
