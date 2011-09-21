@@ -95,6 +95,20 @@ namespace TileMapEditor.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap flipHorizontal {
+            get {
+                object obj = ResourceManager.GetObject("flipHorizontal", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap flipVertical {
+            get {
+                object obj = ResourceManager.GetObject("flipVertical", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap grid {
             get {
                 object obj = ResourceManager.GetObject("grid", resourceCulture);
@@ -119,6 +133,20 @@ namespace TileMapEditor.Properties {
         internal static System.Drawing.Bitmap redo {
             get {
                 object obj = ResourceManager.GetObject("redo", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap rotate_ccw {
+            get {
+                object obj = ResourceManager.GetObject("rotate_ccw", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap rotate_cw {
+            get {
+                object obj = ResourceManager.GetObject("rotate_cw", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
