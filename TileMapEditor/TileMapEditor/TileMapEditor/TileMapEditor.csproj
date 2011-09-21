@@ -116,6 +116,18 @@
   <ItemGroup>
     <None Include="Resources\erase.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\flipVertical.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\flipHorizontal.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\rotate_ccw.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\rotate_cw.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
