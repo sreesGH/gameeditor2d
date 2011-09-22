@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.menuStripMain = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -74,6 +75,7 @@
             this.textBoxTileWidth = new System.Windows.Forms.TextBox();
             this.checkBoxShowGrid = new System.Windows.Forms.CheckBox();
             this.openFileDialogTileSet = new System.Windows.Forms.OpenFileDialog();
+            this.timerUpdate = new System.Windows.Forms.Timer(this.components);
             this.menuStripMain.SuspendLayout();
             this.toolStripMain.SuspendLayout();
             this.panelTileSetViwer.SuspendLayout();
@@ -338,6 +340,7 @@
             // openFileDialogMap
             // 
             this.openFileDialogMap.FileName = "openFileDialog1";
+            this.openFileDialogMap.Filter = "(*.mtm)|*.mtm";
             // 
             // panelTileSetViwer
             // 
@@ -366,6 +369,7 @@
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.panel1.AutoScroll = true;
+            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel1.Controls.Add(this.pictureBoxMapViewer);
             this.panel1.Location = new System.Drawing.Point(12, 77);
             this.panel1.Name = "panel1";
@@ -374,10 +378,6 @@
             // 
             // pictureBoxMapViewer
             // 
-            this.pictureBoxMapViewer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBoxMapViewer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBoxMapViewer.Location = new System.Drawing.Point(3, 3);
             this.pictureBoxMapViewer.Name = "pictureBoxMapViewer";
             this.pictureBoxMapViewer.Size = new System.Drawing.Size(679, 660);
@@ -521,6 +521,12 @@
             // openFileDialogTileSet
             // 
             this.openFileDialogTileSet.FileName = "openFileDialog1";
+            this.openFileDialogTileSet.Filter = "(*.BMP;*.PNG;*.TGA)|*.BMP;*.PNG;*.TGA";
+            // 
+            // timerUpdate
+            // 
+            this.timerUpdate.Interval = 33;
+            this.timerUpdate.Tick += new System.EventHandler(this.timerUpdate_Tick);
             // 
             // frmTielMapEditor
             // 
@@ -602,6 +608,7 @@
         private System.Windows.Forms.ToolStripButton toolStripButtonRotateCW;
         private System.Windows.Forms.ToolStripButton toolStripButtonRotateCCW;
         private System.Windows.Forms.OpenFileDialog openFileDialogTileSet;
+        private System.Windows.Forms.Timer timerUpdate;
     }
 }
 
