@@ -11,6 +11,15 @@ namespace TileMapEditor
 {
     public partial class frmTielMapEditor : Form
     {
+        Graphics gMapViewerGraphics;
+        Bitmap gMapViewerBuffer;
+
+        Graphics gTileSetViewerGraphics;
+        Bitmap gTileSetViewerBuffer;
+
+        Color MapViewerBGcolor = new Color();
+        Color TileSetViewerBGcolor = new Color();
+
         CTileMap mTileMap = null;
         Bitmap mTileSetImage = null;
         Bitmap[,] mTileImageArray = null;
@@ -22,7 +31,56 @@ namespace TileMapEditor
 
         private void frmTielMapEditor_Load(object sender, EventArgs e)
         {
+            CreateMapViewerBuffers();
+            CreateTileSetViewerBuffers();
+
+            //Set bg color
+            MapViewerBGcolor = Color.Pink;
+            TileSetViewerBGcolor = Color.Pink;
+
+            //Disable entire text boxes
             gbTilest.Enabled = false;
+
+            //Enable timer
+            timerUpdate.Enabled = true;
+        }
+
+        private void CreateMapViewerBuffers()
+        {
+            if (gMapViewerBuffer != null)
+            {
+                gMapViewerBuffer.Dispose();
+            }
+            if (pictureBoxMapViewer.Image != null)
+            {
+                gMapViewerBuffer = new Bitmap(pictureBoxMapViewer.Image.Width, pictureBoxMapViewer.Image.Height);
+                if (gMapViewerGraphics != null)
+                {
+                    gMapViewerGraphics.Dispose();
+                }
+                gMapViewerGraphics = Graphics.FromImage(gMapViewerBuffer);
+
+                pictureBoxMapViewer.Image = gMapViewerBuffer;
+            }
+        }
+
+        private void CreateTileSetViewerBuffers()
+        {
+            if (gTileSetViewerBuffer != null)
+            {
+                gTileSetViewerBuffer.Dispose();
+            }
+            if (pictureBoxTileSetViewer.Image != null)
+            {
+                gTileSetViewerBuffer = new Bitmap(pictureBoxTileSetViewer.Image.Width, pictureBoxTileSetViewer.Image.Height);
+                if (gTileSetViewerGraphics != null)
+                {
+                    gTileSetViewerGraphics.Dispose();
+                }
+                gTileSetViewerGraphics = Graphics.FromImage(gTileSetViewerBuffer);
+
+                pictureBoxTileSetViewer.Image = gTileSetViewerBuffer;
+            }
         }
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
@@ -90,6 +148,12 @@ namespace TileMapEditor
                 int mapWidth = (UInt16)(mTileMap.mnbHTiles * mTileMap.mtileWidth);
                 int mapHeight = (UInt16)(mTileMap.mnbVTiles * mTileMap.mtileHeight);
                 labelMapSize.Text = "Map Size : " + mapWidth + " x " + mapHeight + " [in Pixels]";
+
+                //Resize picturebox image
+                //pictureBoxMapViewer.Image.Dispose();
+                pictureBoxMapViewer.Image = new Bitmap(mapWidth, mapHeight);
+
+                CreateMapViewerBuffers();
             }
         }
 
@@ -119,6 +183,29 @@ namespace TileMapEditor
                         mTileImageArray[i, j] = bmpDst;
                     }
                 }
+
+                CreateTileSetViewerBuffers();
+            }
+        }
+
+        private void timerUpdate_Tick(object sender, EventArgs e)
+        {
+            pictureBoxMapViewer.Refresh();
+            pictureBoxTileSetViewer.Refresh();
+
+            DrawViewers();
+        }
+
+        private void DrawViewers()
+        {
+            if (gMapViewerGraphics != null)
+            {
+                gMapViewerGraphics.Clear(MapViewerBGcolor);
+            }
+
+            if (gTileSetViewerGraphics != null)
+            {
+                gTileSetViewerGraphics.Clear(TileSetViewerBGcolor);
             }
         }
     }
