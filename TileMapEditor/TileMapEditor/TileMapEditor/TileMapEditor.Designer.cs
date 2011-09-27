@@ -76,6 +76,16 @@
             this.checkBoxShowGrid = new System.Windows.Forms.CheckBox();
             this.openFileDialogTileSet = new System.Windows.Forms.OpenFileDialog();
             this.timerUpdate = new System.Windows.Forms.Timer(this.components);
+            this.labelMapMouseX = new System.Windows.Forms.Label();
+            this.labelMapMouseY = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.labelTileSetMouseY = new System.Windows.Forms.Label();
+            this.labelTileSetMouseX = new System.Windows.Forms.Label();
+            this.panelMapViewerBGColor = new System.Windows.Forms.Panel();
+            this.panelTileSetVewerBGColor = new System.Windows.Forms.Panel();
+            this.label9 = new System.Windows.Forms.Label();
+            this.colorDialogBGSelector = new System.Windows.Forms.ColorDialog();
+            this.labelSelectedTileId = new System.Windows.Forms.Label();
             this.menuStripMain.SuspendLayout();
             this.toolStripMain.SuspendLayout();
             this.panelTileSetViwer.SuspendLayout();
@@ -122,6 +132,7 @@
             this.openToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
             this.openToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
             this.openToolStripMenuItem.Text = "Open";
+            this.openToolStripMenuItem.Click += new System.EventHandler(this.openToolStripMenuItem_Click);
             // 
             // saveToolStripMenuItem
             // 
@@ -129,6 +140,7 @@
             this.saveToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
             this.saveToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
             this.saveToolStripMenuItem.Text = "Save";
+            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // exportToolStripMenuItem
             // 
@@ -196,6 +208,7 @@
             this.toolStripButtonOpen.Name = "toolStripButtonOpen";
             this.toolStripButtonOpen.Size = new System.Drawing.Size(32, 32);
             this.toolStripButtonOpen.Text = "Open";
+            this.toolStripButtonOpen.Click += new System.EventHandler(this.toolStripButtonOpen_Click);
             // 
             // toolStripButtonSave
             // 
@@ -206,6 +219,7 @@
             this.toolStripButtonSave.Name = "toolStripButtonSave";
             this.toolStripButtonSave.Size = new System.Drawing.Size(32, 32);
             this.toolStripButtonSave.Text = "Save";
+            this.toolStripButtonSave.Click += new System.EventHandler(this.toolStripButtonSave_Click);
             // 
             // toolStripButtonExport
             // 
@@ -246,6 +260,7 @@
             this.toolStripButtonShowGrid.Name = "toolStripButtonShowGrid";
             this.toolStripButtonShowGrid.Size = new System.Drawing.Size(32, 32);
             this.toolStripButtonShowGrid.Text = "Show Grid";
+            this.toolStripButtonShowGrid.Click += new System.EventHandler(this.toolStripButtonShowGrid_Click);
             // 
             // toolStripButtonCut
             // 
@@ -340,13 +355,18 @@
             // openFileDialogMap
             // 
             this.openFileDialogMap.FileName = "openFileDialog1";
-            this.openFileDialogMap.Filter = "(*.mtm)|*.mtm";
+            this.openFileDialogMap.Filter = "(*.tsm)|*.tsm";
+            // 
+            // saveFileDialogMap
+            // 
+            this.saveFileDialogMap.Filter = "(*.tsm)|*.tsm";
             // 
             // panelTileSetViwer
             // 
             this.panelTileSetViwer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.panelTileSetViwer.AutoScroll = true;
+            this.panelTileSetViwer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panelTileSetViwer.Controls.Add(this.pictureBoxTileSetViewer);
             this.panelTileSetViwer.Location = new System.Drawing.Point(715, 77);
             this.panelTileSetViwer.Name = "panelTileSetViwer";
@@ -355,13 +375,14 @@
             // 
             // pictureBoxTileSetViewer
             // 
-            this.pictureBoxTileSetViewer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pictureBoxTileSetViewer.Location = new System.Drawing.Point(14, 3);
             this.pictureBoxTileSetViewer.Name = "pictureBoxTileSetViewer";
             this.pictureBoxTileSetViewer.Size = new System.Drawing.Size(256, 400);
             this.pictureBoxTileSetViewer.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pictureBoxTileSetViewer.TabIndex = 0;
             this.pictureBoxTileSetViewer.TabStop = false;
+            this.pictureBoxTileSetViewer.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBoxTileSetViewer_MouseMove);
+            this.pictureBoxTileSetViewer.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBoxTileSetViewer_MouseDown);
             // 
             // panel1
             // 
@@ -373,17 +394,20 @@
             this.panel1.Controls.Add(this.pictureBoxMapViewer);
             this.panel1.Location = new System.Drawing.Point(12, 77);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(697, 677);
+            this.panel1.Size = new System.Drawing.Size(697, 611);
             this.panel1.TabIndex = 4;
             // 
             // pictureBoxMapViewer
             // 
             this.pictureBoxMapViewer.Location = new System.Drawing.Point(3, 3);
             this.pictureBoxMapViewer.Name = "pictureBoxMapViewer";
-            this.pictureBoxMapViewer.Size = new System.Drawing.Size(679, 660);
+            this.pictureBoxMapViewer.Size = new System.Drawing.Size(679, 600);
             this.pictureBoxMapViewer.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pictureBoxMapViewer.TabIndex = 0;
             this.pictureBoxMapViewer.TabStop = false;
+            this.pictureBoxMapViewer.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBoxMapViewer_MouseMove);
+            this.pictureBoxMapViewer.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBoxMapViewer_MouseDown);
+            this.pictureBoxMapViewer.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBoxMapViewer_MouseUp);
             // 
             // gbTilest
             // 
@@ -400,9 +424,9 @@
             this.gbTilest.Controls.Add(this.textBoxMapWidth);
             this.gbTilest.Controls.Add(this.textBoxTileHeight);
             this.gbTilest.Controls.Add(this.textBoxTileWidth);
-            this.gbTilest.Location = new System.Drawing.Point(715, 524);
+            this.gbTilest.Location = new System.Drawing.Point(715, 546);
             this.gbTilest.Name = "gbTilest";
-            this.gbTilest.Size = new System.Drawing.Size(289, 230);
+            this.gbTilest.Size = new System.Drawing.Size(289, 208);
             this.gbTilest.TabIndex = 5;
             this.gbTilest.TabStop = false;
             this.gbTilest.Text = "Map Info.";
@@ -436,7 +460,7 @@
             // labelMapSize
             // 
             this.labelMapSize.AutoSize = true;
-            this.labelMapSize.Location = new System.Drawing.Point(54, 187);
+            this.labelMapSize.Location = new System.Drawing.Point(54, 181);
             this.labelMapSize.Name = "labelMapSize";
             this.labelMapSize.Size = new System.Drawing.Size(60, 13);
             this.labelMapSize.TabIndex = 8;
@@ -511,7 +535,7 @@
             // 
             this.checkBoxShowGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.checkBoxShowGrid.AutoSize = true;
-            this.checkBoxShowGrid.Location = new System.Drawing.Point(817, 501);
+            this.checkBoxShowGrid.Location = new System.Drawing.Point(729, 501);
             this.checkBoxShowGrid.Name = "checkBoxShowGrid";
             this.checkBoxShowGrid.Size = new System.Drawing.Size(75, 17);
             this.checkBoxShowGrid.TabIndex = 6;
@@ -528,11 +552,110 @@
             this.timerUpdate.Interval = 33;
             this.timerUpdate.Tick += new System.EventHandler(this.timerUpdate_Tick);
             // 
+            // labelMapMouseX
+            // 
+            this.labelMapMouseX.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.labelMapMouseX.AutoSize = true;
+            this.labelMapMouseX.Location = new System.Drawing.Point(23, 716);
+            this.labelMapMouseX.Name = "labelMapMouseX";
+            this.labelMapMouseX.Size = new System.Drawing.Size(55, 13);
+            this.labelMapMouseX.TabIndex = 7;
+            this.labelMapMouseX.Text = "Mouse X :";
+            // 
+            // labelMapMouseY
+            // 
+            this.labelMapMouseY.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.labelMapMouseY.AutoSize = true;
+            this.labelMapMouseY.Location = new System.Drawing.Point(23, 744);
+            this.labelMapMouseY.Name = "labelMapMouseY";
+            this.labelMapMouseY.Size = new System.Drawing.Size(55, 13);
+            this.labelMapMouseY.TabIndex = 8;
+            this.labelMapMouseY.Text = "Mouse Y :";
+            // 
+            // label5
+            // 
+            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(241, 727);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(49, 13);
+            this.label5.TabIndex = 9;
+            this.label5.Text = "BG Color";
+            // 
+            // labelTileSetMouseY
+            // 
+            this.labelTileSetMouseY.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelTileSetMouseY.AutoSize = true;
+            this.labelTileSetMouseY.Location = new System.Drawing.Point(904, 530);
+            this.labelTileSetMouseY.Name = "labelTileSetMouseY";
+            this.labelTileSetMouseY.Size = new System.Drawing.Size(55, 13);
+            this.labelTileSetMouseY.TabIndex = 11;
+            this.labelTileSetMouseY.Text = "Mouse Y :";
+            // 
+            // labelTileSetMouseX
+            // 
+            this.labelTileSetMouseX.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelTileSetMouseX.AutoSize = true;
+            this.labelTileSetMouseX.Location = new System.Drawing.Point(904, 502);
+            this.labelTileSetMouseX.Name = "labelTileSetMouseX";
+            this.labelTileSetMouseX.Size = new System.Drawing.Size(55, 13);
+            this.labelTileSetMouseX.TabIndex = 10;
+            this.labelTileSetMouseX.Text = "Mouse X :";
+            // 
+            // panelMapViewerBGColor
+            // 
+            this.panelMapViewerBGColor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.panelMapViewerBGColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelMapViewerBGColor.Location = new System.Drawing.Point(209, 718);
+            this.panelMapViewerBGColor.Name = "panelMapViewerBGColor";
+            this.panelMapViewerBGColor.Size = new System.Drawing.Size(26, 22);
+            this.panelMapViewerBGColor.TabIndex = 12;
+            this.panelMapViewerBGColor.MouseClick += new System.Windows.Forms.MouseEventHandler(this.panelMapViewerBGColor_MouseClick);
+            // 
+            // panelTileSetVewerBGColor
+            // 
+            this.panelTileSetVewerBGColor.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.panelTileSetVewerBGColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panelTileSetVewerBGColor.Location = new System.Drawing.Point(810, 502);
+            this.panelTileSetVewerBGColor.Name = "panelTileSetVewerBGColor";
+            this.panelTileSetVewerBGColor.Size = new System.Drawing.Size(26, 22);
+            this.panelTileSetVewerBGColor.TabIndex = 14;
+            this.panelTileSetVewerBGColor.MouseClick += new System.Windows.Forms.MouseEventHandler(this.panelTileSetVewerBGColor_MouseClick);
+            // 
+            // label9
+            // 
+            this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(842, 511);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(49, 13);
+            this.label9.TabIndex = 13;
+            this.label9.Text = "BG Color";
+            // 
+            // labelSelectedTileId
+            // 
+            this.labelSelectedTileId.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelSelectedTileId.AutoSize = true;
+            this.labelSelectedTileId.Location = new System.Drawing.Point(727, 530);
+            this.labelSelectedTileId.Name = "labelSelectedTileId";
+            this.labelSelectedTileId.Size = new System.Drawing.Size(81, 13);
+            this.labelSelectedTileId.TabIndex = 15;
+            this.labelSelectedTileId.Text = "SelectedTileId :";
+            // 
             // frmTielMapEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1016, 766);
+            this.Controls.Add(this.labelSelectedTileId);
+            this.Controls.Add(this.panelTileSetVewerBGColor);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.panelMapViewerBGColor);
+            this.Controls.Add(this.labelTileSetMouseY);
+            this.Controls.Add(this.labelTileSetMouseX);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.labelMapMouseY);
+            this.Controls.Add(this.labelMapMouseX);
             this.Controls.Add(this.checkBoxShowGrid);
             this.Controls.Add(this.gbTilest);
             this.Controls.Add(this.panel1);
@@ -609,6 +732,16 @@
         private System.Windows.Forms.ToolStripButton toolStripButtonRotateCCW;
         private System.Windows.Forms.OpenFileDialog openFileDialogTileSet;
         private System.Windows.Forms.Timer timerUpdate;
+        private System.Windows.Forms.Label labelMapMouseX;
+        private System.Windows.Forms.Label labelMapMouseY;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label labelTileSetMouseY;
+        private System.Windows.Forms.Label labelTileSetMouseX;
+        private System.Windows.Forms.Panel panelMapViewerBGColor;
+        private System.Windows.Forms.Panel panelTileSetVewerBGColor;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.ColorDialog colorDialogBGSelector;
+        private System.Windows.Forms.Label labelSelectedTileId;
     }
 }
 
