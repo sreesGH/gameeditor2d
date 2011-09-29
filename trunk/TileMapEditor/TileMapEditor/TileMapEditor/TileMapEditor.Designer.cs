@@ -508,6 +508,7 @@
             this.textBoxMapHeight.Name = "textBoxMapHeight";
             this.textBoxMapHeight.Size = new System.Drawing.Size(100, 20);
             this.textBoxMapHeight.TabIndex = 3;
+            this.textBoxMapHeight.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxTileWidth_KeyPress);
             // 
             // textBoxMapWidth
             // 
@@ -515,6 +516,7 @@
             this.textBoxMapWidth.Name = "textBoxMapWidth";
             this.textBoxMapWidth.Size = new System.Drawing.Size(100, 20);
             this.textBoxMapWidth.TabIndex = 2;
+            this.textBoxMapWidth.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxTileWidth_KeyPress);
             // 
             // textBoxTileHeight
             // 
@@ -522,6 +524,7 @@
             this.textBoxTileHeight.Name = "textBoxTileHeight";
             this.textBoxTileHeight.Size = new System.Drawing.Size(100, 20);
             this.textBoxTileHeight.TabIndex = 1;
+            this.textBoxTileHeight.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxTileWidth_KeyPress);
             // 
             // textBoxTileWidth
             // 
@@ -530,6 +533,7 @@
             this.textBoxTileWidth.Size = new System.Drawing.Size(100, 20);
             this.textBoxTileWidth.TabIndex = 0;
             this.textBoxTileWidth.TextChanged += new System.EventHandler(this.textBoxTileWidth_TextChanged);
+            this.textBoxTileWidth.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBoxTileWidth_KeyPress);
             // 
             // checkBoxShowGrid
             // 

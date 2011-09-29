@@ -14,42 +14,44 @@ namespace TileMapEditor
 {
     public partial class frmTielMapEditor : Form
     {
-        Graphics gMapViewerGraphics;
-        Bitmap gMapViewerBuffer;
+        static Graphics gMapViewerGraphics;
+        static Bitmap gMapViewerBuffer;
 
-        Graphics gTileSetViewerGraphics;
-        Bitmap gTileSetViewerBuffer;
+        static Graphics gTileSetViewerGraphics;
+        static Bitmap gTileSetViewerBuffer;
 
-        Color MapViewerBGcolor = new Color();
-        Color TileSetViewerBGcolor = new Color();
+        static Color MapViewerBGcolor = new Color();
+        static Color TileSetViewerBGcolor = new Color();
 
-        bool mbShowGridOnMapViewer = false;
-        Pen blackPen = new Pen(Color.Black, 1);
+        static bool mbShowGridOnMapViewer = false;
+        static Pen blackPen = new Pen(Color.Black, 1);
 
         bool mbParamSet = false;
         bool m_bLeftMouseDownMapViewer = false;
+        bool mbOpenMap = false;
 
         static CTileMap mTileMap = null;
-        Bitmap mTileSetImage = null;
-        Bitmap[,] mTileImageArray = null;
+        static Bitmap mTileSetImage = null;
+        static Bitmap[,] mTileImageArray = null;
 
         static int mSelectedTileId = -1;
-        int mNbhTilesInTileSet = 0;
-        int mNbvTilesInTileSet = 0;
+        static int mNbhTilesInTileSet = 0;
+        static int mNbvTilesInTileSet = 0;
 
-        int mMapViewerMouseX = 0;
-        int mMapViewerMouseY = 0;
+        static int mMapViewerMouseX = 0;
+        static int mMapViewerMouseY = 0;
 
-        string mSavePath = null;
+        static string mSavePath = null;
 
         //Action list
         const int ADD_TILES = 0;
-        const int REMOVE_TILES = 1;
-        const int ROTATE_TILES = 2;
-        const int FLIP_H_TILES = 3;
-        const int FLIP_V_TILES = 4;
+        const int REMOVE_TILES = ADD_TILES + 1;
+        const int ROTATE_TILES = REMOVE_TILES + 1;
+        const int FLIP_H_TILES = ROTATE_TILES + 1;
+        const int FLIP_V_TILES = FLIP_H_TILES + 1;
 
-        static Stack<CAction> mActionstack = new Stack<CAction>();
+        static Stack<CAction> mActionUndoStack = new Stack<CAction>();
+        static Stack<CAction> mActionRedoStack = new Stack<CAction>();
 
         public static void DoAction(int action, int[] param)
         {
@@ -58,7 +60,7 @@ namespace TileMapEditor
                 case ADD_TILES:
                     {
                         CAction actionObj = new CAction(action, param);
-                        mActionstack.Push(actionObj);
+                        mActionUndoStack.Push(actionObj);
                         //Add single tile
                         //param[0] = tileid, param[1] = mouseX, param[2] = mouseY
                         if(param.Length == 3)   
@@ -74,14 +76,48 @@ namespace TileMapEditor
                         }
                     }
                     break;
+
+                case REMOVE_TILES:
+                    {
+                        CAction actionObj = new CAction(action, param);
+                        mActionUndoStack.Push(actionObj);
+                        //Add single tile
+                        //param[0] = mouseX, param[1] = mouseY
+                        if (param.Length == 2)
+                        {
+                            AssignTile(-1, param[1], param[2]);
+                        }
+                        //Add tiles in an area 
+                        //param[0] = mouseStartX, param[1] = mouseStartY
+                        //param[2] = mouseEndX, param[3] = mouseEndY
+                        else if (param.Length == 4)
+                        {
+
+                        }
+                    }
+                    break;
             }
         }
+
+        //////////////////////////////////////////////////////////////////////////////////////
+        //The technique is: 
+        //  Keep the Command objects in a stack to support multi level undo. 
+        //  A second stack keeps all the commands you've Undone in order to support redo. 
+        //  So when you pop the undo stack to undo a command,
+        //      you push the same command you popped into the redo stack. 
+        //  You do the same thing in reverse when you redo a command.
+        //  You pop the redo stack and push the popped command back into the undo stack.
+        //////////////////////////////////////////////////////////////////////////////////////
 
         public static void UnDoAction(int action, int[] param)
         {
 
         }
 
+        public static void ReDoAction(int action, int[] param)
+        {
+
+        }
 
         public frmTielMapEditor()
         {
@@ -144,11 +180,13 @@ namespace TileMapEditor
 
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            mbOpenMap = false;
             InitAll();
         }
 
         private void toolStripButtonNew_Click(object sender, EventArgs e)
         {
+            mbOpenMap = false;
             InitAll();
         }
 
@@ -169,6 +207,10 @@ namespace TileMapEditor
                 if (maybeTextBox is TextBox)
                 {
                     maybeTextBox.TextChanged += new EventHandler(textBoxTileWidth_TextChanged);
+                    if (maybeTextBox.Name != "textBoxTileSetName")
+                    {
+                        maybeTextBox.KeyPress += new KeyPressEventHandler(textBoxTileWidth_KeyPress);
+                    }
                 }
             }
 
@@ -212,13 +254,17 @@ namespace TileMapEditor
                 //pictureBoxMapViewer.Image.Dispose();
                 pictureBoxMapViewer.Image = new Bitmap(mapWidth, mapHeight);
                 
-                //set default map each element to -1
-                mTileMap.mtileArray = new int[mTileMap.mnbHTiles * mTileMap.mnbVTiles];
-                for (int i = 0; i < mTileMap.mnbHTiles * mTileMap.mnbVTiles; i++)
+                //not when map is opened, do it only when new map is created
+                if (!mbOpenMap)
                 {
-                    //for (int j = 0; j < mTileMap.mnbVTiles; j++)
+                    //set default map each element to -1
+                    mTileMap.mtileArray = new int[mTileMap.mnbHTiles * mTileMap.mnbVTiles];
+                    for (int i = 0; i < mTileMap.mnbHTiles * mTileMap.mnbVTiles; i++)
                     {
-                        mTileMap.mtileArray[i] = -1;
+                        //for (int j = 0; j < mTileMap.mnbVTiles; j++)
+                        {
+                            mTileMap.mtileArray[i] = -1;
+                        }
                     }
                 }
 
@@ -229,10 +275,19 @@ namespace TileMapEditor
             }
         }
 
+        private void textBoxTileWidth_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
+            {
+                e.Handled = true;
+            }
+
+        }
+
         private void CreateTileImages()
         {
-            mNbhTilesInTileSet = pictureBoxTileSetViewer.Image.Width / mTileMap.mtileWidth;
-            mNbvTilesInTileSet = pictureBoxTileSetViewer.Image.Height/ mTileMap.mtileHeight;
+            mNbhTilesInTileSet = mTileSetImage.Width / mTileMap.mtileWidth;
+            mNbvTilesInTileSet = mTileSetImage.Height / mTileMap.mtileHeight;
 
             mTileImageArray = new Bitmap[mNbhTilesInTileSet, mNbvTilesInTileSet];
 
@@ -245,7 +300,7 @@ namespace TileMapEditor
 
                     using (Graphics gfx = Graphics.FromImage(bmpDst))
                     {
-                        gfx.DrawImage(pictureBoxTileSetViewer.Image, 0, 0, new Rectangle(i * mTileMap.mtileWidth, j * mTileMap.mtileHeight, mTileMap.mtileWidth, mTileMap.mtileHeight), GraphicsUnit.Pixel);
+                        gfx.DrawImage(mTileSetImage, 0, 0, new Rectangle(i * mTileMap.mtileWidth, j * mTileMap.mtileHeight, mTileMap.mtileWidth, mTileMap.mtileHeight), GraphicsUnit.Pixel);
                     }
 
                     mTileImageArray[i, j] = bmpDst;
@@ -259,11 +314,16 @@ namespace TileMapEditor
             if (result == DialogResult.OK) // Test result.
             {
                 mTileMap.mTileSetImagePath = openFileDialogTileSet.FileName;
-                textBoxTileSetName.Text = mTileMap.mTileSetImagePath;
-                mTileSetImage = new Bitmap(mTileMap.mTileSetImagePath);
-                pictureBoxTileSetViewer.Image = mTileSetImage;
-                CreateTileSetViewerBuffers();
+                CreateTileSetImage();
             }
+        }
+
+        private void CreateTileSetImage()
+        {
+            textBoxTileSetName.Text = mTileMap.mTileSetImagePath;
+            mTileSetImage = new Bitmap(mTileMap.mTileSetImagePath);
+            pictureBoxTileSetViewer.Image = mTileSetImage;
+            CreateTileSetViewerBuffers();
         }
 
         private void timerUpdate_Tick(object sender, EventArgs e)
@@ -396,8 +456,8 @@ namespace TileMapEditor
             if (m_bLeftMouseDownMapViewer)
             {
                 //AssignTile(e.X, e.Y);
-                if (Math.Abs(e.X - mMapViewerMouseX) > mTileMap.mtileWidth
-                    || Math.Abs(e.Y - lastTilePosY) > mTileMap.mtileHeight)
+                //if (Math.Abs(e.X - mMapViewerMouseX) > mTileMap.mtileWidth
+                //    || Math.Abs(e.Y - lastTilePosY) > mTileMap.mtileHeight)
                 {
                     lastTilePosX = e.X;
                     lastTilePosY = e.Y;
@@ -525,11 +585,13 @@ namespace TileMapEditor
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            mbOpenMap = true;
             Open();
         }
 
         private void toolStripButtonOpen_Click(object sender, EventArgs e)
         {
+            mbOpenMap = true;
             Open();
         }
 
@@ -542,9 +604,26 @@ namespace TileMapEditor
 
                 TextReader textReader = new StreamReader(@path);
                 XmlSerializer readImage = new XmlSerializer(typeof(CTileMap));
-                mTileMap = new CTileMap();
+                //mTileMap = new CTileMap();
+                InitAll();
                 mTileMap = (CTileMap)readImage.Deserialize(textReader);
                 textReader.Close();
+                CreateTileSetImage();
+                CreateTileImages();
+
+                int mapWidth = (UInt16)(mTileMap.mnbHTiles * mTileMap.mtileWidth);
+                int mapHeight = (UInt16)(mTileMap.mnbVTiles * mTileMap.mtileHeight);
+                labelMapSize.Text = "Map Size : " + mapWidth + " x " + mapHeight + " [in Pixels]";
+
+                textBoxMapHeight.Text = "" + mTileMap.mnbVTiles;
+                textBoxMapWidth.Text = "" + mTileMap.mnbHTiles;
+                textBoxTileHeight.Text = "" + mTileMap.mtileHeight;
+                textBoxTileWidth.Text = "" + mTileMap.mtileWidth;
+
+                //pictureBoxMapViewer.Image = new Bitmap(mapWidth, mapHeight);
+                //CreateMapViewerBuffers();
+
+               // mbParamSet = true;
             }
         }
     }
