@@ -620,11 +620,53 @@ namespace TileMapEditor
                 textBoxTileHeight.Text = "" + mTileMap.mtileHeight;
                 textBoxTileWidth.Text = "" + mTileMap.mtileWidth;
 
-                //pictureBoxMapViewer.Image = new Bitmap(mapWidth, mapHeight);
-                //CreateMapViewerBuffers();
-
-               // mbParamSet = true;
+                mSavePath = path;
             }
+        }
+
+        private void frmTielMapEditor_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            
+        }
+
+        private void frmTielMapEditor_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            DialogResult resultMsgBox = MessageBox.Show("Do you want to save the changes?",
+            "TileMapEditor", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
+
+            if (resultMsgBox == DialogResult.Yes)
+            {
+                if (mSavePath != null)
+                {
+                    Save();
+                }
+                else
+                {
+                    DialogResult result = saveFileDialogMap.ShowDialog();
+                    if (result == DialogResult.OK)
+                    {
+                        mSavePath = saveFileDialogMap.FileName;
+                        Save();
+                    }
+                    else
+                    {
+                        e.Cancel = true;
+                    }
+                }
+            }
+            else if (resultMsgBox == DialogResult.No)
+            {
+                //Just exit
+            }
+            else
+            {
+                e.Cancel = true;
+            }
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+           this.Close();
         }
     }
 

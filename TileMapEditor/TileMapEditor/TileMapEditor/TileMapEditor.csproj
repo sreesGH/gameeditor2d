@@ -128,6 +128,15 @@
   <ItemGroup>
     <None Include="Resources\rotate_cw.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\paint_bucket.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pointer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tile_pick.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
