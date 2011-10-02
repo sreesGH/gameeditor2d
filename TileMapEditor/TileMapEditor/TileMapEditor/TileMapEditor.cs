@@ -29,6 +29,9 @@ namespace TileMapEditor
         bool mbParamSet = false;
         bool m_bLeftMouseDownMapViewer = false;
         bool mbOpenMap = false;
+        //it is not a rect with width and height, but used as place holder for 
+        //mouse(x1, y1) and (x2, y2)
+        //static Rectangle mSelectionRect = new Rectangle();
 
         static CTileMap mTileMap = null;
         static Bitmap mTileSetImage = null;
@@ -53,47 +56,24 @@ namespace TileMapEditor
         static Stack<CAction> mActionUndoStack = new Stack<CAction>();
         static Stack<CAction> mActionRedoStack = new Stack<CAction>();
 
-        public static void DoAction(int action, int[] param)
+        static List<CTile> mTileList = new List<CTile>();
+
+        public static void SaveAction(int action, List<CTile> tileList)
         {
+            CAction actionObj = new CAction(action, tileList);
+            mActionUndoStack.Push(actionObj);
+
             switch (action)
             {
                 case ADD_TILES:
                     {
-                        CAction actionObj = new CAction(action, param);
-                        mActionUndoStack.Push(actionObj);
-                        //Add single tile
-                        //param[0] = tileid, param[1] = mouseX, param[2] = mouseY
-                        if(param.Length == 3)   
-                        {
-                            AssignTile(param[0], param[1], param[2]);
-                        }
-                        //Add tiles in an area 
-                        //param[0] = tileid, param[1] = mouseStartX, param[2] = mouseStartY
-                        //param[3] = mouseEndX, param[4] = mouseEndY
-                        else if (param.Length == 5)
-                        {
-
-                        }
+                       
                     }
                     break;
 
                 case REMOVE_TILES:
                     {
-                        CAction actionObj = new CAction(action, param);
-                        mActionUndoStack.Push(actionObj);
-                        //Add single tile
-                        //param[0] = mouseX, param[1] = mouseY
-                        if (param.Length == 2)
-                        {
-                            AssignTile(-1, param[1], param[2]);
-                        }
-                        //Add tiles in an area 
-                        //param[0] = mouseStartX, param[1] = mouseStartY
-                        //param[2] = mouseEndX, param[3] = mouseEndY
-                        else if (param.Length == 4)
-                        {
-
-                        }
+                        
                     }
                     break;
             }
@@ -109,14 +89,59 @@ namespace TileMapEditor
         //  You pop the redo stack and push the popped command back into the undo stack.
         //////////////////////////////////////////////////////////////////////////////////////
 
-        public static void UnDoAction(int action, int[] param)
+        public static void UnDoAction()
         {
+            if (mActionUndoStack.Count > 0)
+            {
+                CAction action = mActionUndoStack.Pop();
+                mActionRedoStack.Push(action);
+
+                switch (action.mAction)
+                {
+                    case ADD_TILES:
+                        {
+                            foreach (CTile tile in action.mTileList)
+                            {
+                                mTileMap.mtileArray[tile.mPos] = tile.mCurrentTileId;
+                            }
+                        }
+                        break;
+
+                    case REMOVE_TILES:
+                        {
+
+                        }
+                        break;
+                }
+            }
 
         }
 
-        public static void ReDoAction(int action, int[] param)
+        public static void ReDoAction()
         {
+            if (mActionRedoStack.Count > 0)
+            {
+                CAction action = mActionRedoStack.Pop();
+                mActionUndoStack.Push(action);
 
+                switch (action.mAction)
+                {
+                    case ADD_TILES:
+                        {
+                            foreach (CTile tile in action.mTileList)
+                            {
+                                mTileMap.mtileArray[tile.mPos] = tile.mNewTileId;
+                            }
+                        }
+                        break;
+
+                    case REMOVE_TILES:
+                        {
+
+                        }
+                        break;
+                }
+            }
         }
 
         public frmTielMapEditor()
@@ -346,21 +371,18 @@ namespace TileMapEditor
                 {
                     for (int i = 0; i < mTileMap.mnbHTiles * mTileMap.mnbVTiles; i++)
                     {
-                        //for (int j = 0; j < mTileMap.mnbVTiles; j++)
+                        if (mTileMap.mtileArray[i] != -1)
                         {
-                            if (mTileMap.mtileArray[i] != -1)
+                            if (mTileImageArray != null)
                             {
-                                if (mTileImageArray != null)
-                                {
-                                    int h = (int)mTileMap.mtileArray[i] / mNbhTilesInTileSet;
-                                    int v = (int)mTileMap.mtileArray[i] % mNbhTilesInTileSet;
+                                int h = (int)mTileMap.mtileArray[i] / mNbhTilesInTileSet;
+                                int v = (int)mTileMap.mtileArray[i] % mNbhTilesInTileSet;
 
-                                    if (mTileImageArray[v, h] != null)
-                                    {
-                                        int x = (i % mTileMap.mnbHTiles) * mTileMap.mtileWidth;
-                                        int y = (i / mTileMap.mnbHTiles) * mTileMap.mtileHeight;
-                                        gMapViewerGraphics.DrawImage(mTileImageArray[v, h], x, y);
-                                    }
+                                if (mTileImageArray[v, h] != null)
+                                {
+                                    int x = (i % mTileMap.mnbHTiles) * mTileMap.mtileWidth;
+                                    int y = (i / mTileMap.mnbHTiles) * mTileMap.mtileHeight;
+                                    gMapViewerGraphics.DrawImage(mTileImageArray[v, h], x, y);
                                 }
                             }
                         }
@@ -444,32 +466,6 @@ namespace TileMapEditor
             labelTileSetMouseY.Text = "Mouse Y : " + e.Y;
         }
 
-        //inorder to avoid cumulative addition of same tile in same location 
-        //while mouse move in same grid 
-        int lastTilePosX, lastTilePosY = 0;
-
-        private void pictureBoxMapViewer_MouseMove(object sender, MouseEventArgs e)
-        {
-            labelMapMouseX.Text = "Mouse X : " + e.X;
-            labelMapMouseY.Text = "Mouse Y : " + e.Y;
-
-            if (m_bLeftMouseDownMapViewer)
-            {
-                //AssignTile(e.X, e.Y);
-                //if (Math.Abs(e.X - mMapViewerMouseX) > mTileMap.mtileWidth
-                //    || Math.Abs(e.Y - lastTilePosY) > mTileMap.mtileHeight)
-                {
-                    lastTilePosX = e.X;
-                    lastTilePosY = e.Y;
-                    int[] param = { mSelectedTileId, e.X, e.Y };
-                    DoAction(ADD_TILES, param);
-                }
-            }
-
-            mMapViewerMouseX = e.X;
-            mMapViewerMouseY = e.Y;
-        }
-
         private void toolStripButtonShowGrid_Click(object sender, EventArgs e)
         {
             mbShowGridOnMapViewer = !mbShowGridOnMapViewer; 
@@ -498,9 +494,13 @@ namespace TileMapEditor
             if (e.Button == MouseButtons.Left)
             {
                 m_bLeftMouseDownMapViewer = true;
-                //AssignTile(e.X, e.Y);
-                int[] param = {mSelectedTileId, e.X, e.Y };
-                DoAction(ADD_TILES, param);
+                
+                //mSelectionRect.X = 0;       mSelectionRect.Y = 0;
+                //mSelectionRect.Width = 0;   mSelectionRect.Height = 0;
+
+                AssignTile(mSelectedTileId, e.X, e.Y);
+                //int[] param = {mSelectedTileId, e.X, e.Y };
+                //DoAction(ADD_TILES, param);
             }
             else if (e.Button == MouseButtons.Right)
             {
@@ -508,22 +508,67 @@ namespace TileMapEditor
             }
         }
 
-        private static void  AssignTile(int id, int x, int y)
-        {
-            int h = x / mTileMap.mtileWidth;
-            int v = y / mTileMap.mtileHeight;
-            int pos = (mTileMap.mnbHTiles * v) + h;
-            if (pos >= 0 && pos < (mTileMap.mnbHTiles * mTileMap.mnbVTiles))
-            {
-                mTileMap.mtileArray[pos] = mSelectedTileId;
-            }
-        }
-
         private void pictureBoxMapViewer_MouseUp(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
+                //int[] param = { mSelectedTileId, mSelectionRect.X, mSelectionRect.Y, mSelectionRect.Width, mSelectionRect.Height};
+                //SaveAction(ADD_TILES, param);
+                List<CTile> tileList = new List<CTile>();
+                tileList = mTileList;
+                SaveAction(ADD_TILES, tileList);
+                mTileList.Clear();
                 m_bLeftMouseDownMapViewer = false;
+
+            }
+        }
+
+        private void pictureBoxMapViewer_MouseMove(object sender, MouseEventArgs e)
+        {
+            labelMapMouseX.Text = "Mouse X : " + e.X;
+            labelMapMouseY.Text = "Mouse Y : " + e.Y;
+
+            if (m_bLeftMouseDownMapViewer)
+            {
+                AssignTile(mSelectedTileId, e.X, e.Y);
+                //if (e.X < mSelectionRect.X)         mSelectionRect.X = e.X;
+                //if (e.Y < mSelectionRect.Y)         mSelectionRect.Y = e.Y;
+                //if (e.X > mSelectionRect.Width)     mSelectionRect.Width = e.X;
+                //if (e.Y > mSelectionRect.Height)    mSelectionRect.Height = e.Y;
+                //int[] param = { mSelectedTileId, e.X, e.Y };
+                //DoAction(ADD_TILES, param);
+            }
+
+            mMapViewerMouseX = e.X;
+            mMapViewerMouseY = e.Y;
+        }
+
+        private static void AssignTile(int id, int x, int y)
+        {
+            int h = x / mTileMap.mtileWidth;
+            int v = y / mTileMap.mtileHeight;
+            int pos = (mTileMap.mnbHTiles * v) + h;
+            
+            if (pos >= 0 && pos < (mTileMap.mnbHTiles * mTileMap.mnbVTiles))
+            {
+                bool found = false;
+                foreach (CTile t in mTileList)
+                {
+                    if (t.mPos == pos) // Will match once
+                    {
+                        found = true;
+                    }
+                }
+                if (!found)
+                {
+                    CTile tile = new CTile();
+                    tile.mPos = pos;
+                    tile.mCurrentTileId = mTileMap.mtileArray[pos];
+                    //tile.mFlag = mTileMap.mtileFlagArray[pos];
+                    tile.mNewTileId = mSelectedTileId;
+                    mTileList.Add(tile);
+                    mTileMap.mtileArray[pos] = mSelectedTileId;
+                }
             }
         }
 
@@ -604,7 +649,6 @@ namespace TileMapEditor
 
                 TextReader textReader = new StreamReader(@path);
                 XmlSerializer readImage = new XmlSerializer(typeof(CTileMap));
-                //mTileMap = new CTileMap();
                 InitAll();
                 mTileMap = (CTileMap)readImage.Deserialize(textReader);
                 textReader.Close();
@@ -668,6 +712,86 @@ namespace TileMapEditor
         {
            this.Close();
         }
+
+        private void toolStripButtonExport_Click(object sender, EventArgs e)
+        {
+            //Export
+        }
+
+        private void toolStripButtonUndo_Click(object sender, EventArgs e)
+        {
+            //undo
+            UnDoAction();
+        }
+
+        private void toolStripButtonRedo_Click(object sender, EventArgs e)
+        {
+            //redo
+            ReDoAction();
+        }
+
+        private void toolStripButtonCut_Click(object sender, EventArgs e)
+        {
+            //cut
+        }
+
+        private void toolStripButtonCopy_Click(object sender, EventArgs e)
+        {
+            //copy
+        }
+
+        private void toolStripButtonPaste_Click(object sender, EventArgs e)
+        {
+            //paste
+        }
+
+        private void toolStripButtonErase_Click(object sender, EventArgs e)
+        {
+            //erase
+        }
+
+        private void toolStripButtonFlipX_Click(object sender, EventArgs e)
+        {
+            //hflip
+        }
+
+        private void toolStripButtonFlipY_Click(object sender, EventArgs e)
+        {
+            //vflip
+        }
+
+        private void toolStripButtonRotateCW_Click(object sender, EventArgs e)
+        {
+            //rotate cw
+        }
+
+        private void toolStripButtonRotateCCW_Click(object sender, EventArgs e)
+        {
+            //rotate ccw
+        }
+
+        private void toolStripButtonFill_Click(object sender, EventArgs e)
+        {
+            //fill
+        }
+
+        private void toolStripButtonPointer_Click(object sender, EventArgs e)
+        {
+            //select
+        }
+
+        private void toolStripButtonPicker_Click(object sender, EventArgs e)
+        {
+            //pick
+        }
+    }
+
+    public class CTile
+    {
+        public int mPos;
+        public UInt32 mFlag;
+        public int mCurrentTileId;
+        public int mNewTileId;
     }
 
     public class CTileMap
@@ -690,13 +814,14 @@ namespace TileMapEditor
 
     public class CAction
     {
-        int mAction;
-        int []mParam;
+        public int mAction;
+        public List<CTile> mTileList;
 
-        public CAction(int action, int[] param)
+        public CAction(int action, List<CTile> tileList)
         {
             mAction = action;
-            mParam = param;
+            mTileList = new List<CTile>();
+            mTileList .AddRange(tileList);
         }
     }
 }
