@@ -405,6 +405,7 @@
             this.toolStripButtonExport.Name = "toolStripButtonExport";
             this.toolStripButtonExport.Size = new System.Drawing.Size(32, 32);
             this.toolStripButtonExport.Text = "Export";
+            this.toolStripButtonExport.Click += new System.EventHandler(this.toolStripButtonExport_Click);
             // 
             // toolStripButtonUndo
             // 
@@ -415,6 +416,7 @@
             this.toolStripButtonUndo.Name = "toolStripButtonUndo";
             this.toolStripButtonUndo.Size = new System.Drawing.Size(32, 32);
             this.toolStripButtonUndo.Text = "Undo";
+            this.toolStripButtonUndo.Click += new System.EventHandler(this.toolStripButtonUndo_Click);
             // 
             // toolStripButtonRedo
             // 
@@ -425,6 +427,7 @@
             this.toolStripButtonRedo.Name = "toolStripButtonRedo";
             this.toolStripButtonRedo.Size = new System.Drawing.Size(32, 32);
             this.toolStripButtonRedo.Text = "Redo";
+            this.toolStripButtonRedo.Click += new System.EventHandler(this.toolStripButtonRedo_Click);
             // 
             // toolStripButtonShowGrid
             // 
@@ -446,6 +449,7 @@
             this.toolStripButtonCut.Name = "toolStripButtonCut";
             this.toolStripButtonCut.Size = new System.Drawing.Size(32, 32);
             this.toolStripButtonCut.Text = "Cut";
+            this.toolStripButtonCut.Click += new System.EventHandler(this.toolStripButtonCut_Click);
             // 
             // toolStripButtonCopy
             // 
@@ -456,6 +460,7 @@
             this.toolStripButtonCopy.Name = "toolStripButtonCopy";
             this.toolStripButtonCopy.Size = new System.Drawing.Size(32, 32);
             this.toolStripButtonCopy.Text = "Copy";
+            this.toolStripButtonCopy.Click += new System.EventHandler(this.toolStripButtonCopy_Click);
             // 
             // toolStripButtonPaste
             // 
@@ -466,6 +471,7 @@
             this.toolStripButtonPaste.Name = "toolStripButtonPaste";
             this.toolStripButtonPaste.Size = new System.Drawing.Size(32, 32);
             this.toolStripButtonPaste.Text = "Paste";
+            this.toolStripButtonPaste.Click += new System.EventHandler(this.toolStripButtonPaste_Click);
             // 
             // toolStripButtonErase
             // 
@@ -476,6 +482,7 @@
             this.toolStripButtonErase.Name = "toolStripButtonErase";
             this.toolStripButtonErase.Size = new System.Drawing.Size(32, 32);
             this.toolStripButtonErase.Text = "Erase";
+            this.toolStripButtonErase.Click += new System.EventHandler(this.toolStripButtonErase_Click);
             // 
             // toolStripButtonFlipX
             // 
@@ -486,6 +493,7 @@
             this.toolStripButtonFlipX.Name = "toolStripButtonFlipX";
             this.toolStripButtonFlipX.Size = new System.Drawing.Size(32, 32);
             this.toolStripButtonFlipX.Text = "Flip Horizondal";
+            this.toolStripButtonFlipX.Click += new System.EventHandler(this.toolStripButtonFlipX_Click);
             // 
             // toolStripButtonFlipY
             // 
@@ -496,6 +504,7 @@
             this.toolStripButtonFlipY.Name = "toolStripButtonFlipY";
             this.toolStripButtonFlipY.Size = new System.Drawing.Size(32, 32);
             this.toolStripButtonFlipY.Text = "Flip Vertical";
+            this.toolStripButtonFlipY.Click += new System.EventHandler(this.toolStripButtonFlipY_Click);
             // 
             // toolStripButtonRotateCW
             // 
@@ -506,6 +515,7 @@
             this.toolStripButtonRotateCW.Name = "toolStripButtonRotateCW";
             this.toolStripButtonRotateCW.Size = new System.Drawing.Size(32, 32);
             this.toolStripButtonRotateCW.Text = "Rotate Clockwise";
+            this.toolStripButtonRotateCW.Click += new System.EventHandler(this.toolStripButtonRotateCW_Click);
             // 
             // toolStripButtonRotateCCW
             // 
@@ -516,6 +526,7 @@
             this.toolStripButtonRotateCCW.Name = "toolStripButtonRotateCCW";
             this.toolStripButtonRotateCCW.Size = new System.Drawing.Size(32, 32);
             this.toolStripButtonRotateCCW.Text = "Rotate Counter Clockwise";
+            this.toolStripButtonRotateCCW.Click += new System.EventHandler(this.toolStripButtonRotateCCW_Click);
             // 
             // toolStripButtonFill
             // 
@@ -526,6 +537,7 @@
             this.toolStripButtonFill.Name = "toolStripButtonFill";
             this.toolStripButtonFill.Size = new System.Drawing.Size(32, 32);
             this.toolStripButtonFill.Text = "Fill";
+            this.toolStripButtonFill.Click += new System.EventHandler(this.toolStripButtonFill_Click);
             // 
             // toolStripButtonPointer
             // 
@@ -536,6 +548,7 @@
             this.toolStripButtonPointer.Name = "toolStripButtonPointer";
             this.toolStripButtonPointer.Size = new System.Drawing.Size(32, 32);
             this.toolStripButtonPointer.Text = "Select";
+            this.toolStripButtonPointer.Click += new System.EventHandler(this.toolStripButtonPointer_Click);
             // 
             // toolStripButtonPicker
             // 
@@ -546,6 +559,7 @@
             this.toolStripButtonPicker.Name = "toolStripButtonPicker";
             this.toolStripButtonPicker.Size = new System.Drawing.Size(32, 32);
             this.toolStripButtonPicker.Text = "Pick Tile";
+            this.toolStripButtonPicker.Click += new System.EventHandler(this.toolStripButtonPicker_Click);
             // 
             // openFileDialogMap
             // 
