@@ -64,6 +64,7 @@
             this.toolStripButtonUndo = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonRedo = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonShowGrid = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonPointer = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonCut = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonCopy = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonPaste = new System.Windows.Forms.ToolStripButton();
@@ -73,7 +74,6 @@
             this.toolStripButtonRotateCW = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonRotateCCW = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonFill = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButtonPointer = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonPicker = new System.Windows.Forms.ToolStripButton();
             this.openFileDialogMap = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialogMap = new System.Windows.Forms.SaveFileDialog();
@@ -217,16 +217,18 @@
             // unDoToolStripMenuItem
             // 
             this.unDoToolStripMenuItem.Name = "unDoToolStripMenuItem";
-            this.unDoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
+            this.unDoToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
             this.unDoToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.unDoToolStripMenuItem.Text = "Undo";
+            this.unDoToolStripMenuItem.Click += new System.EventHandler(this.unDoToolStripMenuItem_Click);
             // 
             // redoToolStripMenuItem1
             // 
             this.redoToolStripMenuItem1.Name = "redoToolStripMenuItem1";
-            this.redoToolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
+            this.redoToolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
             this.redoToolStripMenuItem1.Size = new System.Drawing.Size(150, 22);
             this.redoToolStripMenuItem1.Text = "Redo";
+            this.redoToolStripMenuItem1.Click += new System.EventHandler(this.redoToolStripMenuItem1_Click);
             // 
             // tileToolStripMenuItem
             // 
@@ -285,6 +287,7 @@
             this.selectToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.S)));
             this.selectToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.selectToolStripMenuItem.Text = "Select";
+            this.selectToolStripMenuItem.Click += new System.EventHandler(this.selectToolStripMenuItem_Click);
             // 
             // pickToolStripMenuItem
             // 
@@ -313,6 +316,7 @@
             this.eraseToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.E)));
             this.eraseToolStripMenuItem.Size = new System.Drawing.Size(168, 22);
             this.eraseToolStripMenuItem.Text = "Erase";
+            this.eraseToolStripMenuItem.Click += new System.EventHandler(this.eraseToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -346,6 +350,7 @@
             this.toolStripButtonUndo,
             this.toolStripButtonRedo,
             this.toolStripButtonShowGrid,
+            this.toolStripButtonPointer,
             this.toolStripButtonCut,
             this.toolStripButtonCopy,
             this.toolStripButtonPaste,
@@ -355,7 +360,6 @@
             this.toolStripButtonRotateCW,
             this.toolStripButtonRotateCCW,
             this.toolStripButtonFill,
-            this.toolStripButtonPointer,
             this.toolStripButtonPicker});
             this.toolStripMain.Location = new System.Drawing.Point(0, 24);
             this.toolStripMain.Name = "toolStripMain";
@@ -439,6 +443,17 @@
             this.toolStripButtonShowGrid.Size = new System.Drawing.Size(32, 32);
             this.toolStripButtonShowGrid.Text = "Show Grid";
             this.toolStripButtonShowGrid.Click += new System.EventHandler(this.toolStripButtonShowGrid_Click);
+            // 
+            // toolStripButtonPointer
+            // 
+            this.toolStripButtonPointer.AutoSize = false;
+            this.toolStripButtonPointer.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonPointer.Image = global::TileMapEditor.Properties.Resources.pointer;
+            this.toolStripButtonPointer.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonPointer.Name = "toolStripButtonPointer";
+            this.toolStripButtonPointer.Size = new System.Drawing.Size(32, 32);
+            this.toolStripButtonPointer.Text = "Select";
+            this.toolStripButtonPointer.Click += new System.EventHandler(this.toolStripButtonPointer_Click);
             // 
             // toolStripButtonCut
             // 
@@ -538,17 +553,6 @@
             this.toolStripButtonFill.Size = new System.Drawing.Size(32, 32);
             this.toolStripButtonFill.Text = "Fill";
             this.toolStripButtonFill.Click += new System.EventHandler(this.toolStripButtonFill_Click);
-            // 
-            // toolStripButtonPointer
-            // 
-            this.toolStripButtonPointer.AutoSize = false;
-            this.toolStripButtonPointer.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonPointer.Image = global::TileMapEditor.Properties.Resources.pointer;
-            this.toolStripButtonPointer.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButtonPointer.Name = "toolStripButtonPointer";
-            this.toolStripButtonPointer.Size = new System.Drawing.Size(32, 32);
-            this.toolStripButtonPointer.Text = "Select";
-            this.toolStripButtonPointer.Click += new System.EventHandler(this.toolStripButtonPointer_Click);
             // 
             // toolStripButtonPicker
             // 

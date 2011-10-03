@@ -26,12 +26,8 @@ namespace TileMapEditor
         static bool mbShowGridOnMapViewer = false;
         static Pen blackPen = new Pen(Color.Black, 1);
 
-        bool mbParamSet = false;
         bool m_bLeftMouseDownMapViewer = false;
         bool mbOpenMap = false;
-        //it is not a rect with width and height, but used as place holder for 
-        //mouse(x1, y1) and (x2, y2)
-        //static Rectangle mSelectionRect = new Rectangle();
 
         static CTileMap mTileMap = null;
         static Bitmap mTileSetImage = null;
@@ -46,17 +42,19 @@ namespace TileMapEditor
 
         static string mSavePath = null;
 
-        //Action list
-        const int ADD_TILES = 0;
-        const int REMOVE_TILES = ADD_TILES + 1;
-        const int ROTATE_TILES = REMOVE_TILES + 1;
-        const int FLIP_H_TILES = ROTATE_TILES + 1;
-        const int FLIP_V_TILES = FLIP_H_TILES + 1;
-
         static Stack<CAction> mActionUndoStack = new Stack<CAction>();
         static Stack<CAction> mActionRedoStack = new Stack<CAction>();
 
+        //this list contains added / removed in single action
+        //ie: from one left-click to release of the click
         static List<CTile> mTileList = new List<CTile>();
+
+        //selected tile position list
+        static List<int> mSelectedTileList = new List<int>();
+        SolidBrush mSelectionBrush = new SolidBrush(Color.FromArgb(1056964863)); //transparent blue
+
+        static int m_state = CState.STATE_INVALID;
+        static int m_prevState = CState.STATE_INVALID;
 
         public static void SaveAction(int action, List<CTile> tileList)
         {
@@ -65,15 +63,9 @@ namespace TileMapEditor
 
             switch (action)
             {
-                case ADD_TILES:
+                case CAction.ACTION_ADD_TILES:
                     {
                        
-                    }
-                    break;
-
-                case REMOVE_TILES:
-                    {
-                        
                     }
                     break;
             }
@@ -98,18 +90,12 @@ namespace TileMapEditor
 
                 switch (action.mAction)
                 {
-                    case ADD_TILES:
+                    case CAction.ACTION_ADD_TILES:
                         {
                             foreach (CTile tile in action.mTileList)
                             {
                                 mTileMap.mtileArray[tile.mPos] = tile.mCurrentTileId;
                             }
-                        }
-                        break;
-
-                    case REMOVE_TILES:
-                        {
-
                         }
                         break;
                 }
@@ -126,18 +112,12 @@ namespace TileMapEditor
 
                 switch (action.mAction)
                 {
-                    case ADD_TILES:
+                    case CAction.ACTION_ADD_TILES:
                         {
                             foreach (CTile tile in action.mTileList)
                             {
                                 mTileMap.mtileArray[tile.mPos] = tile.mNewTileId;
                             }
-                        }
-                        break;
-
-                    case REMOVE_TILES:
-                        {
-
                         }
                         break;
                 }
@@ -296,12 +276,13 @@ namespace TileMapEditor
                 CreateMapViewerBuffers();
                 CreateTileImages();
 
-                mbParamSet = true;
+                m_state = CState.STATE_ADD_TILES;
             }
         }
 
         private void textBoxTileWidth_KeyPress(object sender, KeyPressEventArgs e)
         {
+            //allow only numeric values
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '.')
             {
                 e.Handled = true;
@@ -367,7 +348,7 @@ namespace TileMapEditor
                 gMapViewerGraphics.Clear(MapViewerBGcolor);
 
                 //draw map
-                if (mbParamSet)
+                if (m_state != CState.STATE_INVALID)
                 {
                     for (int i = 0; i < mTileMap.mnbHTiles * mTileMap.mnbVTiles; i++)
                     {
@@ -388,14 +369,27 @@ namespace TileMapEditor
                         }
                     }
 
-                    //draw current selected tile
-                    if (mSelectedTileId != -1)
+                    if (m_state == CState.STATE_SELECT_TILES)
                     {
-                        int x = mSelectedTileId / mNbhTilesInTileSet;
-                        int y = mSelectedTileId % mNbhTilesInTileSet;
-                        if (mTileImageArray[y, x] != null)
+                        foreach (int pos in mSelectedTileList)
                         {
-                            gMapViewerGraphics.DrawImage(mTileImageArray[y, x], mMapViewerMouseX, mMapViewerMouseY);
+                            int x = (pos % mTileMap.mnbHTiles) * mTileMap.mtileWidth;
+                            int y = (pos / mTileMap.mnbHTiles) * mTileMap.mtileHeight;
+                            gMapViewerGraphics.FillRectangle(mSelectionBrush, x, y, mTileMap.mtileWidth, mTileMap.mtileHeight);
+                        }
+                    }
+
+                    //draw current selected tile below current mouse pos
+                    if (m_state != CState.STATE_REMOVE_TILES)
+                    {
+                        if (mSelectedTileId != -1)
+                        {
+                            int x = mSelectedTileId / mNbhTilesInTileSet;
+                            int y = mSelectedTileId % mNbhTilesInTileSet;
+                            if (mTileImageArray[y, x] != null)
+                            {
+                                gMapViewerGraphics.DrawImage(mTileImageArray[y, x], mMapViewerMouseX, mMapViewerMouseY);
+                            }
                         }
                     }
                 }
@@ -423,7 +417,7 @@ namespace TileMapEditor
                 gTileSetViewerGraphics.DrawImage(mTileSetImage, new Point(0, 0));
 
                  //draw grid
-                if (mbParamSet)
+                if (m_state == CState.STATE_ADD_TILES)
                 {
                     if (checkBoxShowGrid.Checked)
                     {
@@ -473,7 +467,7 @@ namespace TileMapEditor
 
         private void pictureBoxTileSetViewer_MouseDown(object sender, MouseEventArgs e)
         {
-            if (mbParamSet)
+            if (m_state == CState.STATE_ADD_TILES)
             {
                 if (e.Button == MouseButtons.Left)
                 {
@@ -494,13 +488,7 @@ namespace TileMapEditor
             if (e.Button == MouseButtons.Left)
             {
                 m_bLeftMouseDownMapViewer = true;
-                
-                //mSelectionRect.X = 0;       mSelectionRect.Y = 0;
-                //mSelectionRect.Width = 0;   mSelectionRect.Height = 0;
-
                 AssignTile(mSelectedTileId, e.X, e.Y);
-                //int[] param = {mSelectedTileId, e.X, e.Y };
-                //DoAction(ADD_TILES, param);
             }
             else if (e.Button == MouseButtons.Right)
             {
@@ -512,11 +500,9 @@ namespace TileMapEditor
         {
             if (e.Button == MouseButtons.Left)
             {
-                //int[] param = { mSelectedTileId, mSelectionRect.X, mSelectionRect.Y, mSelectionRect.Width, mSelectionRect.Height};
-                //SaveAction(ADD_TILES, param);
-                List<CTile> tileList = new List<CTile>();
-                tileList = mTileList;
-                SaveAction(ADD_TILES, tileList);
+                //List<CTile> tileList = new List<CTile>();
+                //tileList = mTileList;
+                SaveAction(CAction.ACTION_ADD_TILES, mTileList);
                 mTileList.Clear();
                 m_bLeftMouseDownMapViewer = false;
 
@@ -531,12 +517,6 @@ namespace TileMapEditor
             if (m_bLeftMouseDownMapViewer)
             {
                 AssignTile(mSelectedTileId, e.X, e.Y);
-                //if (e.X < mSelectionRect.X)         mSelectionRect.X = e.X;
-                //if (e.Y < mSelectionRect.Y)         mSelectionRect.Y = e.Y;
-                //if (e.X > mSelectionRect.Width)     mSelectionRect.Width = e.X;
-                //if (e.Y > mSelectionRect.Height)    mSelectionRect.Height = e.Y;
-                //int[] param = { mSelectedTileId, e.X, e.Y };
-                //DoAction(ADD_TILES, param);
             }
 
             mMapViewerMouseX = e.X;
@@ -548,26 +528,50 @@ namespace TileMapEditor
             int h = x / mTileMap.mtileWidth;
             int v = y / mTileMap.mtileHeight;
             int pos = (mTileMap.mnbHTiles * v) + h;
-            
-            if (pos >= 0 && pos < (mTileMap.mnbHTiles * mTileMap.mnbVTiles))
+
+            if(m_state == CState.STATE_SELECT_TILES)
             {
                 bool found = false;
-                foreach (CTile t in mTileList)
+                foreach (int storedPos in mSelectedTileList)
                 {
-                    if (t.mPos == pos) // Will match once
+                    if (storedPos == pos)
                     {
                         found = true;
                     }
                 }
                 if (!found)
                 {
-                    CTile tile = new CTile();
-                    tile.mPos = pos;
-                    tile.mCurrentTileId = mTileMap.mtileArray[pos];
-                    //tile.mFlag = mTileMap.mtileFlagArray[pos];
-                    tile.mNewTileId = mSelectedTileId;
-                    mTileList.Add(tile);
-                    mTileMap.mtileArray[pos] = mSelectedTileId;
+                    mSelectedTileList.Add(pos);
+                }
+            }
+            else
+            {
+                //remove tile means adding a -1 tile id
+                if(m_state == CState.STATE_REMOVE_TILES)
+                {
+                    mSelectedTileId = -1;
+                }
+
+                if (pos >= 0 && pos < (mTileMap.mnbHTiles * mTileMap.mnbVTiles))
+                {
+                    bool found = false;
+                    foreach (CTile t in mTileList)
+                    {
+                        if (t.mPos == pos)
+                        {
+                            found = true;
+                        }
+                    }
+                    if (!found)
+                    {
+                        CTile tile = new CTile();
+                        tile.mPos = pos;
+                        tile.mCurrentTileId = mTileMap.mtileArray[pos];
+                        //tile.mFlag = mTileMap.mtileFlagArray[pos];
+                        tile.mNewTileId = mSelectedTileId;
+                        mTileList.Add(tile);
+                        mTileMap.mtileArray[pos] = mSelectedTileId;
+                    }
                 }
             }
         }
@@ -724,7 +728,19 @@ namespace TileMapEditor
             UnDoAction();
         }
 
+        private void unDoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //undo
+            UnDoAction();
+        }
+
         private void toolStripButtonRedo_Click(object sender, EventArgs e)
+        {
+            //redo
+            ReDoAction();
+        }
+
+        private void redoToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             //redo
             ReDoAction();
@@ -748,6 +764,31 @@ namespace TileMapEditor
         private void toolStripButtonErase_Click(object sender, EventArgs e)
         {
             //erase
+            int state = m_state;
+            if(m_state == CState.STATE_REMOVE_TILES)
+            {
+                m_state = m_prevState;
+            }
+            else
+            {
+                m_state = CState.STATE_REMOVE_TILES;
+            }
+            m_prevState = state;
+        }
+
+        private void eraseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //erase
+            int state = m_state;
+            if (m_state == CState.STATE_REMOVE_TILES)
+            {
+                m_state = m_prevState;
+            }
+            else
+            {
+                m_state = CState.STATE_REMOVE_TILES;
+            }
+            m_prevState = state;
         }
 
         private void toolStripButtonFlipX_Click(object sender, EventArgs e)
@@ -778,6 +819,33 @@ namespace TileMapEditor
         private void toolStripButtonPointer_Click(object sender, EventArgs e)
         {
             //select
+            int state = m_state;
+            if (m_state == CState.STATE_SELECT_TILES)
+            {
+                m_state = m_prevState;
+            }
+            else
+            {
+                m_state = CState.STATE_SELECT_TILES;
+            }
+            m_prevState = state;
+        }
+
+        private void selectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //select
+            int state = m_state;
+            if (m_state == CState.STATE_SELECT_TILES)
+            {
+                m_state = m_prevState;
+                //clear selected tiles
+                mSelectedTileList.Clear();
+            }
+            else
+            {
+                m_state = CState.STATE_SELECT_TILES;
+            }
+            m_prevState = state;
         }
 
         private void toolStripButtonPicker_Click(object sender, EventArgs e)
@@ -814,6 +882,12 @@ namespace TileMapEditor
 
     public class CAction
     {
+        //Action list
+        public const int ACTION_ADD_TILES = 0;
+        public const int ACTION_ROTATE_TILES = ACTION_ADD_TILES + 1;
+        public const int ACTION_FLIP_H_TILES = ACTION_ROTATE_TILES + 1;
+        public const int ACTION_FLIP_V_TILES = ACTION_FLIP_H_TILES + 1;
+
         public int mAction;
         public List<CTile> mTileList;
 
@@ -821,7 +895,17 @@ namespace TileMapEditor
         {
             mAction = action;
             mTileList = new List<CTile>();
-            mTileList .AddRange(tileList);
+            //copy the list content
+            mTileList.AddRange(tileList);
         }
+    }
+
+    public class CState
+    {
+        public const int STATE_INVALID = 0;
+        public const int STATE_ADD_TILES = STATE_INVALID + 1;
+        public const int STATE_REMOVE_TILES = STATE_ADD_TILES + 1;
+        public const int STATE_SELECT_TILES = STATE_REMOVE_TILES + 1;
+        public const int STATE_PICK_TILE = STATE_SELECT_TILES + 1;
     }
 }
