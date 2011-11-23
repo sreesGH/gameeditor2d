@@ -8,6 +8,11 @@ using System.Text;
 using System.Windows.Forms;
 using System.IO;
 
+//using Tao.OpenGl;
+//using Tao.Platform.Windows;
+
+using OpenTK.Graphics.OpenGL;
+
 using NewLayer;
 
 namespace LevelEditor
@@ -24,9 +29,11 @@ namespace LevelEditor
         const int LAYER_PHYSICS = 2;
 
         // Different tree views to populate corresponding trees
-        const int TREE_VIEW_SPRITE = 0;
-        const int TREE_VIEW_TILESET = 1;
-        const int TREE_VIEW_LEVEL = 2;
+        const int TREE_VIEW_MAP = 0;
+        const int TREE_VIEW_SPRITE = 1;
+        const int TREE_VIEW_SOUND = 2;
+        const int TREE_VIEW_TEXT = 3;
+        const int TREE_VIEW_LEVEL = 4;
 
         string m_spriteRootDirectory = null;
         string m_tileRootDirectory = null;
@@ -36,17 +43,8 @@ namespace LevelEditor
         string substringFile;
 
         //Viewer settings
-        Graphics gViewerGraphics;
-        Bitmap gViewerBuffer;
-        int pbViewerWidth = 800;
-        int pbViewerHeight = 480;
-        Color pbViewerBGcolor = Color.White;
-
-        Graphics gTileViewerGraphics;
-        Bitmap gTileViewerBuffer;
-        int pbTileViewerWidth = 800;
-        int pbTileViewerHeight = 480;
-        Color pbTileViewerBGcolor = Color.Magenta;
+        
+        Color mViewerBGcolor = Color.White;
 
         int hScrollBarPbViewerTileSetX = 0;
         int vScrollBarPbViewerTileSetY = 0;
@@ -54,7 +52,7 @@ namespace LevelEditor
         Bitmap m_selectedTileSet = null;
 
         Pen gPen;
-        Boolean m_bShowMapGrid = false;
+        bool m_bShowMapGrid = false;
 
         //layer
         UInt32 m_layerID = 0;
@@ -89,7 +87,7 @@ namespace LevelEditor
         private void InitializeLevelEditor()
         {
             treeViewSprite.ImageList = imageListTreeViewSprite;
-            treeViewTileImages.ImageList = imageListTreeViewTileSet;
+            treeViewMap.ImageList = imageListTreeViewTileSet;
 
             gPen = new Pen(Color.Gray, 1);
 
@@ -113,9 +111,9 @@ namespace LevelEditor
                                 continue;
                             }
                         }
-                        else if (type == TREE_VIEW_TILESET)
+                        else if (type == TREE_VIEW_MAP)
                         {
-                            if (directory.IndexOf("\\TileSet") == -1)
+                            if (directory.IndexOf("\\Map") == -1)
                             {
                                 continue;
                             }
@@ -134,9 +132,9 @@ namespace LevelEditor
                         {
                             fileFilter = Directory.GetFiles(@directory, "*.gfx");
                         }
-                        else if (type == TREE_VIEW_TILESET)
+                        else if (type == TREE_VIEW_MAP)
                         {
-                            fileFilter = Directory.GetFiles(@directory, "*.bmp");
+                            fileFilter = Directory.GetFiles(@directory, "*.map");
                         }
                         else if (type == TREE_VIEW_LEVEL)
                         {
@@ -193,23 +191,7 @@ namespace LevelEditor
 
         private void treeViewTileImages_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            if (e.Node.ToString().IndexOf(".bmp") != -1
-                || e.Node.ToString().IndexOf(".png") != -1
-                || e.Node.ToString().IndexOf(".tga") != -1)
-            {
-                e.Node.SelectedImageIndex = 3;
-
-                string path = null;
-
-                path = e.Node.Parent.FullPath + "\\" + e.Node.Text;
-                m_selectedTileSet = new Bitmap(path);
-                if (m_selectedTileSet != null)
-                {
-                    pbTileViewer.Image = m_selectedTileSet;
-                }
-                //hScrollBarPbViewerTileSet.Maximum = m_selectedTileSet.Width - pbTileViewer.Width;
-                //vScrollBarPbViewerTileSet.Maximum = m_selectedTileSet.Height - pbTileViewer.Height;
-            }
+            
         }
 
         private void hScrollBarPbViewerTileSet_Scroll(object sender, ScrollEventArgs e)
@@ -226,8 +208,7 @@ namespace LevelEditor
         {
             UpdatePictureBoxes();
             DrawPictureBoxes();
-            pbViewer.Refresh();
-            pbTileViewer.Refresh();
+      
         }
 
         private void UpdatePictureBoxes()
@@ -237,103 +218,25 @@ namespace LevelEditor
 
         private void DrawPictureBoxes()
         {
-            //Clear it
-            gViewerGraphics.Clear(pbViewerBGcolor);
-            gTileViewerGraphics.Clear(pbTileViewerBGcolor);
-
-            if (m_selectedTileSet != null)
-            {
-                gTileViewerGraphics.DrawImage(m_selectedTileSet, -hScrollBarPbViewerTileSetX, -vScrollBarPbViewerTileSetY);
-            }
-
-            if (m_bShowMapGrid)
-            {
-                if (m_tileHeight <= 0 || m_tileWidth <= 0)
-                {
-                    m_tileHeight = 16;
-                    m_tileWidth = 16;
-                }
-
-                int nbHlines = pbViewerWidth / m_tileHeight + 1;
-                int nbVlines = pbViewerWidth / m_tileWidth + 1;
-
-                for(int i = 0; i < nbHlines; i++)
-                {
-                    gViewerGraphics.DrawLine(gPen, 0, i * m_tileHeight, pbViewerWidth, i * m_tileHeight);
-                }
-                for (int j = 0; j < nbVlines; j++)
-                {
-                    gViewerGraphics.DrawLine(gPen, j * m_tileWidth, 0, j * m_tileWidth, pbViewerHeight);
-                }
-            }
-
-            if (checkBoxShowTileGrid.Checked)
-            {
-                if (m_tileHeight <= 0 || m_tileWidth <= 0)
-                {
-                    m_tileHeight = 16;
-                    m_tileWidth = 16;
-                }
-
-                int nbHlines = pbTileViewerWidth / m_tileHeight + 1;
-                int nbVlines = pbTileViewerWidth / m_tileWidth + 1;
-
-                for (int i = 0; i < nbHlines; i++)
-                {
-                    gTileViewerGraphics.DrawLine(gPen, 0, i * m_tileHeight - vScrollBarPbViewerTileSetY, pbViewerWidth, i * m_tileHeight - vScrollBarPbViewerTileSetY);
-                }
-                for (int j = 0; j < nbVlines; j++)
-                {
-                    gTileViewerGraphics.DrawLine(gPen, j * m_tileWidth - hScrollBarPbViewerTileSetX, 0, j * m_tileWidth - hScrollBarPbViewerTileSetX, pbViewerHeight);
-                }
-            }
+            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+            OpenGlControlEditor.SwapBuffers();
         }
 
         private void LevelEditor_Load(object sender, EventArgs e)
         {
             // Resize will be called already, so need to create buffer again here
             // May be because of start maximised is set in from property
-            
+
+            OpenGlControlEditor.InitializeContexts();
+            GL.ClearColor(Color.White);
+
             // start timer
             timerUpdate.Enabled = true;
         }
 
         private void LevelEditor_Resize(object sender, EventArgs e)
         {
-            pbViewerWidth = pbViewer.Width;
-            pbViewerHeight = pbViewer.Height;
-
-            if (pbViewerWidth <= 0 || pbViewerHeight <= 0) return;
-
-            if (gViewerBuffer != null)
-            {
-                gViewerBuffer.Dispose();
-            }
-            if (gViewerGraphics != null)
-            {
-                gViewerGraphics.Dispose();
-            }
-            gViewerBuffer = new Bitmap(pbViewerWidth, pbViewerHeight);
-            gViewerGraphics = Graphics.FromImage(gViewerBuffer);
-            pbViewer.Image = gViewerBuffer;
-
-            pbTileViewerWidth = pbTileViewer.Width;
-            pbTileViewerHeight = pbTileViewer.Height;
-
-            if (pbTileViewerWidth <= 0 || pbTileViewerHeight <= 0) return;
-
-            if (gTileViewerBuffer != null)
-            {
-                gTileViewerBuffer.Dispose();
-            }
-            if (gTileViewerGraphics != null)
-            {
-                gTileViewerGraphics.Dispose();
-            }
-
-            gTileViewerBuffer = new Bitmap(pbTileViewerWidth, pbTileViewerHeight);
-            gTileViewerGraphics = Graphics.FromImage(gTileViewerBuffer);
-            pbTileViewer.Image = gTileViewerBuffer;
+            
         }
 
         private void toolStripButtonAddLayer_Click(object sender, EventArgs e)
@@ -371,37 +274,15 @@ namespace LevelEditor
 
         private void AddLayer()
         {
-            int n = dataGridViewLayer.Rows.Add();
-            dataGridViewLayer.Rows[n].Cells[0].Value = "" + m_layerID;
-            dataGridViewLayer.Rows[n].Cells[1].Value = "" + m_layerName;
             switch (m_layerType)
             {
                 case LAYER_TILE:
-                    dataGridViewLayer.Rows[n].Cells[2].Value = "" + "TILE LAYER";
-
-                    CTileLayer layer = new CTileLayer();
-                    layer.m_layerID = m_layerID;
-                    layer.m_layerName = "" + m_layerName;
-                    m_layerID++;
-                    layer.m_layerType = m_layerType;
-                    layer.m_mapWidth = m_mapWidth;
-                    layer.m_mapHeight = m_mapHeight;
-                    layer.m_tileWidth = m_tileWidth;
-                    layer.m_tileHeight = m_tileHeight;
-                    layer.m_nbHTiles = m_nbHTiles;
-                    layer.m_nbVTiles = m_nbVTiles;
-                    layer.m_tileArray = new UInt16[m_nbHTiles, m_nbVTiles];
-                    layer.m_tileFlagArray = new UInt32[m_nbHTiles, m_nbVTiles];
-                    //m_game.mListLayers.Add(layer);
-
                     break;
 
                 case LAYER_OBJECT:
-                    dataGridViewLayer.Rows[n].Cells[2].Value = "" + "OBJECT LAYER";
                     break;
 
                 case LAYER_PHYSICS:
-                    dataGridViewLayer.Rows[n].Cells[2].Value = "" + "PHYSICS LAYER";
                     break;
             }
         }
@@ -451,7 +332,7 @@ namespace LevelEditor
                 System.IO.Directory.CreateDirectory(saveFileDialogLevel.FileName + "/" + "Text");
                 System.IO.Directory.CreateDirectory(saveFileDialogLevel.FileName + "/" + "Sprite");
                 System.IO.Directory.CreateDirectory(saveFileDialogLevel.FileName + "/" + "Level");
-                System.IO.Directory.CreateDirectory(saveFileDialogLevel.FileName + "/" + "TileSet");
+                System.IO.Directory.CreateDirectory(saveFileDialogLevel.FileName + "/" + "Map");
                 System.IO.Directory.CreateDirectory(saveFileDialogLevel.FileName + "/" + "Sound");
                 System.IO.Directory.CreateDirectory(saveFileDialogLevel.FileName + "/" + "Raw");
                 //int nameStart = m_projectRootDirectory.LastIndexOf("\\");
@@ -469,15 +350,17 @@ namespace LevelEditor
         {
             if (m_projectRootDirectory != null)
             {
+                // Show sprties in tree view
                 treeViewSprite.Nodes.Clear();
                 m_spriteRootDirectory = m_projectRootDirectory + "\\" + "Sprite";
                 treeViewSprite.Nodes.Add(m_projectRootDirectory);
                 PopulateTreeView(m_projectRootDirectory, treeViewSprite.Nodes[0], TREE_VIEW_SPRITE);
 
-                treeViewTileImages.Nodes.Clear();
-                m_tileRootDirectory = m_projectRootDirectory + "\\" + "TileSet";
-                treeViewTileImages.Nodes.Add(m_projectRootDirectory);
-                PopulateTreeView(m_projectRootDirectory, treeViewTileImages.Nodes[0], TREE_VIEW_TILESET);
+                // Show sprties in tree view
+                treeViewMap.Nodes.Clear();
+                m_tileRootDirectory = m_projectRootDirectory + "\\" + "Map";
+                treeViewMap.Nodes.Add(m_projectRootDirectory);
+                PopulateTreeView(m_projectRootDirectory, treeViewMap.Nodes[0], TREE_VIEW_MAP);
             }
         }
 
@@ -569,6 +452,49 @@ namespace LevelEditor
         {
             frmNewLevel childWindow = new frmNewLevel();
             childWindow.ShowDialog();
+            string lvlname = childWindow.GetLevelName();
+            childWindow.Dispose();
+        }
+
+        private void treeViewMap_AfterCollapse(object sender, TreeViewEventArgs e)
+        {
+            e.Node.ImageIndex = 0;
+        }
+
+        private void treeViewMap_AfterExpand(object sender, TreeViewEventArgs e)
+        {
+            e.Node.ImageIndex = 1;
+        }
+
+        private void treeViewMap_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            if (e.Node.ToString().IndexOf(".MAP") != -1
+                || e.Node.ToString().IndexOf(".map") != -1)
+            {
+                e.Node.SelectedImageIndex = 3;
+            }
+        }
+
+        private void OpenGlControlEditor_Paint(object sender, PaintEventArgs e)
+        {
+            
+        }
+
+        private void OpenGlControlEditor_MouseMove(object sender, MouseEventArgs e)
+        {
+            lblMouseX.Text = "Mouse X :" + e.X;
+            lblMouseY.Text = "Mouse Y :" + e.Y;
+        }
+
+        private void pnlBgColor_MouseDown(object sender, MouseEventArgs e)
+        {
+            DialogResult result = colorDialogBg.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                mViewerBGcolor = colorDialogBg.Color;
+                GL.ClearColor(mViewerBGcolor);
+                pnlBgColor.BackColor = mViewerBGcolor;
+            }
         }
 
     }
