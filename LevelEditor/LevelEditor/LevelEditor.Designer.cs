@@ -58,40 +58,33 @@
             this.toolStripButtonRefresh = new System.Windows.Forms.ToolStripButton();
             this.toolStripButtonCamera = new System.Windows.Forms.ToolStripButton();
             this.treeViewSprite = new System.Windows.Forms.TreeView();
-            this.treeViewLevel = new System.Windows.Forms.TreeView();
-            this.treeViewTileImages = new System.Windows.Forms.TreeView();
+            this.treeViewMap = new System.Windows.Forms.TreeView();
+            this.treeViewLevels = new System.Windows.Forms.TreeView();
             this.folderBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.groupBoxObjectProperties = new System.Windows.Forms.GroupBox();
-            this.dataGridViewLayer = new System.Windows.Forms.DataGridView();
-            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.name = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.type = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.visibility = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.imageListTreeViewSprite = new System.Windows.Forms.ImageList(this.components);
             this.imageListTreeViewTileSet = new System.Windows.Forms.ImageList(this.components);
             this.timerUpdate = new System.Windows.Forms.Timer(this.components);
-            this.checkBoxShowTileGrid = new System.Windows.Forms.CheckBox();
             this.saveFileDialogLevel = new System.Windows.Forms.SaveFileDialog();
             this.tabControlLevelEditor = new System.Windows.Forms.TabControl();
-            this.tabPageLevel = new System.Windows.Forms.TabPage();
+            this.tabPageMap = new System.Windows.Forms.TabPage();
             this.tabPageSprtie = new System.Windows.Forms.TabPage();
             this.tabPageSound = new System.Windows.Forms.TabPage();
             this.tabPageText = new System.Windows.Forms.TabPage();
-            this.panelTileMap = new System.Windows.Forms.Panel();
-            this.pbTileViewer = new System.Windows.Forms.PictureBox();
             this.panelMainViewer = new System.Windows.Forms.Panel();
-            this.pbViewer = new System.Windows.Forms.PictureBox();
+            this.OpenGlControlEditor = new Tao.Platform.Windows.SimpleOpenGlControl();
             this.buttonDeleteLayer = new System.Windows.Forms.Button();
+            this.pnlBgColor = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.lblMouseX = new System.Windows.Forms.Label();
+            this.lblMouseY = new System.Windows.Forms.Label();
+            this.colorDialogBg = new System.Windows.Forms.ColorDialog();
             this.menuStripLevelEditor.SuspendLayout();
             this.toolStripLevelEditor.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewLayer)).BeginInit();
             this.tabControlLevelEditor.SuspendLayout();
-            this.tabPageLevel.SuspendLayout();
+            this.tabPageMap.SuspendLayout();
             this.tabPageSprtie.SuspendLayout();
-            this.panelTileMap.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbTileViewer)).BeginInit();
             this.panelMainViewer.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbViewer)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStripLevelEditor
@@ -387,78 +380,38 @@
             this.treeViewSprite.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewSprite_AfterSelect);
             this.treeViewSprite.AfterExpand += new System.Windows.Forms.TreeViewEventHandler(this.treeViewSprite_AfterExpand);
             // 
-            // treeViewLevel
+            // treeViewMap
             // 
-            this.treeViewLevel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+            this.treeViewMap.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)));
-            this.treeViewLevel.Location = new System.Drawing.Point(3, 6);
-            this.treeViewLevel.Name = "treeViewLevel";
-            this.treeViewLevel.Size = new System.Drawing.Size(238, 632);
-            this.treeViewLevel.TabIndex = 3;
+            this.treeViewMap.Location = new System.Drawing.Point(3, 6);
+            this.treeViewMap.Name = "treeViewMap";
+            this.treeViewMap.Size = new System.Drawing.Size(238, 632);
+            this.treeViewMap.TabIndex = 3;
+            this.treeViewMap.AfterCollapse += new System.Windows.Forms.TreeViewEventHandler(this.treeViewMap_AfterCollapse);
+            this.treeViewMap.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewMap_AfterSelect);
+            this.treeViewMap.AfterExpand += new System.Windows.Forms.TreeViewEventHandler(this.treeViewMap_AfterExpand);
             // 
-            // treeViewTileImages
+            // treeViewLevels
             // 
-            this.treeViewTileImages.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.treeViewTileImages.Location = new System.Drawing.Point(992, 81);
-            this.treeViewTileImages.Name = "treeViewTileImages";
-            this.treeViewTileImages.Size = new System.Drawing.Size(257, 195);
-            this.treeViewTileImages.TabIndex = 4;
-            this.treeViewTileImages.AfterCollapse += new System.Windows.Forms.TreeViewEventHandler(this.treeViewTileImages_AfterCollapse);
-            this.treeViewTileImages.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewTileImages_AfterSelect);
-            this.treeViewTileImages.AfterExpand += new System.Windows.Forms.TreeViewEventHandler(this.treeViewTileImages_AfterExpand);
+            this.treeViewLevels.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.treeViewLevels.Location = new System.Drawing.Point(992, 81);
+            this.treeViewLevels.Name = "treeViewLevels";
+            this.treeViewLevels.Size = new System.Drawing.Size(268, 641);
+            this.treeViewLevels.TabIndex = 4;
+            this.treeViewLevels.AfterCollapse += new System.Windows.Forms.TreeViewEventHandler(this.treeViewTileImages_AfterCollapse);
+            this.treeViewLevels.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeViewTileImages_AfterSelect);
+            this.treeViewLevels.AfterExpand += new System.Windows.Forms.TreeViewEventHandler(this.treeViewTileImages_AfterExpand);
             // 
             // groupBoxObjectProperties
             // 
             this.groupBoxObjectProperties.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.groupBoxObjectProperties.Location = new System.Drawing.Point(280, 579);
             this.groupBoxObjectProperties.Name = "groupBoxObjectProperties";
-            this.groupBoxObjectProperties.Size = new System.Drawing.Size(714, 175);
+            this.groupBoxObjectProperties.Size = new System.Drawing.Size(706, 175);
             this.groupBoxObjectProperties.TabIndex = 11;
             this.groupBoxObjectProperties.TabStop = false;
             this.groupBoxObjectProperties.Text = "ObjectProperties";
-            // 
-            // dataGridViewLayer
-            // 
-            this.dataGridViewLayer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.dataGridViewLayer.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridViewLayer.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.id,
-            this.name,
-            this.type,
-            this.visibility});
-            this.dataGridViewLayer.Location = new System.Drawing.Point(1004, 588);
-            this.dataGridViewLayer.Name = "dataGridViewLayer";
-            this.dataGridViewLayer.RowHeadersVisible = false;
-            this.dataGridViewLayer.Size = new System.Drawing.Size(264, 134);
-            this.dataGridViewLayer.TabIndex = 13;
-            // 
-            // id
-            // 
-            this.id.HeaderText = "Id";
-            this.id.Name = "id";
-            this.id.ReadOnly = true;
-            this.id.Width = 20;
-            // 
-            // name
-            // 
-            this.name.HeaderText = "Name";
-            this.name.Name = "name";
-            // 
-            // type
-            // 
-            this.type.HeaderText = "Type";
-            this.type.Name = "type";
-            this.type.ReadOnly = true;
-            this.type.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            // 
-            // visibility
-            // 
-            this.visibility.HeaderText = "Visible";
-            this.visibility.Name = "visibility";
-            this.visibility.Resizable = System.Windows.Forms.DataGridViewTriState.True;
-            this.visibility.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
-            this.visibility.Width = 40;
             // 
             // imageListTreeViewSprite
             // 
@@ -482,16 +435,6 @@
             // 
             this.timerUpdate.Tick += new System.EventHandler(this.timerUpdate_Tick);
             // 
-            // checkBoxShowTileGrid
-            // 
-            this.checkBoxShowTileGrid.AutoSize = true;
-            this.checkBoxShowTileGrid.Location = new System.Drawing.Point(1004, 560);
-            this.checkBoxShowTileGrid.Name = "checkBoxShowTileGrid";
-            this.checkBoxShowTileGrid.Size = new System.Drawing.Size(75, 17);
-            this.checkBoxShowTileGrid.TabIndex = 16;
-            this.checkBoxShowTileGrid.Text = "Show Grid";
-            this.checkBoxShowTileGrid.UseVisualStyleBackColor = true;
-            // 
             // saveFileDialogLevel
             // 
             this.saveFileDialogLevel.FileOk += new System.ComponentModel.CancelEventHandler(this.saveFileDialogLevel_FileOk);
@@ -500,7 +443,7 @@
             // 
             this.tabControlLevelEditor.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)));
-            this.tabControlLevelEditor.Controls.Add(this.tabPageLevel);
+            this.tabControlLevelEditor.Controls.Add(this.tabPageMap);
             this.tabControlLevelEditor.Controls.Add(this.tabPageSprtie);
             this.tabControlLevelEditor.Controls.Add(this.tabPageSound);
             this.tabControlLevelEditor.Controls.Add(this.tabPageText);
@@ -510,16 +453,16 @@
             this.tabControlLevelEditor.Size = new System.Drawing.Size(255, 670);
             this.tabControlLevelEditor.TabIndex = 17;
             // 
-            // tabPageLevel
+            // tabPageMap
             // 
-            this.tabPageLevel.Controls.Add(this.treeViewLevel);
-            this.tabPageLevel.Location = new System.Drawing.Point(4, 22);
-            this.tabPageLevel.Name = "tabPageLevel";
-            this.tabPageLevel.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageLevel.Size = new System.Drawing.Size(247, 644);
-            this.tabPageLevel.TabIndex = 1;
-            this.tabPageLevel.Text = "Levels";
-            this.tabPageLevel.UseVisualStyleBackColor = true;
+            this.tabPageMap.Controls.Add(this.treeViewMap);
+            this.tabPageMap.Location = new System.Drawing.Point(4, 22);
+            this.tabPageMap.Name = "tabPageMap";
+            this.tabPageMap.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageMap.Size = new System.Drawing.Size(247, 644);
+            this.tabPageMap.TabIndex = 1;
+            this.tabPageMap.Text = "Maps";
+            this.tabPageMap.UseVisualStyleBackColor = true;
             // 
             // tabPageSprtie
             // 
@@ -550,73 +493,101 @@
             this.tabPageText.Text = "Texts";
             this.tabPageText.UseVisualStyleBackColor = true;
             // 
-            // panelTileMap
-            // 
-            this.panelTileMap.AutoScroll = true;
-            this.panelTileMap.Controls.Add(this.pbTileViewer);
-            this.panelTileMap.Location = new System.Drawing.Point(994, 291);
-            this.panelTileMap.Name = "panelTileMap";
-            this.panelTileMap.Size = new System.Drawing.Size(274, 263);
-            this.panelTileMap.TabIndex = 18;
-            // 
-            // pbTileViewer
-            // 
-            this.pbTileViewer.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pbTileViewer.Location = new System.Drawing.Point(10, 3);
-            this.pbTileViewer.Name = "pbTileViewer";
-            this.pbTileViewer.Size = new System.Drawing.Size(256, 256);
-            this.pbTileViewer.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.pbTileViewer.TabIndex = 5;
-            this.pbTileViewer.TabStop = false;
-            // 
             // panelMainViewer
             // 
             this.panelMainViewer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
             this.panelMainViewer.AutoScroll = true;
-            this.panelMainViewer.Controls.Add(this.pbViewer);
-            this.panelMainViewer.Location = new System.Drawing.Point(276, 85);
+            this.panelMainViewer.Controls.Add(this.OpenGlControlEditor);
+            this.panelMainViewer.Location = new System.Drawing.Point(276, 103);
             this.panelMainViewer.Name = "panelMainViewer";
-            this.panelMainViewer.Size = new System.Drawing.Size(710, 488);
+            this.panelMainViewer.Size = new System.Drawing.Size(710, 470);
             this.panelMainViewer.TabIndex = 19;
             // 
-            // pbViewer
+            // OpenGlControlEditor
             // 
-            this.pbViewer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.pbViewer.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pbViewer.Location = new System.Drawing.Point(4, 3);
-            this.pbViewer.Name = "pbViewer";
-            this.pbViewer.Size = new System.Drawing.Size(703, 482);
-            this.pbViewer.TabIndex = 12;
-            this.pbViewer.TabStop = false;
+            this.OpenGlControlEditor.AccumBits = ((byte)(0));
+            this.OpenGlControlEditor.AutoCheckErrors = false;
+            this.OpenGlControlEditor.AutoFinish = false;
+            this.OpenGlControlEditor.AutoMakeCurrent = true;
+            this.OpenGlControlEditor.AutoSwapBuffers = true;
+            this.OpenGlControlEditor.BackColor = System.Drawing.Color.White;
+            this.OpenGlControlEditor.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("OpenGlControlEditor.BackgroundImage")));
+            this.OpenGlControlEditor.ColorBits = ((byte)(32));
+            this.OpenGlControlEditor.DepthBits = ((byte)(16));
+            this.OpenGlControlEditor.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.OpenGlControlEditor.ForeColor = System.Drawing.Color.White;
+            this.OpenGlControlEditor.Location = new System.Drawing.Point(0, 0);
+            this.OpenGlControlEditor.Name = "OpenGlControlEditor";
+            this.OpenGlControlEditor.Size = new System.Drawing.Size(710, 470);
+            this.OpenGlControlEditor.StencilBits = ((byte)(0));
+            this.OpenGlControlEditor.TabIndex = 0;
+            this.OpenGlControlEditor.VSync = false;
+            this.OpenGlControlEditor.Paint += new System.Windows.Forms.PaintEventHandler(this.OpenGlControlEditor_Paint);
+            this.OpenGlControlEditor.MouseMove += new System.Windows.Forms.MouseEventHandler(this.OpenGlControlEditor_MouseMove);
             // 
             // buttonDeleteLayer
             // 
             this.buttonDeleteLayer.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonDeleteLayer.Location = new System.Drawing.Point(1005, 728);
+            this.buttonDeleteLayer.Location = new System.Drawing.Point(992, 728);
             this.buttonDeleteLayer.Name = "buttonDeleteLayer";
-            this.buttonDeleteLayer.Size = new System.Drawing.Size(262, 25);
+            this.buttonDeleteLayer.Size = new System.Drawing.Size(268, 25);
             this.buttonDeleteLayer.TabIndex = 20;
             this.buttonDeleteLayer.Text = "Delete Layer";
             this.buttonDeleteLayer.UseVisualStyleBackColor = true;
             this.buttonDeleteLayer.Click += new System.EventHandler(this.buttonDeleteLayer_Click);
+            // 
+            // pnlBgColor
+            // 
+            this.pnlBgColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlBgColor.Location = new System.Drawing.Point(292, 77);
+            this.pnlBgColor.Name = "pnlBgColor";
+            this.pnlBgColor.Size = new System.Drawing.Size(21, 20);
+            this.pnlBgColor.TabIndex = 21;
+            this.pnlBgColor.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pnlBgColor_MouseDown);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(319, 81);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(59, 13);
+            this.label1.TabIndex = 22;
+            this.label1.Text = "Back Color";
+            // 
+            // lblMouseX
+            // 
+            this.lblMouseX.AutoSize = true;
+            this.lblMouseX.Location = new System.Drawing.Point(756, 81);
+            this.lblMouseX.Name = "lblMouseX";
+            this.lblMouseX.Size = new System.Drawing.Size(55, 13);
+            this.lblMouseX.TabIndex = 23;
+            this.lblMouseX.Text = "Mouse X :";
+            // 
+            // lblMouseY
+            // 
+            this.lblMouseY.AutoSize = true;
+            this.lblMouseY.Location = new System.Drawing.Point(851, 81);
+            this.lblMouseY.Name = "lblMouseY";
+            this.lblMouseY.Size = new System.Drawing.Size(55, 13);
+            this.lblMouseY.TabIndex = 24;
+            this.lblMouseY.Text = "Mouse Y :";
             // 
             // LevelEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1272, 766);
+            this.Controls.Add(this.lblMouseY);
+            this.Controls.Add(this.lblMouseX);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.pnlBgColor);
             this.Controls.Add(this.buttonDeleteLayer);
             this.Controls.Add(this.panelMainViewer);
-            this.Controls.Add(this.checkBoxShowTileGrid);
-            this.Controls.Add(this.panelTileMap);
             this.Controls.Add(this.tabControlLevelEditor);
-            this.Controls.Add(this.dataGridViewLayer);
             this.Controls.Add(this.groupBoxObjectProperties);
-            this.Controls.Add(this.treeViewTileImages);
+            this.Controls.Add(this.treeViewLevels);
             this.Controls.Add(this.toolStripLevelEditor);
             this.Controls.Add(this.menuStripLevelEditor);
             this.MainMenuStrip = this.menuStripLevelEditor;
@@ -629,15 +600,10 @@
             this.menuStripLevelEditor.PerformLayout();
             this.toolStripLevelEditor.ResumeLayout(false);
             this.toolStripLevelEditor.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridViewLayer)).EndInit();
             this.tabControlLevelEditor.ResumeLayout(false);
-            this.tabPageLevel.ResumeLayout(false);
+            this.tabPageMap.ResumeLayout(false);
             this.tabPageSprtie.ResumeLayout(false);
-            this.panelTileMap.ResumeLayout(false);
-            this.panelTileMap.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pbTileViewer)).EndInit();
             this.panelMainViewer.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.pbViewer)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -653,12 +619,10 @@
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.ToolStrip toolStripLevelEditor;
         private System.Windows.Forms.TreeView treeViewSprite;
-        private System.Windows.Forms.TreeView treeViewLevel;
-        private System.Windows.Forms.TreeView treeViewTileImages;
+        private System.Windows.Forms.TreeView treeViewMap;
+        private System.Windows.Forms.TreeView treeViewLevels;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog;
         private System.Windows.Forms.GroupBox groupBoxObjectProperties;
-        private System.Windows.Forms.PictureBox pbViewer;
-        private System.Windows.Forms.DataGridView dataGridViewLayer;
         private System.Windows.Forms.ToolStripButton toolStripButtonAddLayer;
         private System.Windows.Forms.ToolStripButton toolStripButtonTilePicker;
         private System.Windows.Forms.ToolStripButton toolStripButtonPanMap;
@@ -669,13 +633,12 @@
         private System.Windows.Forms.ImageList imageListTreeViewSprite;
         private System.Windows.Forms.ImageList imageListTreeViewTileSet;
         private System.Windows.Forms.Timer timerUpdate;
-        private System.Windows.Forms.CheckBox checkBoxShowTileGrid;
         private System.Windows.Forms.ToolStripButton toolStripButtonPlay;
         private System.Windows.Forms.SaveFileDialog saveFileDialogLevel;
         private System.Windows.Forms.ToolStripButton toolStripButtonRefresh;
         private System.Windows.Forms.TabControl tabControlLevelEditor;
         private System.Windows.Forms.TabPage tabPageSprtie;
-        private System.Windows.Forms.TabPage tabPageLevel;
+        private System.Windows.Forms.TabPage tabPageMap;
         private System.Windows.Forms.TabPage tabPageSound;
         private System.Windows.Forms.TabPage tabPageText;
         private System.Windows.Forms.ToolStripMenuItem editToolStripMenuItem;
@@ -683,20 +646,20 @@
         private System.Windows.Forms.ToolStripMenuItem redoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.ToolStripButton toolStripButtonCamera;
-        private System.Windows.Forms.PictureBox pbTileViewer;
         private System.Windows.Forms.ToolStripMenuItem refreshToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem projectToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem previewToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem setCameraToolStripMenuItem;
-        private System.Windows.Forms.Panel panelTileMap;
         private System.Windows.Forms.Panel panelMainViewer;
         private System.Windows.Forms.ToolStripButton toolStripButtonOpen;
-        private System.Windows.Forms.DataGridViewTextBoxColumn id;
-        private System.Windows.Forms.DataGridViewTextBoxColumn name;
-        private System.Windows.Forms.DataGridViewTextBoxColumn type;
-        private System.Windows.Forms.DataGridViewCheckBoxColumn visibility;
         private System.Windows.Forms.Button buttonDeleteLayer;
         private System.Windows.Forms.ToolStripButton toolStripButtonAddLEvel;
+        private Tao.Platform.Windows.SimpleOpenGlControl OpenGlControlEditor;
+        private System.Windows.Forms.Panel pnlBgColor;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblMouseX;
+        private System.Windows.Forms.Label lblMouseY;
+        private System.Windows.Forms.ColorDialog colorDialogBg;
     }
 }
 

@@ -11,6 +11,7 @@ namespace LevelEditor
 {
     public partial class frmNewLevel : Form
     {
+        string mLevelName = null;
         public frmNewLevel()
         {
             InitializeComponent();
@@ -23,7 +24,13 @@ namespace LevelEditor
 
         private void btnOK_Click(object sender, EventArgs e)
         {
+            mLevelName = tbLevelName.Text;
+            this.Close();
+        }
 
+        public string GetLevelName()
+        {
+            return mLevelName;
         }
     }
 }
