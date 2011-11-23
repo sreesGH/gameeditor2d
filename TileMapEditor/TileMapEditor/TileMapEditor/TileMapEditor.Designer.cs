@@ -107,6 +107,7 @@
             this.label9 = new System.Windows.Forms.Label();
             this.colorDialogBGSelector = new System.Windows.Forms.ColorDialog();
             this.labelSelectedTileId = new System.Windows.Forms.Label();
+            this.saveFileDialogExport = new System.Windows.Forms.SaveFileDialog();
             this.menuStripMain.SuspendLayout();
             this.toolStripMain.SuspendLayout();
             this.panelTileSetViwer.SuspendLayout();
@@ -173,6 +174,7 @@
                         | System.Windows.Forms.Keys.S)));
             this.exportToolStripMenuItem.Size = new System.Drawing.Size(185, 22);
             this.exportToolStripMenuItem.Text = "Export";
+            this.exportToolStripMenuItem.Click += new System.EventHandler(this.exportToolStripMenuItem_Click);
             // 
             // exitToolStripMenuItem
             // 
@@ -247,6 +249,7 @@
             this.flipHToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.H)));
             this.flipHToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
             this.flipHToolStripMenuItem.Text = "Flip Horizontally";
+            this.flipHToolStripMenuItem.Click += new System.EventHandler(this.flipHToolStripMenuItem_Click);
             // 
             // flipVerticallyToolStripMenuItem
             // 
@@ -254,6 +257,7 @@
             this.flipVerticallyToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.V)));
             this.flipVerticallyToolStripMenuItem.Size = new System.Drawing.Size(195, 22);
             this.flipVerticallyToolStripMenuItem.Text = "Flip Vertically";
+            this.flipVerticallyToolStripMenuItem.Click += new System.EventHandler(this.flipVerticallyToolStripMenuItem_Click);
             // 
             // rotateCWToolStripMenuItem
             // 
@@ -859,6 +863,10 @@
             this.labelSelectedTileId.TabIndex = 15;
             this.labelSelectedTileId.Text = "SelectedTileId :";
             // 
+            // saveFileDialogExport
+            // 
+            this.saveFileDialogExport.Filter = "(*.btsm)|*.btsm";
+            // 
             // frmTielMapEditor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -982,6 +990,7 @@
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpTopicToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+        private System.Windows.Forms.SaveFileDialog saveFileDialogExport;
     }
 }
 

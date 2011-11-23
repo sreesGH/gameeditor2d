@@ -41,6 +41,7 @@ namespace TileMapEditor
         static int mMapViewerMouseY = 0;
 
         static string mSavePath = null;
+        static string mExportPath = null;
 
         static Stack<CAction> mActionUndoStack = new Stack<CAction>();
         static Stack<CAction> mActionRedoStack = new Stack<CAction>();
@@ -56,19 +57,13 @@ namespace TileMapEditor
         static int m_state = CState.STATE_INVALID;
         static int m_prevState = CState.STATE_INVALID;
 
+        const int FLIP_HORIZONDAL = 0;
+        const int FLIP_VERTICAL = FLIP_HORIZONDAL + 1;
+
         public static void SaveAction(int action, List<CTile> tileList)
         {
             CAction actionObj = new CAction(action, tileList);
             mActionUndoStack.Push(actionObj);
-
-            switch (action)
-            {
-                case CAction.ACTION_ADD_TILES:
-                    {
-                       
-                    }
-                    break;
-            }
         }
 
         //////////////////////////////////////////////////////////////////////////////////////
@@ -264,12 +259,13 @@ namespace TileMapEditor
                 {
                     //set default map each element to -1
                     mTileMap.mtileArray = new int[mTileMap.mnbHTiles * mTileMap.mnbVTiles];
+                    //set default flag to 0
+                    mTileMap.mtileFlagArray = new UInt32[mTileMap.mnbHTiles * mTileMap.mnbVTiles];
+
                     for (int i = 0; i < mTileMap.mnbHTiles * mTileMap.mnbVTiles; i++)
                     {
-                        //for (int j = 0; j < mTileMap.mnbVTiles; j++)
-                        {
-                            mTileMap.mtileArray[i] = -1;
-                        }
+                        mTileMap.mtileArray[i] = -1;
+                        mTileMap.mtileFlagArray[i] = 0;
                     }
                 }
 
@@ -576,6 +572,129 @@ namespace TileMapEditor
             }
         }
 
+        private static void FlipTile(int flip)
+        {
+            if (flip == FLIP_HORIZONDAL)
+            {
+
+            }
+            else
+            {
+
+            }
+        }
+
+        ///////////////////////////////////////////////////////////////////////////////
+        //  HEADER              (4 bytes - Integer)
+        //  FLAG                (4 bytes - Integer)
+        //  FILE SIZE           (4 bytes - Integer)
+        //  IMAGE NAME LENGTH   (4 bytes - Integer)
+        //  IMAGE NAME          (Byte array)
+        //  IMAGE WIDTH         (2 bytes - short)
+        //  IMAGE HEIGHT        (2 bytes - short)
+        //  TILE WIDTH          (2 bytes - short)
+        //  TILE HEIGHT         (2 bytes - short)
+        //  MAP WIDTH(In tiles) (2 bytes - short)
+        //  MAP HEIGHT(In tiles)(2 bytes - short)
+        //  MAP DATA            (4 bytes - Integer array)
+        ///////////////////////////////////////////////////////////////////////////////
+        
+        private void ExportTileMap()
+        {
+            DialogResult result = saveFileDialogExport.ShowDialog();
+            if (result == DialogResult.OK)
+            {
+                mExportPath = saveFileDialogExport.FileName;
+                int extStart = mExportPath.IndexOf(".");
+                string path = mExportPath.Substring(0, extStart);
+
+                // open file for header and exported data
+                TextWriter header_h = new StreamWriter(path + ".h");
+                FileStream stream = new FileStream(path + ".btsm", FileMode.Create);
+                BinaryWriter exportWriter = new BinaryWriter(stream);
+
+                string imageName = mTileMap.mTileSetImagePath;
+
+                // parse only name of the file
+                int nameStart = 0;
+                int nameLength = 0;
+                for (int i = imageName.Length - 1; i >= 0; i--)
+                {
+                    if (imageName[i] == '\\')
+                    {
+                        nameStart = i + 1;
+                        nameLength = imageName.Length - 1 - i;
+                        break;
+                    }
+                }
+                imageName = imageName.Substring(nameStart, nameLength);
+
+                extStart = imageName.IndexOf(".");
+                string fileName = imageName.Substring(0, extStart);
+
+                int size = 0;   //total file size
+                exportWriter.Write(0xFF);
+                size += 4;  //Header (Future)
+
+                exportWriter.Write(0xFF);
+                size += 4;  //Flags (Future)
+
+                exportWriter.Write(0x00);
+                size += 4;  //Total size (Will be written @ the end)
+
+                exportWriter.Write(imageName.Length);
+                size += 4;  //image path length
+
+                //Size of the file name is getting written with image name: Thats how exporter works
+                //So here is the fix : write it letter by letter
+                for (int i = 0; i < imageName.Length; i++)
+                {
+                    exportWriter.Write(imageName[i]);
+                }
+                size += (imageName.Length);
+
+                exportWriter.Write(mTileSetImage.Width);
+                size += 2;  //Image width
+
+                exportWriter.Write(mTileSetImage.Height);
+                size += 2;  //Image height
+
+                exportWriter.Write(mTileMap.mtileWidth);
+                size += 2;  //Tile width
+
+                exportWriter.Write(mTileMap.mtileHeight);
+                size += 2;  //Tile height
+
+                exportWriter.Write(mTileMap.mnbHTiles);
+                size += 2;  //Map width
+
+                exportWriter.Write(mTileMap.mnbVTiles);
+                size += 2;  //Map height
+
+                for (int i = 0; i < mTileMap.mtileArray.Length; i++)
+                {
+                    exportWriter.Write(mTileMap.mtileArray[i]);
+                    size += 4;   //tile ids
+
+                    //exportWriter.Write(mTileMap.mtileFlagArray[i]);
+                    //size += 4;   //tile flags
+                }
+
+                header_h.WriteLine("#ifndef _" + fileName.ToUpper() + "_H_");
+                header_h.WriteLine("#define _" + fileName.ToUpper() + "_H_");
+                header_h.WriteLine("#define " + fileName.ToUpper() + "_IMAGE" + "            " + "\"" + imageName + "\"");
+
+                exportWriter.Seek(8, SeekOrigin.Begin); //skip header anf flag
+                exportWriter.Write(size);
+                exportWriter.Close();
+
+                //close header stream
+                header_h.WriteLine("#endif //HEADER_H");
+                header_h.Close();
+
+            }
+        }
+
         private void toolStripButtonSave_Click(object sender, EventArgs e)
         {
             if (mSavePath != null)
@@ -720,6 +839,13 @@ namespace TileMapEditor
         private void toolStripButtonExport_Click(object sender, EventArgs e)
         {
             //Export
+            ExportTileMap();
+        }
+
+        private void exportToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //Export
+            ExportTileMap();
         }
 
         private void toolStripButtonUndo_Click(object sender, EventArgs e)
@@ -794,11 +920,25 @@ namespace TileMapEditor
         private void toolStripButtonFlipX_Click(object sender, EventArgs e)
         {
             //hflip
+            FlipTile(FLIP_HORIZONDAL);
+        }
+
+        private void flipHToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //hflip
+            FlipTile(FLIP_HORIZONDAL);
         }
 
         private void toolStripButtonFlipY_Click(object sender, EventArgs e)
         {
             //vflip
+            FlipTile(FLIP_VERTICAL);
+        }
+
+        private void flipVerticallyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //vflip
+            FlipTile(FLIP_VERTICAL);
         }
 
         private void toolStripButtonRotateCW_Click(object sender, EventArgs e)
