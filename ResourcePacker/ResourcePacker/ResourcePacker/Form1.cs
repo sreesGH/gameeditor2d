@@ -203,7 +203,7 @@ namespace ResourcePacker
                 string path = System.IO.Path.GetDirectoryName(m_currentSavePath);
                 path += "\\";
                 path += pack.m_packFile;
-                path += ".data";
+                //path += ".data";
 
                 FileStream writeStream = new FileStream(path, FileMode.Append);
                 FileStream readStream = new FileStream(pack.m_path, FileMode.Open);
@@ -235,13 +235,13 @@ namespace ResourcePacker
                     //add offsets
                     offinfo.m_offsetList.Add(pack.m_size);
                     //add corresponding filenames
-                    offinfo.m_filenameList.Add(System.IO.Path.GetFileNameWithoutExtension(pack.m_path));
+                    offinfo.m_filenameList.Add(System.IO.Path.GetFileName(pack.m_path));
                     offsetInfoList.Add(offinfo);
                 }
                 else
                 {
                     //offset and corresponding filename 
-                    offsetInfoList[index].m_filenameList.Add(System.IO.Path.GetFileNameWithoutExtension(pack.m_path));
+                    offsetInfoList[index].m_filenameList.Add(System.IO.Path.GetFileName(pack.m_path));
                     offsetInfoList[index].m_offsetList.Add(pack.m_size);
                 }
                        
@@ -262,20 +262,10 @@ namespace ResourcePacker
             header_h.WriteLine("#ifndef _" + fileName.ToUpper() + "_H_");
             header_h.WriteLine("#define _" + fileName.ToUpper() + "_H_");
 
-            //write file index
+            //List offsets
+            header_h.WriteLine("static long g_offsetarray[] = {");
             for (int i = 0; i < offsetInfoList.Count; i++)
             {
-                for (int j = 0; j < offsetInfoList[i].m_offsetList.Count; j++)
-                {
-                    //Format
-                    //#define PACKNAME_FILENAME         (index of the file in respecitve pack)
-                    header_h.WriteLine("#define " + offsetInfoList[i].m_packname.ToUpper() + "_" + offsetInfoList[i].m_filenameList[j].ToUpper() + "    " + j);
-                }
-            }
-
-            for (int i = 0; i < offsetInfoList.Count; i++)
-            {
-                header_h.WriteLine("static long " + offsetInfoList[i].m_packname + "_offsetarray[] = {");
                 //first file offset is zero for all packs
                 header_h.WriteLine("0,");
                 long offset = 0;
@@ -285,10 +275,38 @@ namespace ResourcePacker
                     offset += offsetInfoList[i].m_offsetList[j];
                     header_h.WriteLine("" + offset + ",");
                 }
-                //now end with "}"
-                header_h.WriteLine("};");
             }
+            //now end with "}"
+            header_h.WriteLine("};");
 
+            //List file names
+            header_h.WriteLine("static string g_fileNameArray[] = {");
+            for (int i = 0; i < offsetInfoList.Count; i++)
+            {
+                for (int j = 0; j < offsetInfoList[i].m_offsetList.Count; j++)
+                {
+                    header_h.WriteLine("\"" + offsetInfoList[i].m_filenameList[j] + "\"" + ",");
+                }
+            }
+            //now end with "}"
+            header_h.WriteLine("};");
+
+            //List of packfile names 
+            header_h.WriteLine("static string g_packFileNameArray[] = {");
+            int totalfilecount = 0;
+            for (int i = 0; i < offsetInfoList.Count; i++)
+            {
+                for (int j = 0; j < offsetInfoList[i].m_offsetList.Count; j++)
+                {
+                    header_h.WriteLine("\"" + offsetInfoList[i].m_packname + "\"" + ",");
+                }
+                totalfilecount += offsetInfoList[i].m_offsetList.Count;
+            }
+            //now end with "}"
+            header_h.WriteLine("};");
+
+            header_h.WriteLine("#define " + "TOTAL_FILES_PACKED         " + "(" + totalfilecount + ")");
+            
             //close header stream
             header_h.WriteLine("#endif //HEADER_H");
             header_h.Close();
