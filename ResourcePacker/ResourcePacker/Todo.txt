@@ -1,1 +1,2 @@
 * Compression
+* exception / error handling
