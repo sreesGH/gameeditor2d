@@ -196,7 +196,7 @@ namespace ResourcePacker
             int bytesRead;
             List<COffsetInfo> offsetInfoList = new List<COffsetInfo>();
 
-            for (int i = 0; i < m_container.m_list.Count - 1; i++)
+            for (int i = 0; i < m_container.m_list.Count; i++)
             {
                 CPackInfo pack = m_container.m_list[i];
 
